@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/main/main.css">
 </head>
 <body>
-    <main class="main_style">
-        <div>
+    <main class="main-style">
             <div class="sidebar">
                 sidebar
             </div>
+        <div class="content">
             <div class="food-category">
                 food-category
             </div>
@@ -19,7 +19,6 @@
                 main-content
             </div>
         </div>
-
     </main>
 </body>
 </html>
