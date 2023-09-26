@@ -1,0 +1,39 @@
+.header_style{
+    width: auto;
+    height: 200px;
+    box-sizing: border-box;
+    background: blue;
+}
+.main_style{
+    width: auto;
+    height: 1500px;
+    background: red;
+    border: 1px;
+    box-sizing: border-box;
+}
+
+.sidebar{
+    margin-right: 10px;
+    padding: 1px;
+    width: 300px;
+    height: 1500px;
+    background: bisque;
+    border: none;
+    box-sizing: border-box;
+}
+.foodcategory{
+    margin: 0px;
+    padding-bottom: 2px;
+    width: 600px;
+    height: 80px;
+    background: darkolivegreen;
+    box-sizing: border-box;
+}
+.maincontent{
+    margin: 0px;
+    padding: 1px;
+    width: 600px;
+    height: 1000px;
+    background: chartreuse;
+    box-sizing: border-box;
+}
