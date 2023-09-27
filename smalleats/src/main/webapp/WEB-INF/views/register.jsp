@@ -12,16 +12,26 @@
     <title>Title</title>
 </head>
 <body>
-<div>
-    <label>email</label>
-    <input type="email" placeholder="email">
-    <label>이름</label>
-    <input type="text" placeholder="이름">
-    <label>비밀번호</label>
-    <input type="password" placeholder="비밀번호">
-    <label>전화번호</label>
-    <input type="text" placeholder="전화번호">
-</div>
+<main class="main-style">
+    <div class="sidebar">
+        sidebar
+    </div>
+    <div class="content">
+        <div class="main-content">
+            main-content
+            <div>
+                <label>email</label>
+                <input type="email" placeholder="email">
+                <label>이름</label>
+                <input type="text" placeholder="이름">
+                <label>비밀번호</label>
+                <input type="password" placeholder="비밀번호">
+                <label>전화번호</label>
+                <input type="text" placeholder="전화번호">
+            </div>
+        </div>
+    </div>
+
 
 
 </body>

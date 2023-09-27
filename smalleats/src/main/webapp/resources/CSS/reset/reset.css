@@ -41,8 +41,12 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
+body{
+    background: #332E2E;
+}
 *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    color: #dbdbdb;
 }

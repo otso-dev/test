@@ -12,6 +12,14 @@
     <title>Title</title>
 </head>
 <body>
-
+<main class="main-style">
+    <div class="sidebar">
+        sidebar
+    </div>
+    <div class="content">
+        <div class="main-content">
+            main-content
+        </div>
+    </div>
 </body>
 </html>
