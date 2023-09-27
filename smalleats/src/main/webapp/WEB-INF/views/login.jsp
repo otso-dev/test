@@ -19,6 +19,12 @@
     <div class="content">
         <div class="main-content">
             main-content
+            <div>
+                <label>email</label>
+                <input type="email"/>
+                <label>password</label>
+                <input type="password"/>
+            </div>
         </div>
     </div>
 </body>

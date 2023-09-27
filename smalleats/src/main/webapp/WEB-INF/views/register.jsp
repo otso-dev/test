@@ -21,13 +21,13 @@
             main-content
             <div>
                 <label>email</label>
-                <input type="email" placeholder="email">
+                <input type="email" placeholder="email"/>
                 <label>이름</label>
-                <input type="text" placeholder="이름">
+                <input type="text" placeholder="이름"/>
                 <label>비밀번호</label>
-                <input type="password" placeholder="비밀번호">
+                <input type="password" placeholder="비밀번호"/>
                 <label>전화번호</label>
-                <input type="text" placeholder="전화번호">
+                <input type="text" placeholder="전화번호"/>
             </div>
         </div>
     </div>

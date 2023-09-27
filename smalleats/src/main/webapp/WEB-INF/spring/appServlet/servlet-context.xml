@@ -7,15 +7,18 @@
         http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
+<!-- spring MVC 활성화 -->
     <annotation-driven/>
 
     <resources mapping="/resources/**" location="/resources/"/>
 
+<!--spring mvc servlet을 이용해 view 파일 경로를 설정-->
     <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <beans:property name="prefix" value="/WEB-INF/views/"/>
         <beans:property name="suffix" value=".jsp"/>
     </beans:bean>
 
-    <context:component-scan base-package="com.smalleats.controller"/>
+<!--view 에서  controller 가는 경로 설정-->
+    <context:component-scan base-package="com.smalleats"/>
 
 </beans:beans>

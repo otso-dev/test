@@ -19,7 +19,7 @@
     <header class="header-style">
         <div class="header-content">
             <div class="smalleats-box">
-                <button class="smalleats-btn" type="button" onclick="location='../index'">SmallEats</button>
+                <button class="smalleats-btn" type="button" onclick="location='/'">SmallEats</button>
             </div>
             <div class="page-btn-content">
                 <button class="smalleats-btn" id="mypage-btn" type="button" onclick="location='../User/mypage'">마이페이지</button>
