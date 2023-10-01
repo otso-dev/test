@@ -23,5 +23,8 @@ public class HomeController {
         return "register";
     }
 
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    public String admin() {return "admin";}
+
 
 }

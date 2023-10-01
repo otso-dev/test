@@ -10,11 +10,12 @@
     http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
 
-   <http>
-    <form-login
-        login-page="/WEB-INF/views/login"
-    />
-   </http>
-    <authentication-manager>
-    </authentication-manager>
+<!--   <http>-->
+<!--    <form-login-->
+<!--        login-page="/WEB-INF/views/login"-->
+<!--    />-->
+
+<!--   </http>-->
+<!--    <authentication-manager>-->
+<!--    </authentication-manager>-->
 </beans:beans>
