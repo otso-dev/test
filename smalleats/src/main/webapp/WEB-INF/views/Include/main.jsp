@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/main/main.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/reset/reset.css">
     <title>smalleats</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+    </script>
 </head>
 <body>
     <header class="header-style">

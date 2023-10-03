@@ -21,18 +21,46 @@
             main-content
             <div>
                 <label>email</label>
-                <input type="email" placeholder="email"/>
+                <input class="inputemail" type="email" placeholder="email"/>
                 <label>이름</label>
-                <input type="text" placeholder="이름"/>
+                <input class="inputname" type="text" placeholder="이름"/>
                 <label>비밀번호</label>
-                <input type="password" placeholder="비밀번호"/>
+                <input class="inputpassword" type="password" placeholder="비밀번호"/>
                 <label>전화번호</label>
-                <input type="text" placeholder="전화번호"/>
+                <input class="inputphone" type="text" placeholder="전화번호"/>
+                <button type="button" onclick="submitRegister()">확인</button>
             </div>
         </div>
     </div>
-
-
-
+</main>
 </body>
 </html>
+<script>
+    function submitRegister(){
+        let email = $('.inputemail').val();
+        let userName = $('.inputname').val();
+        let password = $('.inputpassword').val();
+        let phoneNumber = $('.inputphone').val();
+
+        $.ajax({
+            url:'${pageContext.request.contextPath}/registertest',
+            type: 'POST',
+            async : false,
+            data : {
+                userName : userName,
+                password : password,
+                email : email,
+                phoneNumber : phoneNumber,
+            },
+            success:function (response){
+                if(response === 1){
+                    window.location.href="login";
+                    alert("success");
+                }else{
+                    alert("failed");
+                }
+            }
+        })
+
+    }
+</script>
