@@ -9,5 +9,6 @@ public class AuthUserRespDto {
     private int userId;
     private String email;
     private String userName;
+    private String phoneNumber;
     private String authorities;
 }

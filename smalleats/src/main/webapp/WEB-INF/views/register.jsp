@@ -43,22 +43,21 @@
         let phoneNumber = $('.inputphone').val();
 
         $.ajax({
-            url:'${pageContext.request.contextPath}/registertest',
+            url:'${pageContext.request.contextPath}/smalleats/register',
             type: 'POST',
-            async : false,
             data : {
                 userName : userName,
                 password : password,
                 email : email,
                 phoneNumber : phoneNumber,
             },
+            dataType: "json",
             success:function (response){
-                if(response === 1){
-                    window.location.href="login";
-                    alert("success");
-                }else{
-                    alert("failed");
-                }
+                console.log(response.dataType.message);
+                window.location.href="login";
+            },
+            error:function (response){
+                console.log(response);
             }
         })
 

@@ -21,12 +21,38 @@
             main-content
             <div>
                 <label>email</label>
-                <input type="email"/>
+                <input class="login-email" type="email"/>
                 <label>password</label>
-                <input type="password"/>
+                <input class="login-password" type="password"/>
+                <button type="button" onclick="submitLogin()">확인</button>
             </div>
         </div>
     </div>
 </main>
 </body>
 </html>
+<script>
+    function submitLogin(){
+        let email = $('.login-email').val();
+        let password = $('.login-password').val();
+        $.ajax({
+            url: '${pageContext.request.contextPath}/smalleats/login',
+            type: 'POST',
+            async: 'false',
+            data: {
+                email: email,
+                password: password,
+            },
+            success:function (response){
+                console.log(response);
+                let token ={};
+                token = response;
+                localStorage.setItem(token.grantType,token.accessToken);
+                window.location.href="index";
+            },
+            error:function (response){
+                console.log(response);
+            }
+        })
+    }
+</script>
