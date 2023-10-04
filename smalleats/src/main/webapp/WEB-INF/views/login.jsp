@@ -38,11 +38,11 @@
         $.ajax({
             url: '${pageContext.request.contextPath}/smalleats/login',
             type: 'POST',
-            async: 'false',
-            data: {
+            contentType: 'application/json',
+            data: JSON.stringify({
                 email: email,
                 password: password,
-            },
+            }),
             success:function (response){
                 console.log(response);
                 let token ={};
@@ -52,6 +52,7 @@
             },
             error:function (response){
                 console.log(response);
+                alert(response.responseJSON.data.login);
             }
         })
     }

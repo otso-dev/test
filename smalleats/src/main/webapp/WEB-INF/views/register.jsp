@@ -45,19 +45,19 @@
         $.ajax({
             url:'${pageContext.request.contextPath}/smalleats/register',
             type: 'POST',
-            data : {
+            contentType : 'application/json',
+            data : JSON.stringify({
                 userName : userName,
                 password : password,
                 email : email,
                 phoneNumber : phoneNumber,
-            },
+            }),
             dataType: "json",
             success:function (response){
-                console.log(response.dataType.message);
                 window.location.href="login";
             },
             error:function (response){
-                console.log(response);
+                alert(response.responseJSON.data.register);
             }
         })
 

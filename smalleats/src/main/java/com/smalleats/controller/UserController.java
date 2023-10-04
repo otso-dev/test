@@ -14,16 +14,14 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final AuthenticationService authenticationService;
 
-    @RequestMapping(value = "/smalleats/register", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseEntity<?> userRegister(SignupReqDto signupReqDto){
+    @RequestMapping(value = "/smalleats/register", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> userRegister(@RequestBody SignupReqDto signupReqDto){
         authenticationService.checkDuplicatedEmail(signupReqDto.getEmail());
         authenticationService.saveUser(signupReqDto);
         return ResponseEntity.ok(true);
     }
 
-    @RequestMapping(value = "/smalleats/login", method = RequestMethod.POST)
-    @ResponseBody
+    @RequestMapping(value = "/smalleats/login", method = RequestMethod.POST,produces = "application/json")
     public ResponseEntity<?> userLogin(@RequestBody LoginReqDto loginReqDto){
         return ResponseEntity.ok(authenticationService.login(loginReqDto));
     }
