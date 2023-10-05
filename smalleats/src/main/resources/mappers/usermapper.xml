@@ -45,11 +45,11 @@
     <insert id="saveUser" parameterType="com.smalleats.entity.User"
             useGeneratedKeys="true"
             keyProperty="userId">
-        insert into user_tb
+        insert into user_tb (user_id, username, email, password, phone_number, profile_img, provider)
         values (0, #{userName},#{email},#{password},#{phoneNumber},#{profileImg},#{provider})
     </insert>
     <insert id="addAuthority" parameterType="com.smalleats.entity.Authority">
-        insert into authority_tb
+        insert into authority_tb (authority_id, user_id, role_id)
         values (0,#{userId},#{roleId})
     </insert>
 </mapper>
