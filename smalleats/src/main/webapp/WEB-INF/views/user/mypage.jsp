@@ -22,7 +22,7 @@
     <div class="content">
         <div class="main-content">
             <div class="mypage-content">
-                
+
             </div>
         </div>
     </div>
