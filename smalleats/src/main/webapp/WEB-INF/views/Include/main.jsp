@@ -16,6 +16,8 @@
     <title>smalleats</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
     </script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/JS/app.js">
+    </script>
 </head>
 <body>
     <header class="header-style">
@@ -34,6 +36,6 @@
             </div>
         </div>
     </header>
-
+    <script src="${pageContext.request.contextPath}/resources/JS/main.js"></script>
 </body>
 </html>

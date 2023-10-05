@@ -1,5 +1,6 @@
 package com.smalleats.entity;
 
+import com.smalleats.DTO.user.UserInfoRespDto;
 import com.smalleats.security.PrincipalUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,9 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-
+@Builder //테스트용 배포시 삭제 필요
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
@@ -29,8 +29,16 @@ public class User {
                 .userName(userName)
                 .email(email)
                 .password(password)
+                .phoneNumber(phoneNumber)
                 .authorities(authorities)
                 .provider(provider)
+                .build();
+    }
+    public UserInfoRespDto toUserInfoRespDto(){
+        return UserInfoRespDto.builder()
+                .username(userName)
+                .email(email)
+                .phoneNumber(phoneNumber)
                 .build();
     }
 }

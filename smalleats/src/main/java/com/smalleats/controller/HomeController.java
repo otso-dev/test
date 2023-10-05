@@ -23,8 +23,8 @@ public class HomeController {
         return "register";
     }
 
-    @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public String admin() {return "admin";}
+    @RequestMapping(value = "/admin/adminpage", method = RequestMethod.GET)
+    public String admin() {return "/admin/adminpage";}
 
     @RequestMapping(value = "/user/mypage", method = RequestMethod.GET)
     public String mypage(){

@@ -48,7 +48,7 @@
                 let token ={};
                 token = response;
                 localStorage.setItem(token.grantType,token.accessToken);
-                window.location.href="index";
+                window.location.href="/";
             },
             error:function (response){
                 console.log(response);

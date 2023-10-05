@@ -22,7 +22,15 @@
     <div class="content">
         <div class="main-content">
             <div class="mypage-content">
+                <div class="user-info">
+                    <p>이름</p>
+                    <p>이메일</p>
+                    <p>전화번호</p>
+                    <button type="button">비밀번호 수정</button>
+                </div>
+                <div class="address-info">
 
+                </div>
             </div>
         </div>
     </div>
@@ -30,3 +38,19 @@
 </main>
 </body>
 </html>
+<script>
+    const token =  localStorage.getItem("Bearer");
+    console.log(token);
+    $.ajax({
+        url:'${pageContext.request.contextPath}/mypage/userinfo',
+        type: 'GET',
+        dataType: 'json',
+        headers: {"Authorization": token},
+        success:function (response){
+            console.log(response.responseJSON);
+        },
+        error:function (response){
+            console.log(response.responseJSON);
+        }
+    })
+</script>

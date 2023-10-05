@@ -54,7 +54,7 @@
             }),
             dataType: "json",
             success:function (response){
-                window.location.href="login";
+                window.location.href="/";
             },
             error:function (response){
                 alert(response.responseJSON.data.register);

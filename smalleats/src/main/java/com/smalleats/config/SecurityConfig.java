@@ -1,5 +1,7 @@
 package com.smalleats.config;
 
+import com.smalleats.jwt.TokenProvider;
+import com.smalleats.security.AuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -9,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.servlet.Filter;
@@ -16,11 +20,11 @@ import javax.servlet.Filter;
 @Configuration
 @EnableWebSecurity
 @EnableWebMvc
-@ComponentScan(basePackages = "com.smalleats.config")
+@ComponentScan(basePackages = "com.smalleats")
 @RequiredArgsConstructor
 public class SecurityConfig  extends WebSecurityConfigurerAdapter {
-
-
+    private final TokenProvider tokenProvider;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -40,6 +44,10 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**")
                 .hasRole("ADMIN")
                 .anyRequest()
-                .authenticated();
+                .authenticated()
+                .and()
+                .addFilterBefore(new AuthenticationFilter(tokenProvider),UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint);
     }
 }

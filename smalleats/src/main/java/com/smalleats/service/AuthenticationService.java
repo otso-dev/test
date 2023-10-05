@@ -29,6 +29,7 @@ public class AuthenticationService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userDAO.findUserByEmail(email);
+        System.out.println("userlogin");
         if(user == null){
             throw new CustomException("로그인 실패", ErrorMap.builder().put("login","사용자 정보를 확인하세요").build());
         }
