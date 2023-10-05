@@ -1,17 +1,18 @@
 package com.smalleats.config;
 
 import com.smalleats.jwt.TokenProvider;
+import com.smalleats.security.AuthEntryPoint;
 import com.smalleats.security.AuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -24,7 +25,7 @@ import javax.servlet.Filter;
 @RequiredArgsConstructor
 public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     private final TokenProvider tokenProvider;
-    private final AuthenticationEntryPoint authenticationEntryPoint;
+    private final AuthEntryPoint authEntryPoint;
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -37,17 +38,19 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests()
-                .antMatchers("/auth/**,/product/**")
-                .permitAll()
-                .antMatchers("/partner/**")
-                .hasRole("PARTNER")
-                .antMatchers("/admin/**")
-                .hasRole("ADMIN")
+                .antMatchers("/auth/**","/").permitAll()
+                .antMatchers("/product/**").permitAll()
+                .antMatchers("/partner/**").hasRole("PARTNER")
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
                 .addFilterBefore(new AuthenticationFilter(tokenProvider),UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint);
+                .authenticationEntryPoint(authEntryPoint);
+    }
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/resources/**");
     }
 }
