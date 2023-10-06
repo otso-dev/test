@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 
 @RestController
@@ -26,8 +28,10 @@ public class UserController {
     }
 
     @RequestMapping(value = "/auth/login", method = RequestMethod.POST,produces = "application/json")
-    public ResponseEntity<?> userLogin(@RequestBody LoginReqDto loginReqDto){
-        return ResponseEntity.ok(authenticationService.login(loginReqDto));
+    public ResponseEntity<?> userLogin(HttpServletResponse response, @RequestBody LoginReqDto loginReqDto){
+
+
+        return ResponseEntity.ok(authenticationService.login(loginReqDto,response));
     }
 
     @RequestMapping(value = "/user/userinfo",method = RequestMethod.GET)

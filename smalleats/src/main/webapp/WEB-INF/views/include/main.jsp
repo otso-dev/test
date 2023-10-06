@@ -18,6 +18,8 @@
     </script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/JS/app.js">
     </script>
+    <script src="${pageContext.request.contextPath}/resources/JS/main.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/JS/auth.js"></script>
 </head>
 <body>
     <header class="header-style">
@@ -36,7 +38,7 @@
             </div>
         </div>
     </header>
-    <script src="${pageContext.request.contextPath}/resources/JS/main.js"></script>
+
 <script>
 
 </script>

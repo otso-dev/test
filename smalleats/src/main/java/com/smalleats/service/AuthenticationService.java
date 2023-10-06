@@ -19,6 +19,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 
 @Service
 @RequiredArgsConstructor
@@ -47,7 +50,7 @@ public class AuthenticationService implements UserDetailsService {
         userDAO.addAuthority(Authority.builder().userId(saveUser.getUserId()).roleId(1).build());
     }
 
-    public JwtTokenRespDto login(LoginReqDto loginReqDto){
+    public String login(LoginReqDto loginReqDto, HttpServletResponse response){
         User userEntity = userDAO.findUserByEmail(loginReqDto.getEmail());
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if(!passwordEncoder.matches(loginReqDto.getPassword(),userEntity.getPassword())){
@@ -57,7 +60,14 @@ public class AuthenticationService implements UserDetailsService {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                 loginReqDto.getEmail(), loginReqDto.getPassword());
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(usernamePasswordAuthenticationToken);
-        return tokenProvider.generateToken(authentication);
+        JwtTokenRespDto jwtTokenRespDto = tokenProvider.generateToken(authentication);
+        Cookie cookie = new Cookie("JWT-TOKEN","Bearer=" + jwtTokenRespDto.getAccessToken());
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(24 * 60 * 60);
+        response.addCookie(cookie);
+        return "ok";
     }
 
     public boolean authenticated(String accessToken){

@@ -12,5 +12,14 @@ class main{
     }
     //
 
-
+}
+function  requirePage(url,method){
+    $.ajax({
+        url: url,
+        type : method,
+        headers: {"Authorization":localStorage.getItem("Token")},
+        success:function (response){
+            console.log(response);
+        }
+    })
 }

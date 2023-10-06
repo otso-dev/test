@@ -9,9 +9,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 
 @Component
@@ -20,14 +22,18 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     private final TokenProvider tokenProvider;
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-
-        System.out.println(httpServletRequest.getHeader("Authorization"));
-        String token = tokenProvider.getToken(httpServletRequest.getHeader("Authorization"));
+        Cookie[] cookies = httpServletRequest.getCookies();
+        String getToken = null;
+        for(Cookie cookie : cookies){
+            if(cookie.getName().equals("JWT-TOKEN")){
+                getToken = cookie.getValue();
+            }
+        }
+        String token = tokenProvider.getToken(getToken);
         if(token == null){
             filterChain.doFilter(httpServletRequest,httpServletResponse);
             return;
         }
-        System.out.println(token);
         if(tokenProvider.validateToken(token)){
             Authentication authentication = tokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);

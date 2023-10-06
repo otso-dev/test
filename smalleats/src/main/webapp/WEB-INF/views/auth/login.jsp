@@ -44,11 +44,8 @@
                 password: password,
             }),
             success:function (response){
-                console.log(response);
-                let token ={};
-                token = response;
-                localStorage.setItem("Token",token.grantType+" "+ token.accessToken);
-                window.location.href="/";
+               alert(response);
+               window.location.href="/";
             },
             error:function (response){
                 console.log(response);

@@ -11,7 +11,6 @@
 <head>
     <title>Title</title>
 </head>
-<body>
 <main class="main-style">
     <div class="sidebar">
         sidebar
@@ -33,7 +32,6 @@
         </div>
     </div>
 </main>
-</body>
 </html>
 <script>
     function submitRegister(){

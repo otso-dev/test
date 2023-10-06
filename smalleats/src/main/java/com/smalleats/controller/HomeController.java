@@ -28,6 +28,7 @@ public class HomeController {
 
     @RequestMapping(value = "/user/mypage", method = RequestMethod.GET)
     public String mypage(){
+        System.out.println("page mapping");
         return "/user/mypage";
     }
 }

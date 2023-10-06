@@ -56,7 +56,7 @@
             $('#phone-number').append(phoneNumber);
         },
         error:function (response){
-            console.log(response.responseJSON);
+            console.log(response);
         }
     })
 </script>
