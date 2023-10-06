@@ -14,13 +14,13 @@ public class HomeController {
         return "index";
     }
 
-    @RequestMapping(value = "/login",method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/login",method = RequestMethod.GET)
     public String login(){
-        return "login";
+        return "/auth/login";
     }
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/register", method = RequestMethod.GET)
     public String register() {
-        return "register";
+        return "/auth/register";
     }
 
     @RequestMapping(value = "/admin/adminpage", method = RequestMethod.GET)
@@ -30,6 +30,4 @@ public class HomeController {
     public String mypage(){
         return "/user/mypage";
     }
-
-
 }

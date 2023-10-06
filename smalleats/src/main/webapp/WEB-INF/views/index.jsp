@@ -1,9 +1,10 @@
 <script>
 </script>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:include page="Include/main.jsp"/>
+<jsp:include page="include/main.jsp"/>
 <html>
 <head>
+    <title>main</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/main/main.css">
 </head>
 <body>

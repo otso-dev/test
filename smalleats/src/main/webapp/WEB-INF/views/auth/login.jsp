@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:include page="Include/main.jsp"/>
+<jsp:include page="../include/main.jsp"/>
 <html>
 <head>
     <title>Title</title>
@@ -36,7 +36,7 @@
         let email = $('.login-email').val();
         let password = $('.login-password').val();
         $.ajax({
-            url: '${pageContext.request.contextPath}/smalleats/login',
+            url: '${pageContext.request.contextPath}/auth/login',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
@@ -47,7 +47,7 @@
                 console.log(response);
                 let token ={};
                 token = response;
-                localStorage.setItem(token.grantType,token.accessToken);
+                localStorage.setItem("Token",token.grantType+" "+ token.accessToken);
                 window.location.href="/";
             },
             error:function (response){

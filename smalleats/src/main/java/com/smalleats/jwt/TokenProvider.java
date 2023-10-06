@@ -43,6 +43,7 @@ public class TokenProvider {
 
         String acessToken = Jwts.builder()
                 .setSubject(authentication.getName())
+                .claim("email",authentication.getName())
                 .claim("auth",authorities)
                 .setExpiration(tokenExpiresDate)
                 .signWith(key, SignatureAlgorithm.HS256)

@@ -18,19 +18,19 @@ public class UserController {
     private final AuthenticationService authenticationService;
     private final UserService userService;
 
-    @RequestMapping(value = "/smalleats/register", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/auth/register", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> userRegister(@RequestBody SignupReqDto signupReqDto){
         authenticationService.checkDuplicatedEmail(signupReqDto.getEmail());
         authenticationService.saveUser(signupReqDto);
         return ResponseEntity.ok(true);
     }
 
-    @RequestMapping(value = "/smalleats/login", method = RequestMethod.POST,produces = "application/json")
+    @RequestMapping(value = "/auth/login", method = RequestMethod.POST,produces = "application/json")
     public ResponseEntity<?> userLogin(@RequestBody LoginReqDto loginReqDto){
         return ResponseEntity.ok(authenticationService.login(loginReqDto));
     }
 
-    @RequestMapping(value = "/mypage/userinfo",method = RequestMethod.GET)
+    @RequestMapping(value = "/user/userinfo",method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> getUserInfo(){
         return ResponseEntity.ok(userService.getUserInfo());

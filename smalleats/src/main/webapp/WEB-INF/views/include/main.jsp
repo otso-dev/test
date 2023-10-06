@@ -26,16 +26,19 @@
                 <button class="smalleats-btn" type="button" onclick="location='/'">SmallEats</button>
             </div>
             <div class="page-btn-content">
-                <button class="smalleats-btn" id="mypage-btn" type="button" onclick="location='../User/mypage'">마이페이지</button>
-                <button class="smalleats-btn" id="Partners-btn" type="button" onclick="location='../User/mypage'">파트너스 페이지</button>
-                <button class="smalleats-btn" id="admin-btn" type="button" onclick="location='../User/mypage'">관리자 페이지</button>
+                <button class="smalleats-btn" id="mypage-btn" type="button" onclick="location='../user/mypage'">마이페이지</button>
+                <button class="smalleats-btn" id="Partners-btn" type="button" onclick="location='../user/mypage'">파트너스 페이지</button>
+                <button class="smalleats-btn" id="admin-btn" type="button" onclick="location='../user/mypage'">관리자 페이지</button>
             </div>
             <div class="join-content">
-                <button class="smalleats-btn" id="register-btn" type="button" onclick="location='../register'">회원가입</button>
-                <button class="smalleats-btn" id="login-btn" type="button" onclick="location='../login'">로그인</button>
+                <button class="smalleats-btn" id="register-btn" type="button" onclick="location='../auth/register'">회원가입</button>
+                <button class="smalleats-btn" id="login-btn" type="button" onclick="location='../auth/login'">로그인</button>
             </div>
         </div>
     </header>
     <script src="${pageContext.request.contextPath}/resources/JS/main.js"></script>
+<script>
+
+</script>
 </body>
 </html>

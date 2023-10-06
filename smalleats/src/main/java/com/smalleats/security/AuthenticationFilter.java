@@ -21,6 +21,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
+        System.out.println(httpServletRequest.getHeader("Authorization"));
         String token = tokenProvider.getToken(httpServletRequest.getHeader("Authorization"));
         if(token == null){
             filterChain.doFilter(httpServletRequest,httpServletResponse);

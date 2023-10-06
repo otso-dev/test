@@ -40,6 +40,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/auth/**","/").permitAll()
                 .antMatchers("/product/**").permitAll()
+                .antMatchers("/user/**").hasRole("USER")
                 .antMatchers("/partner/**").hasRole("PARTNER")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest()
@@ -51,6 +52,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     }
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/resources/**");
+        web.ignoring().antMatchers("/resources/**")
+                .antMatchers("/favicon.ico")
+                .antMatchers("/user/mypage");
     }
 }

@@ -10,4 +10,7 @@ class main{
         const smalleatsBtn = document.querySelector(".smalleats-btn");
         console.log(smalleatsBtn);
     }
+    //
+
+
 }
