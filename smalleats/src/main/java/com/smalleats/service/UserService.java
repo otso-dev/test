@@ -17,8 +17,6 @@ public class UserService {
 
     public UserInfoRespDto getUserInfo(){
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        System.out.println(principalUser.toString());
         User user = userDAO.findUserByEmail(principalUser.getEmail());
         if(user == null){
             throw new CustomException("사용자 정보 오류",ErrorMap.builder().put("userInfo","사용자 정보 오류").build());

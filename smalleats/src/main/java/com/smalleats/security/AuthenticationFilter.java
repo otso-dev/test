@@ -24,11 +24,14 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         Cookie[] cookies = httpServletRequest.getCookies();
         String getToken = null;
-        for(Cookie cookie : cookies){
-            if(cookie.getName().equals("JWT-TOKEN")){
-                getToken = cookie.getValue();
+        if(cookies != null){
+            for(Cookie cookie : cookies){
+                if(cookie.getName().equals("JWT-TOKEN")){
+                    getToken = cookie.getValue();
+                }
             }
         }
+
         String token = tokenProvider.getToken(getToken);
         if(token == null){
             filterChain.doFilter(httpServletRequest,httpServletResponse);

@@ -13,7 +13,6 @@ public class UserDAO implements UserDAOImpl{
     private final String NS = "";
     private final SqlSessionTemplate sqlSession;
     public User findUserByEmail(String email) {
-        System.out.println(email);
         return sqlSession.selectOne(NS + "findUserByEmail", email);
         // selectOne() 메소드를 사용하여 단일 결과를 반환하는 것이 좋다.
     }

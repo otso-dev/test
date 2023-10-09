@@ -16,20 +16,38 @@
 <main class="main-style">
     <div class="sidebar">
         <div class="mypage-sidebar">
-            mypageside
+            <ul class="mypage-sidebar-list">
+                <li class="order-list-btn">
+                    주문조회
+                </li>
+                <li class="password-list-btn">
+                    비밀번호 변경
+                </li>
+                <li class="address-content-btn">
+                    주소
+                </li>
+            </ul>
         </div>
     </div>
     <div class="content">
         <div class="main-content">
             <div class="mypage-content">
-                <div class="user-info">
+                <div class="user-info hidden-mypage">
                     <p id="user-name">이름: </p>
                     <p id="email">이메일: </p>
                     <p id="phone-number">전화번호: </p>
-                    <button type="button">비밀번호 수정</button>
                 </div>
                 <div class="address-info">
 
+                </div>
+                <div class="order-list hidden-mypage">
+                    주문조회
+                </div>
+                <div class="password-change hidden-mypage">
+                    비밀번호 변경
+                </div>
+                <div class="address-content hidden-mypage">
+                    주소
                 </div>
             </div>
         </div>
