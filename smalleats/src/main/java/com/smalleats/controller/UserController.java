@@ -2,6 +2,7 @@ package com.smalleats.controller;
 
 import com.smalleats.DTO.user.LoginReqDto;
 import com.smalleats.DTO.user.SignupReqDto;
+import com.smalleats.DTO.user.UserAddressReqDto;
 import com.smalleats.service.AuthenticationService;
 import com.smalleats.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.Response;
 import java.security.Principal;
 
 @RestController

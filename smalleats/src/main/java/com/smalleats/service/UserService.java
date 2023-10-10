@@ -1,7 +1,10 @@
 package com.smalleats.service;
 
+import com.smalleats.DTO.user.UserAddressReqDto;
+import com.smalleats.DTO.user.UserAddressRespDto;
 import com.smalleats.DTO.user.UserInfoRespDto;
 import com.smalleats.entity.User;
+import com.smalleats.entity.UserAddress;
 import com.smalleats.repository.UserDAOImpl;
 import com.smalleats.security.PrincipalUser;
 import com.smalleats.service.exception.CustomException;
@@ -9,6 +12,10 @@ import com.smalleats.service.exception.ErrorMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,5 +30,4 @@ public class UserService {
         }
         return user.toUserInfoRespDto();
     }
-
 }

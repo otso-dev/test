@@ -2,9 +2,12 @@ package com.smalleats.repository;
 
 import com.smalleats.entity.Authority;
 import com.smalleats.entity.User;
+import com.smalleats.entity.UserAddress;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
@@ -26,4 +29,5 @@ public class UserDAO implements UserDAOImpl{
     public int addAuthority(Authority authority) {
         return sqlSession.insert(NS + "addAuthority" ,authority);
     }
+
 }

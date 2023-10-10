@@ -44,6 +44,7 @@
                 password: password,
             }),
             success:function (response){
+               console.log("success login");
                alert(response);
                window.location.href="/";
             },

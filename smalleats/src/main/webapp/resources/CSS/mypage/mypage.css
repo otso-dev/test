@@ -56,7 +56,9 @@
     font-size: 16px;
     color: #FFF;
 }
-
+.userinfo-btn{
+    cursor: pointer;
+}
 .order-list-btn{
     cursor: pointer;
 }

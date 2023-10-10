@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
-    @GetMapping(value = "/authenticated")
+
+    @GetMapping(value = "/auth/authenticated")
     public ResponseEntity<?> getAuthenticated(){
         return ResponseEntity.ok(true);
     }

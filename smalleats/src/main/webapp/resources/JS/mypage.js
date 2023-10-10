@@ -12,8 +12,9 @@ class Mypage {
     }
 
     init() {
+        console.log("init");
         // 각 버튼과 컨텐츠 div들에 대한 참조 가져오기
-        this.userInfoBtn = document.querySelector('.user-info-btn');
+        this.userInfoBtn = document.querySelector('.userinfo-btn');
 
         this.orderListBtn = document.querySelector('.order-list-btn');
         this.passwordListBtn = document.querySelector('.password-list-btn');
@@ -25,21 +26,32 @@ class Mypage {
         this.orderListDiv = document.querySelector('.order-list');
         this.passwordChangeDiv = document.querySelector('.password-change');
         this.addressContentDiv = document.querySelector('.address-content');
-
+        this.addressInfoDiv = document.querySelector('.address-info');
 
         // 각 버튼에 이벤트 리스너 추가
 
         // 사용자 정보 버튼 클릭 시
-        userInfoBtn.onclick= () => { showContent('user'); };
+        this.userInfoBtn.onclick = () => {
+            this.showContent('user');
+        };
 
         // 주문 조회 버튼 클릭 시
-        orderListBtn.onclick= () => { showContent('order'); };
+        this.orderListBtn.onclick = () => {
+
+            this.showContent('order');
+        };
 
         // 비밀번호 변경 버튼 클릭 시
-        passwordListBtn.onclick= () => { showContent('password'); };
+        this.passwordListBtn.onclick = () => {
+
+            this.showContent('password');
+        };
 
         // 주소 변경 버튼 클릭 시
-        addressContentBtn.onclick= () => { showContent('address'); };
+        this.addressContentBtn.onclick = () => {
+
+            this.showContent('address');
+        };
     }
 
     showContent(contentType) {
@@ -47,30 +59,31 @@ class Mypage {
         switch (contentType) {
 
             case 'user':
-                if (userInfoDiv.classList.contains("hiden-mypage")) {
-                    clearAllHiddenClasses();
-                    userInfoDiv.classList.remove("hiden-mypage");
+                if (this.userInfoDiv.classList.contains("hidden-mypage")) {
+                    this.clearAllHiddenClasses();
+                    this.userInfoDiv.classList.remove("hidden-mypage");
+                    this.addressInfoDiv.classList.remove("hidden-mypage");
                 }
                 break;
 
             case 'order':
-                if (orderListDiv.classList.contains("hiden-mypage")) {
-                    clearAllHiddenClasses();
-                    orderListDiv.classList.remove("hiden-mypage");
+                if (this.orderListDiv.classList.contains("hidden-mypage")) {
+                    this.clearAllHiddenClasses();
+                    this.orderListDiv.classList.remove("hidden-mypage");
                 }
                 break;
 
             case 'password':
-                if (passwordChangeDiv.classList.contains("hiden-mypage")) {
-                    clearAllHiddenClasses();
-                    passwordChangeDiv.classList.remove("hiden-mypage");
+                if (this.passwordChangeDiv.classList.contains("hidden-mypage")) {
+                    this.clearAllHiddenClasses();
+                    this.passwordChangeDiv.classList.remove("hidden-mypage");
                 }
                 break;
 
             case 'address':
-                if (addressContentDiv.classList.contains("hiden-mypage")) {
-                    clearAllHiddenClasses();
-                    addressContentDiv.classList.remove("hiden-mypage");
+                if (this.addressContentDiv.classList.contains("hidden-mypage")) {
+                    this.clearAllHiddenClasses();
+                    this.addressContentDiv.classList.remove("hidden-mypage");
                 }
                 break;
 
@@ -81,9 +94,14 @@ class Mypage {
     }
 
     clearAllHiddenClasses(){
-        userInfoDiv.className += " hiden-mypage";
-        orderListDiv.className += " hiden-mypage";
-        passwordChangeDiv.className += " hiden-mypage";
-        addressContentDiv.className += " hiden-mypage";
+        this.userInfoDiv.className += " hidden-mypage";
+        this.addressInfoDiv.className += " hidden-mypage";
+        this.orderListDiv.className += " hidden-mypage";
+        this.passwordChangeDiv.className += " hidden-mypage";
+        this.addressContentDiv.className += " hidden-mypage";
     }
+}
+
+window.onload = () => {
+    Mypage.getInstance();
 }

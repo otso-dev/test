@@ -1,14 +1,18 @@
 package com.smalleats.controller;
 
 
+import com.smalleats.service.UserAddressService;
+import com.sun.org.apache.xpath.internal.operations.Mod;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
+@RequiredArgsConstructor
 public class HomeController {
-
+    private final UserAddressService userAddressService;
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(){
         return "index";
@@ -27,8 +31,9 @@ public class HomeController {
     public String admin() {return "/admin/adminpage";}
 
     @RequestMapping(value = "/user/mypage", method = RequestMethod.GET)
-    public String mypage(){
+    public String mypage(Model model){
         System.out.println("page mapping");
+        model.addAttribute("userAddressList",userAddressService.getUserAddressList());
         return "/user/mypage";
     }
 }
