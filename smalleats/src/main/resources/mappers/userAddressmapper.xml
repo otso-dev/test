@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.smalleats.repository.UserAddressDAO">
+
+    <resultMap id="userAddressMap" type="com.smalleats.entity.UserAddress">
+        <id property="userAddressId" column="user_address_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="userRoadAddress" column="user_road_address"/>
+        <result property="userDetailAddress" column="user_detail_address"/>
+        <result property="userZoneCode" column="user_zonecode"/>
+        <association property="user" resultMap="userMap"/>
+    </resultMap>
+
+    <resultMap id="userMap" type="com.smalleats.entity.User">
+        <id property="userId" column="user_id"/>
+        <result property="userName" column="username"/>
+        <result property="email" column="email"/>
+        <result property="password" column="password"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <collection property="authorities" javaType="list" resultMap="authorityMap"/>
+    </resultMap>
+    <resultMap type="com.smalleats.entity.Authority" id="authorityMap">
+        <id property="authorityId" column="authority_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="roleId" column="role_id"/>
+        <association property="role" resultMap="roleMap" />
+    </resultMap>
+
+    <resultMap type="com.smalleats.entity.Role" id="roleMap">
+        <id property="roleId" column="role_id"/>
+        <result property="roleName" column="role_name"/>
+    </resultMap>
+
+    <insert id="userAddressInsert" parameterType="com.smalleats.entity.UserAddress">
+        insert into user_address_tb
+        (user_address_id,user_id,user_road_address,user_detail_address,user_zonecode)
+        values (0,#{userId},#{userRoadAddress},#{userDetailAddress},#{userZoneCode})
+    </insert>
+
+    <select id="getUserAddressList" resultMap="userAddressMap">
+        select
+            user_address_id,
+            user_road_address,
+            user_detail_address,
+            user_zonecode
+        from
+            user_address_tb
+        where
+            user_id = #{userId}
+    </select>
+    <update id="userAddressUpdate" parameterType="com.smalleats.entity.UserAddress">
+        update user_address_tb
+        set
+            user_road_address = #{userRoadAddress},
+            user_detail_address = #{userDetailAddress},
+            user_zonecode = #{userZoneCode}
+        where
+            user_address_id = #{userAddressId}
+    </update>
+    <delete id="userAddressDelete">
+        delete
+        from
+            user_address_tb
+        where
+            user_address_id = #{userAddressId}
+    </delete>
+</mapper>

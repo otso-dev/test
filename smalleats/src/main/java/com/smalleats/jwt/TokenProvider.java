@@ -39,10 +39,11 @@ public class TokenProvider {
         builder.delete(builder.length() - 1, builder.length());
         String authorities = builder.toString();
 
-        Date tokenExpiresDate = new Date(new Date().getTime() +1000 * 60 * 60);
+        Date tokenExpiresDate = new Date(new Date().getTime() +1000 * 60 * 60 *24);
 
         String acessToken = Jwts.builder()
                 .setSubject(authentication.getName())
+                .claim("email",authentication.getName())
                 .claim("auth",authorities)
                 .setExpiration(tokenExpiresDate)
                 .signWith(key, SignatureAlgorithm.HS256)

@@ -6,12 +6,11 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:include page="Include/main.jsp"/>
+<jsp:include page="../include/main.jsp"/>
 <html>
 <head>
     <title>Title</title>
 </head>
-<body>
 <main class="main-style">
     <div class="sidebar">
         sidebar
@@ -33,7 +32,6 @@
         </div>
     </div>
 </main>
-</body>
 </html>
 <script>
     function submitRegister(){
@@ -43,7 +41,7 @@
         let phoneNumber = $('.inputphone').val();
 
         $.ajax({
-            url:'${pageContext.request.contextPath}/smalleats/register',
+            url:'${pageContext.request.contextPath}/auth/register',
             type: 'POST',
             contentType : 'application/json',
             data : JSON.stringify({
@@ -54,7 +52,7 @@
             }),
             dataType: "json",
             success:function (response){
-                window.location.href="login";
+                window.location.href="../../..";
             },
             error:function (response){
                 alert(response.responseJSON.data.register);
