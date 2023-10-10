@@ -17,7 +17,10 @@
                 food-category
             </div>
             <div class="main-content">
-                main-content
+                <div>
+                    main-content
+                </div>
+
             </div>
         </div>
     </main>
