@@ -11,4 +11,8 @@ public interface UserAddressDAOImpl {
     public int userAddressInsert(UserAddress userAddress);
     public List<UserAddress> getUserAddressList(int userId);
 
+    public int userAddressUpdate(UserAddress userAddress);
+
+    public int userAddressDelete(int userAddressId);
+
 }

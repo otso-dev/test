@@ -26,7 +26,6 @@ class Mypage {
         this.orderListDiv = document.querySelector('.order-list');
         this.passwordChangeDiv = document.querySelector('.password-change');
         this.addressContentDiv = document.querySelector('.address-content');
-        this.addressInfoDiv = document.querySelector('.address-info');
 
         // 각 버튼에 이벤트 리스너 추가
 
@@ -96,23 +95,12 @@ class Mypage {
 
     clearAllHiddenClasses(){
         this.userInfoDiv.className += " hidden-mypage";
-        this.addressInfoDiv.className += " hidden-mypage";
         this.orderListDiv.className += " hidden-mypage";
         this.passwordChangeDiv.className += " hidden-mypage";
         this.addressContentDiv.className += " hidden-mypage";
-    }
-
-    test(){
-        const addressBtns = document.querySelectorAll('.user-address-update')
-        addressBtns.forEach((updateBtn,index)=>{
-            updateBtn.onclick = () =>{
-                console.log(index);
-            }
-        })
     }
 }
 
 window.onload = () => {
     Mypage.getInstance();
-    Mypage.getInstance().test();
 }

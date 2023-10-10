@@ -48,7 +48,7 @@
                         <p>주소: ${userAddressList.userRoadAddress}</p>
                         <p>상세주소 : ${userAddressList.userDetailAddress}</p>
                         <p>우편번호 : ${userAddressList.userZoneCode}</p>
-                        <button class="user-address-update" type="button" onclick="userAddressUpdate(${userAddressList.userAddressId})">변경</button>
+                        <button class="user-address-update" type="button" onclick="onClickUpdate(${userAddressList.userAddressId})">변경</button>
                         <button type="button" onclick="userAddressDelete(${userAddressList.userAddressId})">삭제</button>
                     </c:forEach>
                 </div>
@@ -69,20 +69,7 @@
                     <label>
                         <input id="zone-code" placeholder="우편번호" type="text" readonly>
                     </label>
-                    <button type="button" onclick="addressInsert()">주소추가</button>
-                </div>
-                <div class="address-update hidden-mypage">
-                    <button type="button" onclick="postCard()">주소찾기</button>
-                    <label>
-                        <input id="update-road-name" type="text" placeholder="도로명 주소" readonly>
-                    </label>
-                    <label>
-                        <input id="update-detail-address" placeholder="상세주소 입력" type="text">
-                    </label>
-                    <label>
-                        <input id="update-zone-code" placeholder="우편번호" type="text" readonly>
-                    </label>
-                    <button type="button">주소변경</button>
+                    <button class="address-button" type="button" onclick="addressInsert()">주소추가</button>
                 </div>
             </div>
         </div>
@@ -145,28 +132,46 @@
        }).open();
     }
 
+    function onClickUpdate(userAddressId){
+        // 주소 변경 화면 보이게 하기
+        document.querySelector('.address-content').classList.remove('hidden-mypage');
+        document.querySelector('.address-info').className += " hidden-mypage";
+
+        // 버튼 텍스트 변경
+        const addressButton = document.querySelector('.address-button');
+        addressButton.textContent = '주소변경';
+
+        // onclick 함수 변경
+        addressButton.onclick = function() {
+            userAddressUpdate(userAddressId);
+        };
+
+    }
     function userAddressUpdate(userAddressId){
-        console.log(userAddressId);
-        // $.ajax({
-        //     url:"/user/address/update",
-        //     type:"PUT",
-        //     data:{
-        //         userAddressId: userAddressId
-        //     },success:function (response){
-        //         alert(response + "수정 성공");
-        //     },error:function (response){
-        //         alert(response + "수정 실패");
-        //     }
-        // })
+        const roadAddress = document.getElementById('road-name').value;
+        const detailAddress= document.getElementById('detail-address').value;
+        const zoneCode = document.getElementById('zone-code').value;
+        $.ajax({
+            url:"/user/address/update",
+            type:"PUT",
+            contentType: 'application/json',
+            data:JSON.stringify({
+                userAddressId : userAddressId,
+                userRoadAddress : roadAddress,
+                userDetailAddress : detailAddress,
+                userZoneCode : zoneCode
+            }),success:function (response){
+                alert(response + "수정 성공");
+            },error:function (response){
+                alert(response + "수정 실패");
+            }
+        })
     }
     function userAddressDelete(userAddressId){
         console.log(userAddressId);
         $.ajax({
-            url:"/user/address/delete",
+            url:"/user/address/delete/" + userAddressId,
             type:"DELETE",
-            data:{
-                userAddressId : userAddressId
-            },
             success:function (response){
                 alert(response + "삭제 성공");
             },error:function (response){

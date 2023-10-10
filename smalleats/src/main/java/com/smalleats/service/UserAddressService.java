@@ -40,4 +40,17 @@ public class UserAddressService {
         });
         return userAddressRespList;
     }
+
+    public int UserAddressUpdate(UserAddressReqDto userAddressReqDto){
+        UserAddress userAddress = new UserAddress();
+        userAddress.setUserAddressId(userAddressReqDto.getUserAddressId());
+        userAddress.setUserZoneCode(userAddressReqDto.getUserZoneCode());
+        userAddress.setUserDetailAddress(userAddressReqDto.getUserDetailAddress());
+        userAddress.setUserRoadAddress(userAddressReqDto.getUserRoadAddress());
+        return userAddressDAO.userAddressUpdate(userAddress);
+    }
+
+    public int userAddressDelete(int userAddressId){
+        return userAddressDAO.userAddressDelete(userAddressId);
+    }
 }

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserAddressReqDto {
+    private int userAddressId;
     private String userRoadAddress;
     private String userDetailAddress;
     private int userZoneCode;

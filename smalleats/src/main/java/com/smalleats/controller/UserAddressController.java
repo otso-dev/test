@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,5 +24,15 @@ public class UserAddressController {
     @ResponseBody
     public ResponseEntity<?> getUserAddressList(Model model){
         return ResponseEntity.ok(model.addAttribute("userAddressList",userAddressService.getUserAddressList()));
+    }
+
+    @RequestMapping(value = "/user/address/update", method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<?> userAddressUpdate(@RequestBody UserAddressReqDto userAddressReqDto){
+        return ResponseEntity.ok(userAddressService.UserAddressUpdate(userAddressReqDto));
+    }
+    @RequestMapping(value = "/user/address/delete/{userAddressId}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> userAddressDelete(@PathVariable int userAddressId){
+        return ResponseEntity.ok(userAddressService.userAddressDelete(userAddressId));
     }
 }

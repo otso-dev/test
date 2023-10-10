@@ -22,4 +22,14 @@ public class UserAddressDAO implements UserAddressDAOImpl{
     public List<UserAddress> getUserAddressList(int userId) {
         return sqlSession.selectList(NS + "getUserAddressList", userId);
     }
+
+    @Override
+    public int userAddressUpdate(UserAddress userAddress) {
+        return sqlSession.update(NS +"userAddressUpdate", userAddress);
+    }
+
+    @Override
+    public int userAddressDelete(int userAddressId) {
+        return sqlSession.delete(NS + "userAddressDelete",userAddressId);
+    }
 }

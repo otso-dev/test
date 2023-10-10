@@ -48,4 +48,20 @@
         where
             user_id = #{userId}
     </select>
+    <update id="userAddressUpdate" parameterType="com.smalleats.entity.UserAddress">
+        update user_address_tb
+        set
+            user_road_address = #{userRoadAddress},
+            user_detail_address = #{userDetailAddress},
+            user_zonecode = #{userZoneCode}
+        where
+            user_address_id = #{userAddressId}
+    </update>
+    <delete id="userAddressDelete">
+        delete
+        from
+            user_address_tb
+        where
+            user_address_id = #{userAddressId}
+    </delete>
 </mapper>
