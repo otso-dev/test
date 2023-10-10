@@ -52,7 +52,9 @@ class Mypage {
 
             this.showContent('address');
         };
+
     }
+
 
     showContent(contentType) {
 
@@ -86,8 +88,7 @@ class Mypage {
                     this.addressContentDiv.classList.remove("hidden-mypage");
                 }
                 break;
-
-            default:
+               default:
                 console.error(`Unknown content type: ${contentType}`);
                 break;
         }
@@ -100,8 +101,18 @@ class Mypage {
         this.passwordChangeDiv.className += " hidden-mypage";
         this.addressContentDiv.className += " hidden-mypage";
     }
+
+    test(){
+        const addressBtns = document.querySelectorAll('.user-address-update')
+        addressBtns.forEach((updateBtn,index)=>{
+            updateBtn.onclick = () =>{
+                console.log(index);
+            }
+        })
+    }
 }
 
 window.onload = () => {
     Mypage.getInstance();
+    Mypage.getInstance().test();
 }

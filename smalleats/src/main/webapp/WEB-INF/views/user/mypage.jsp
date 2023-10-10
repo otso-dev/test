@@ -45,13 +45,11 @@
                 </div>
                 <div class="address-info">
                     <c:forEach var="userAddressList" items="${userAddressList}">
-                        <div>
-                            <p>주소: ${userAddressList.userRoadAddress}</p>
-                            <p>상세주소 : ${userAddressList.userDetailAddress}</p>
-                            <p>우편번호 : ${userAddressList.userZoneCode}</p>
-                            <button class="user-address-update" type="button" onclick="userAddressUpdate(${userAddressList.userAddressId})">변경</button>
-                            <button type="button" onclick="userAddressDelete(${userAddressList.userAddressId})">삭제</button>
-                        </div>
+                        <p>주소: ${userAddressList.userRoadAddress}</p>
+                        <p>상세주소 : ${userAddressList.userDetailAddress}</p>
+                        <p>우편번호 : ${userAddressList.userZoneCode}</p>
+                        <button class="user-address-update" type="button" onclick="userAddressUpdate(${userAddressList.userAddressId})">변경</button>
+                        <button type="button" onclick="userAddressDelete(${userAddressList.userAddressId})">삭제</button>
                     </c:forEach>
                 </div>
                 <div class="order-list hidden-mypage">
@@ -72,6 +70,19 @@
                         <input id="zone-code" placeholder="우편번호" type="text" readonly>
                     </label>
                     <button type="button" onclick="addressInsert()">주소추가</button>
+                </div>
+                <div class="address-update hidden-mypage">
+                    <button type="button" onclick="postCard()">주소찾기</button>
+                    <label>
+                        <input id="update-road-name" type="text" placeholder="도로명 주소" readonly>
+                    </label>
+                    <label>
+                        <input id="update-detail-address" placeholder="상세주소 입력" type="text">
+                    </label>
+                    <label>
+                        <input id="update-zone-code" placeholder="우편번호" type="text" readonly>
+                    </label>
+                    <button type="button">주소변경</button>
                 </div>
             </div>
         </div>
@@ -136,17 +147,17 @@
 
     function userAddressUpdate(userAddressId){
         console.log(userAddressId);
-        $.ajax({
-            url:"/user/address/update",
-            type:"PUT",
-            data:{
-                userAddressId: userAddressId
-            },success:function (response){
-                alert(response + "수정 성공");
-            },error:function (response){
-                alert(response + "수정 실패");
-            }
-        })
+        // $.ajax({
+        //     url:"/user/address/update",
+        //     type:"PUT",
+        //     data:{
+        //         userAddressId: userAddressId
+        //     },success:function (response){
+        //         alert(response + "수정 성공");
+        //     },error:function (response){
+        //         alert(response + "수정 실패");
+        //     }
+        // })
     }
     function userAddressDelete(userAddressId){
         console.log(userAddressId);
