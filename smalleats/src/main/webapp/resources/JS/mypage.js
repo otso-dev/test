@@ -12,7 +12,6 @@ class Mypage {
     }
 
     init() {
-        console.log("init");
         // 각 버튼과 컨텐츠 div들에 대한 참조 가져오기
         this.userInfoBtn = document.querySelector('.userinfo-btn');
 

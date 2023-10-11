@@ -37,7 +37,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(httpServletRequest,httpServletResponse);
             return;
         }
-        if(tokenProvider.validateToken(token)){
+        boolean tokenValidate = tokenProvider.validateToken(token);
+        if(tokenValidate){
             Authentication authentication = tokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
