@@ -21,17 +21,56 @@
         <p>배달비 : ${productDetail.foodDeliveryPrice}</p>
     </div>
     <c:forEach var="foodMenuList" items="${foodMenuList}">
-        <div>
+        <div class="menu-box">
             <h3>${foodMenuList.foodMenuName}</h3>
             <p>${foodMenuList.foodMenuPrice}</p>
+            <button type="button" onclick="menuChoice(${foodMenuList.foodMenuId})">담기</button>
         </div>
     </c:forEach>
     <div>
         <c:forEach var="foodDeliveryList" items="${foodDeliveryList}">
-            <p>${foodDeliveryList.foodDeliveryArea}</p>
+            <div>
+                <p>${foodDeliveryList.foodDeliveryArea}</p>
+            </div>
         </c:forEach>
     </div>
+    <div>
+        <button>주문하기</button>
+    </div>
 </main>
-
 </body>
+<script>
+    const menuList = [];
+
+    function menuChoice(menuId){
+        const choiceMenu = {
+            menuId: 0,
+            menuNumber: 0,
+        };
+        choiceMenu.menuId = menuId;
+        if(menuList.length === 0){
+            menuList.push(choiceMenu);
+        }
+        menuList.forEach(menu =>{
+           if(menu.menuId !== menuId){
+               menuList.push(choiceMenu);
+           }else if(menu.menuId === menuId){
+               menu.menuNumber += 1;
+           }
+        })
+        console.log(menuList);
+        return menuList;
+    }
+
+    function order(){
+        $.ajax({
+            url:"/order/payment",
+            type: "POST",
+            contentType:"application/json",
+            data:{
+
+            }
+        })
+    }
+</script>
 </html>
