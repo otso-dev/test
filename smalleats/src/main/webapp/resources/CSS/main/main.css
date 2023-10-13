@@ -107,23 +107,68 @@
     border: none;
     color: #dbdbdb;
 }
-#admin-btn{
+.hidden-main{
     display: none;
-    font-size: 50px;
 }
-#Partners-btn{
-    display: none;
+.smalleats-mypage-btn{
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
     font-size: 50px;
+    font-weight: bold;
+    background: #332E2E;
+    border: none;
+    color: #dbdbdb;
 }
-#mypage-btn{
-    display: none;
+.smalleats-partners-btn{
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
     font-size: 50px;
+    font-weight: bold;
+    background: #332E2E;
+    border: none;
+    color: #dbdbdb;
 }
-#register-btn{
+.smalleats-admin-btn{
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
     font-size: 50px;
+    font-weight: bold;
+    background: #332E2E;
+    border: none;
+    color: #dbdbdb;
 }
-#login-btn{
+.smalleats-register-btn{
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
     font-size: 50px;
+    font-weight: bold;
+    background: #332E2E;
+    border: none;
+    color: #dbdbdb;
+}
+.smalleats-login-btn{
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+    background: #332E2E;
+    border: none;
+    color: #dbdbdb;
+}
+.smalleats-logout-btn{
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+    background: #332E2E;
+    border: none;
+    color: #dbdbdb;
 }
 
 /*----------------------------*/

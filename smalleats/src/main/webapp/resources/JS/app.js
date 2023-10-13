@@ -1,4 +1,4 @@
 window.onload = () =>{
-    main.getInstance().TestQuerySelecterEvent();
-    Auth.getInstance();
+    Auth.getInstance().getAuthenticate();
+    Main.getInstance().TestQuerySelecterEvent();
 }

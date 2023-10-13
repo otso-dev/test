@@ -45,12 +45,12 @@
             }),
             success:function (response){
                console.log("success login");
-               alert(response);
+               alert(response.data);
                window.location.href="/";
             },
             error:function (response){
                 console.log(response);
-                alert(response.responseJSON.data.login);
+                alert(response.responseText);
             }
         })
     }

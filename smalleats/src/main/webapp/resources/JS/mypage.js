@@ -62,7 +62,6 @@ class Mypage {
                 if (this.userInfoDiv.classList.contains("hidden-mypage")) {
                     this.clearAllHiddenClasses();
                     this.userInfoDiv.classList.remove("hidden-mypage");
-                    this.addressInfoDiv.classList.remove("hidden-mypage");
                 }
                 break;
 

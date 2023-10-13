@@ -31,8 +31,6 @@ public class UserController {
 
     @RequestMapping(value = "/auth/login", method = RequestMethod.POST,produces = "application/json")
     public ResponseEntity<?> userLogin(HttpServletResponse response, @RequestBody LoginReqDto loginReqDto){
-
-
         return ResponseEntity.ok(authenticationService.login(loginReqDto,response));
     }
 

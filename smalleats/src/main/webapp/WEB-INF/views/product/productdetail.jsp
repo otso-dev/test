@@ -9,13 +9,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <jsp:include page="../include/main.jsp"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/product/productDetail.css">
 <head>
     <title>detail</title>
 </head>
 <body>
 <main>
     <div>
-        <h2>${productDetail.foodName}</h2>
+        <h2 >${productDetail.foodName}</h2>
         <p>배달시간 : ${productDetail.foodOpen}:00 - ${productDetail.foodClose}:00</p>
         <p>최소주문 금액 : ${productDetail.foodMin}</p>
         <p>배달비 : ${productDetail.foodDeliveryPrice}</p>
@@ -24,51 +25,71 @@
         <div class="menu-box">
             <h3>${foodMenuList.foodMenuName}</h3>
             <p>${foodMenuList.foodMenuPrice}</p>
-            <button type="button" onclick="menuChoice(${foodMenuList.foodMenuId})">담기</button>
+            <button type="button" onclick="menuChoice(${foodMenuList.foodMenuId},${foodMenuList.foodMenuPrice})">담기</button>
         </div>
     </c:forEach>
     <div>
         <c:forEach var="foodDeliveryList" items="${foodDeliveryList}">
-            <div>
-                <p>${foodDeliveryList.foodDeliveryArea}</p>
+            <div class="delivery-area">
+                <p class="area">${foodDeliveryList.foodDeliveryArea}</p>
             </div>
         </c:forEach>
     </div>
     <div>
-        <button>주문하기</button>
+        <div class="order-box">
+
+        </div>
+        <button type="button" onclick="order()">주문하기</button>
     </div>
 </main>
 </body>
 <script>
-    const menuList = [];
-
-    function menuChoice(menuId){
+    let totalPrice = 0;
+    let menuList = [];
+    function menuChoice(menuId, menuPrice){
+        let dupFlag = false;
         const choiceMenu = {
             menuId: 0,
             menuNumber: 0,
+            menuPrice: 0
         };
         choiceMenu.menuId = menuId;
-        if(menuList.length === 0){
+        choiceMenu.menuPrice = menuPrice;
+
+        if(menuList.length <= 0){
             menuList.push(choiceMenu);
         }
-        menuList.forEach(menu =>{
-           if(menu.menuId !== menuId){
-               menuList.push(choiceMenu);
-           }else if(menu.menuId === menuId){
-               menu.menuNumber += 1;
-           }
+        menuList.forEach((menu)=>{
+            if(menu.menuId === menuId){
+                dupFlag = true;
+                menu.menuNumber += 1;
+            }
         })
-        console.log(menuList);
+        if(dupFlag === false){
+            menuList.push(choiceMenu);
+        }
         return menuList;
     }
-
+    const deliveryArea = document.querySelectorAll(".area");
+    deliveryArea.forEach(delivery => {
+        console.log(delivery.textContent);
+    })
     function order(){
         $.ajax({
             url:"/order/payment",
             type: "POST",
             contentType:"application/json",
-            data:{
-
+            data: JSON.stringify( {
+                foodId : 1,
+                orderReqTime : 1,
+                orderDeliveryDay : "Date",
+                orderMenu: menuList
+            }),
+            success:function (response){
+                console.log(response);
+            },
+            error:function (response){
+                console.log(response);
             }
         })
     }
