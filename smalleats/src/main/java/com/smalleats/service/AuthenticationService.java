@@ -13,6 +13,7 @@ import com.smalleats.service.exception.CustomException;
 import com.smalleats.service.exception.ErrorMap;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,18 +82,19 @@ public class AuthenticationService implements UserDetailsService {
     }
 
     public boolean authenticated(String accessToken){
-        return tokenProvider.validateToken(tokenProvider.getToken(accessToken));
+        return tokenProvider.validateToken(accessToken);
     }
 
     public AuthoritiesRespDto getAuthorities(String token){
-        if(authenticated(token)){
-            throw new CustomException("사용자 정보를 확인 하세요");
+        boolean validateToken = tokenProvider.validateToken(token);
+        if(!validateToken){
+            throw new CustomException("잘못된 접근입니다.");
         }
         Claims claims = tokenProvider.getClaims(tokenProvider.getToken(token));
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return AuthoritiesRespDto.builder()
                 .userName(principalUser.getUsername())
-                .authorities(claims.get("auth"))
+                .authorities((String) claims.get("auth"))
                 .build();
     }
 

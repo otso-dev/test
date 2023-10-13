@@ -15,17 +15,15 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
+    private final TokenProvider tokenProvider;
     @RequestMapping(value = "/authenticated",method = RequestMethod.GET)
-    public ResponseEntity<?> getAuthenticated(HttpServletRequest request){
-        Cookie[] cookies = request.getCookies();
-        String getToken = null;
-        if(cookies != null){
-            for (Cookie cookie : cookies) {
-                if(cookie.getName().equals("JWT-TOKEN")){
-                    getToken = cookie.getValue();
-                }
-            }
-        }
-        return ResponseEntity.ok(authenticationService.authenticated(getToken));
+    public ResponseEntity<?> getAuthenticated(@RequestHeader("Cookie") String Cookie){
+        Cookie = tokenProvider.getCookieToken(Cookie);
+        return ResponseEntity.ok(authenticationService.authenticated(Cookie));
+    }
+    @RequestMapping(value = "/authorities",method = RequestMethod.GET)
+    public ResponseEntity<?> getAuthorities(@RequestHeader("Cookie") String Cookie){
+        Cookie = tokenProvider.getCookieToken(Cookie);
+        return ResponseEntity.ok().body(authenticationService.getAuthorities(Cookie));
     }
 }

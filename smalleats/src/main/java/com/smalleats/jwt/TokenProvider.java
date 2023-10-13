@@ -59,6 +59,16 @@ public class TokenProvider {
         return null;
     }
 
+    public String getCookieToken(String token) {
+        String type = "JWT-TOKEN=Bearer";
+        if (StringUtils.hasText(token) && token.startsWith(type)) {
+            String subString = token.substring(type.length() + 1);
+            int index = subString.indexOf(";");
+            return subString.substring(0,index);
+        }
+        return null;
+    }
+
     public Claims getClaims(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
