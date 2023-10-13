@@ -1,7 +1,19 @@
 package com.smalleats.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@RequestMapping("/auth")
 public class AuthenticationController {
+
+
+    @GetMapping(value = "/auth/authenticated")
+    public ResponseEntity<?> getAuthenticated(){
+        return ResponseEntity.ok(true);
+    }
+
 }
