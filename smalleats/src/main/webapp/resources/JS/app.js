@@ -3,4 +3,5 @@ window.onload = () =>{
     Auth.getInstance().getApiAuthorities();
     Main.getInstance().TestQuerySelecterEvent();
     Main.getInstance().testAuthorities();
+    Mypage.getInstance();
 }

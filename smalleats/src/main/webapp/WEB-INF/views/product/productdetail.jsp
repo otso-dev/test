@@ -13,84 +13,137 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/product/productDetail.css">
 </head>
 <body>
-<main>
-    <div>
-        <h2 >${productDetail.foodName}</h2>
-        <p>배달시간 : ${productDetail.foodOpen}:00 - ${productDetail.foodClose}:00</p>
-        <p>최소주문 금액 : ${productDetail.foodMin}</p>
-        <p>배달비 : ${productDetail.foodDeliveryPrice}</p>
-    </div>
-    <c:forEach var="foodMenuList" items="${foodMenuList}">
-        <div class="menu-box">
-            <h3>${foodMenuList.foodMenuName}</h3>
-            <p>${foodMenuList.foodMenuPrice}</p>
-            <button type="button" onclick="menuChoice(${foodMenuList.foodMenuId},${foodMenuList.foodMenuPrice})">담기</button>
-        </div>
-    </c:forEach>
-    <div>
-        <c:forEach var="foodDeliveryList" items="${foodDeliveryList}">
-            <div class="delivery-area">
-                <p class="area">${foodDeliveryList.foodDeliveryArea}</p>
+<main class="main-style">
+    <div class="sidebar">
+            <div class="order-box">
+                <h3>배달 날짜 선택</h3>
+                <label for="delivery-date">
+                    <input type="date" id="delivery-date" min="" max="">
+                </label>
+                <h3>배달 요청 시간</h3>
+                    <label for="delivery-time">
+                        <select id="delivery-time">
+                        </select>
+                    </label>
+                <div id="selected-menu-list">
+                </div>
+                <p id="total-price"></p>
+                 <button type="button" onclick="order()">결제하기</button>
             </div>
-        </c:forEach>
     </div>
-    <div>
-        <div class="order-box">
-
+    <div class="detail-box">
+        <div class="detail-info">
+            <h2 >${productDetail.foodName}</h2>
+            <p>배달시간 : ${productDetail.foodOpen}:00 - ${productDetail.foodClose}:00</p>
+            <p>최소주문 금액 : ${productDetail.foodMin}</p>
+            <p>배달비 : ${productDetail.foodDeliveryPrice}</p>
         </div>
-        <button type="button" onclick="order()">주문하기</button>
+
+        <!-- 메뉴 리스트 -->
+        <div class="menu-list">
+            <c:forEach var="foodMenuList" items="${foodMenuList}">
+                <div class="menu-box">
+                    <h3>${foodMenuList.foodMenuName}</h3>
+                    <p>${foodMenuList.foodMenuPrice}</p>
+                    <button type="button" onclick="menuChoice(${foodMenuList.foodMenuId},${foodMenuList.foodMenuPrice},'${foodMenuList.foodMenuName}')">담기</button>
+                </div>
+            </c:forEach>
+        </div>
+
+        <!-- 배달 지역 리스트 -->
+        <div class="delivery-list">
+            <c:forEach var="foodDeliveryList" items="${foodDeliveryList}">
+                <!-- 배달 지역 -->
+                <!-- Each delivery area is a block element and will be displayed vertically -->
+                <!-- 각 배달 지역은 블록 요소이며 세로로 표시됩니다. -->
+                <div class="delivery-area">
+                    <p class="area">${foodDeliveryList.foodDeliveryArea}</p>
+                </div>
+            </c:forEach>
+        </div>
     </div>
 </main>
 </body>
 <script>
-    let totalPrice = 0;
-    let menuList = [];
-    function menuChoice(menuId, menuPrice){
-        let dupFlag = false;
-        const choiceMenu = {
-            menuId: 0,
-            menuNumber: 0,
-            menuPrice: 0
-        };
-        choiceMenu.menuId = menuId;
-        choiceMenu.menuPrice = menuPrice;
 
-        if(menuList.length <= 0){
-            menuList.push(choiceMenu);
+    let selectedMenus = {};
+
+    function menuChoice(id, price, name) {
+        if (selectedMenus[id]) {
+            selectedMenus[id].count += 1;
+        } else {
+            selectedMenus[id] = { name: name, price: price, count: 1 };
         }
-        menuList.forEach((menu)=>{
-            if(menu.menuId === menuId){
-                dupFlag = true;
-                menu.menuNumber += 1;
-            }
-        })
-        if(dupFlag === false){
-            menuList.push(choiceMenu);
-        }
-        return menuList;
+        updateSelectedMenus();
     }
-    const deliveryArea = document.querySelectorAll(".area");
-    deliveryArea.forEach(delivery => {
-        console.log(delivery.textContent);
-    })
-    function order(){
-        $.ajax({
-            url:"/order/payment",
-            type: "POST",
-            contentType:"application/json",
-            data: JSON.stringify( {
-                foodId : 1,
-                orderReqTime : 1,
-                orderDeliveryDay : "Date",
-                orderMenu: menuList
-            }),
-            success:function (response){
-                console.log(response);
-            },
-            error:function (response){
-                console.log(response);
+    console.log(selectedMenus);
+
+    function updateSelectedMenus() {
+        const menuContainer = document.getElementById('selected-menu-list');
+        menuContainer.innerHTML = '';
+
+        let totalPrice = 0;
+
+        for (const id in selectedMenus) {
+            if (selectedMenus[id].count > 0) {
+                const menuItemElement = document.createElement('p');
+                menuItemElement.textContent = selectedMenus[id].name + " - " + selectedMenus[id].price + " x " + selectedMenus[id].count;
+
+
+                const plusButton = document.createElement('button');
+                plusButton.textContent = '+';
+                plusButton.onclick = function () {
+                    selectedMenus[id].count += 1;
+                    updateSelectedMenus();
+                };
+
+                const minusButton = document.createElement('button');
+                minusButton.textContent = '-';
+                minusButton.onclick= function () {
+                    selectedMenus[id].count -=1;
+                    if(selectedMenus[id].count <=0 ) delete selectedMenus[id]; //갯수가 없어지면 삭제
+                    updateSelectedMenus();
+                };
+
+                menuItemElement.appendChild(plusButton);
+                menuItemElement.appendChild(minusButton);
+
+                menuContainer.insertBefore(menuItemElement, menuContainer.firstChild); // 새로 추가된 메뉴 아이템을 맨 위에 추가합니다.
+
+                totalPrice += selectedMenus[id].price * selectedMenus[id].count; // 각 메뉴 아이템의 가격과 수량을 곱한 값을 합계에 더합니다.
             }
-        })
+        }
+       const totalprice = document.getElementById('total-price');
+        totalprice.textContent = "총 가격: " + totalPrice;
+    }
+
+    let today = new Date();
+    let nextWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
+
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+
+    today = yyyy + '-' + mm + '-' + dd;
+
+    dd = String(nextWeek.getDate()).padStart(2, '0');
+    mm = String(nextWeek.getMonth() + 1).padStart(2, '0');
+
+    nextWeek = yyyy + '-' + mm + '-' + dd;
+
+    document.getElementById("delivery-date").setAttribute("min", today);
+    document.getElementById("delivery-date").setAttribute("max", nextWeek);
+
+    const selectTimeElement = document.getElementById('delivery-time');
+
+    let foodOpen = ${productDetail.foodOpen};
+    let foodClose = ${productDetail.foodClose} + 12;
+
+    for(let i=foodOpen; i<=foodClose; i++){
+        let optionElement=document.createElement('option');
+        optionElement.text=(i < 12 ? "오전 " : "오후 ") + (i <= 12 ? i : i-12) + ":00";
+        optionElement.value=i;
+        selectTimeElement.add(optionElement);
     }
 </script>
 </html>

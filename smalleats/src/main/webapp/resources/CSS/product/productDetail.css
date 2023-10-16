@@ -3,3 +3,66 @@
     height: 100px;
     border: 1px solid #dbdbdb;
 }
+
+/*order부분*/
+.order-box h3 {
+    margin-top:20px;
+}
+
+.order-box input[type=date], .order-box select {
+    width:100%;
+    height:auto;
+    box-sizing:border-box;
+    margin-bottom:10px;
+    padding-left:5px;
+    border-radius :4px;
+    border :1px solid #dbdbdb;
+}
+
+.order-box button {
+    width :100%;
+    height :40px;
+    background-color :#4CAF50; /* Green */
+    color:white ;
+    text-align:center ;
+    font-size :16px ;
+    margin-top :20px ;
+    border-radius :4px ;
+    cursor:pointer ;
+}
+.order-box button:hover {
+    background-color:#45a049 ;
+}
+
+/*product detail 부분*/
+.detail-box {
+    display:flex;
+    flex-direction: row;
+}
+
+.detail-info {
+    height: 30%;
+    background-color:#ffffff;
+    color:#000000;
+    padding:10px;
+}
+
+.menu-list {
+    display:flex;
+    flex-direction: row;
+    overflow-x:auto;
+}
+
+.menu-box {
+    margin-right:10px;
+    background-color:#87CEFA;
+    color:#000000;
+    padding:10px;
+}
+
+.delivery-list {
+    height: 30%;
+    margin-left:auto;
+    background-color:#ffffff;
+    color:#000000;
+}
