@@ -8,10 +8,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<jsp:include page="../include/main.jsp"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/product/productDetail.css">
 <head>
-    <title>detail</title>
+    <jsp:include page="../include/main.jsp"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/product/productDetail.css">
 </head>
 <body>
 <main>

@@ -27,6 +27,22 @@ class Main {
             }
             logoutBtn.className += " hidden-main";
         }
+    }
+    testAuthorities(){
+        let authorities = Auth.getInstance().getAuthorities();
+        console.log("authorities: "+authorities)
+        const myPageBtn = document.querySelector(".smalleats-mypage-btn");
+        if(authorities === "ROLE_USER" && myPageBtn.classList.contains("hidden-main")){
+            myPageBtn.classList.remove("hidden-main");
+        }else{
+            myPageBtn.className += " hidden-main";
+        }
+    }
+    testLogout(){
+        const logoutBtn = document.querySelector(".smalleats-logout-btn");
+        logoutBtn.onclick = () =>{
+            console.log("logout click!!");
 
+        }
     }
 }

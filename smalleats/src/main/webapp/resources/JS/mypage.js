@@ -98,7 +98,3 @@ class Mypage {
         this.addressContentDiv.className += " hidden-mypage";
     }
 }
-
-window.onload = () => {
-    Mypage.getInstance();
-}

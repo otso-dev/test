@@ -3,6 +3,7 @@ package com.smalleats.config;
 import com.smalleats.jwt.TokenProvider;
 import com.smalleats.security.AuthEntryPoint;
 import com.smalleats.security.AuthenticationFilter;
+import com.smalleats.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -26,12 +27,14 @@ import javax.servlet.Filter;
 public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     private final TokenProvider tokenProvider;
     private final AuthEntryPoint authEntryPoint;
+    private final AuthenticationService authenticationService;
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.userDetailsService(authenticationService);
         http.httpBasic().disable();
         http.formLogin().disable();
         http.cors();

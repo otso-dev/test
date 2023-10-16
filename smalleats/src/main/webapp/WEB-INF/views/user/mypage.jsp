@@ -7,12 +7,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:include page="../include/main.jsp"/>
 <html>
 <head>
-    <title>Title</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/mypage/mypage.css">
-    <script src="${pageContext.request.contextPath}/resources/JS/mypage.js"></script>
+    <jsp:include page="../include/main.jsp"/>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
@@ -43,22 +41,32 @@
                     <p id="email">이메일: </p>
                     <p id="phone-number">전화번호: </p>
                 </div>
-                <div class="address-info">
-                    <c:forEach var="userAddressList" items="${userAddressList}">
-                        <p>주소: ${userAddressList.userRoadAddress}</p>
-                        <p>상세주소 : ${userAddressList.userDetailAddress}</p>
-                        <p>우편번호 : ${userAddressList.userZoneCode}</p>
-                        <button class="user-address-update" type="button" onclick="onClickUpdate(${userAddressList.userAddressId})">변경</button>
-                        <button type="button" onclick="userAddressDelete(${userAddressList.userAddressId})">삭제</button>
-                    </c:forEach>
-                </div>
                 <div class="order-list hidden-mypage">
                     주문조회
                 </div>
                 <div class="password-change hidden-mypage">
                     비밀번호 변경
+                    <label>
+                        <input class="current-password" type="password" placeholder="현재 비밀번호"/>
+                    </label>
+                    <label>
+                        <input class="change-password" type="password" placeholder="비밀번호 변경"/>
+                    </label>
+                    <label>
+                        <input class="check-password" type="password" placeholder="비밀번호 확인"/>
+                    </label>
+                    <button type="button" onclick="changePassword()">비밀번호 변경하기</button>
                 </div>
                 <div class="address-content hidden-mypage">
+                    <div class="address-info">
+                        <c:forEach var="userAddressList" items="${userAddressList}">
+                            <p>주소: ${userAddressList.userRoadAddress}</p>
+                            <p>상세주소 : ${userAddressList.userDetailAddress}</p>
+                            <p>우편번호 : ${userAddressList.userZoneCode}</p>
+                            <button class="user-address-update" type="button" onclick="onClickUpdate(${userAddressList.userAddressId})">변경</button>
+                            <button type="button" onclick="userAddressDelete(${userAddressList.userAddressId})">삭제</button>
+                        </c:forEach>
+                    </div>
                     <button type="button" onclick="postCard()">주소찾기</button>
                     <label>
                         <input id="road-name" type="text" placeholder="도로명 주소" readonly>
@@ -84,7 +92,6 @@
         type: 'GET',
         dataType: 'json',
         success:function (response){
-            console.log(response);
             const name = response.username;
             const email = response.email;
             const phoneNumber = response.phoneNumber;
@@ -176,6 +183,29 @@
                 alert(response + "삭제 성공");
             },error:function (response){
                 alert(response+"삭제 실패");
+            }
+        })
+    }
+    function changePassword(){
+        const currentPassword = document.querySelector(".current-password").value;
+        const changePassword = document.querySelector(".change-password").value;
+        const checkPassword = document.querySelector(".check-password").value;
+        $.ajax({
+            url: '/user/password/change',
+            type: "PUT",
+            contentType: 'application/json',
+            data:JSON.stringify({
+                currentPassword: currentPassword,
+                changePassword: changePassword,
+                checkPassword: checkPassword
+            }),success:function (response){
+                if(response.status === 200){
+                    alert("비밀번호 변경 성공");
+                }
+            },error:function (response){
+                if(response.status === 400){
+                    alert(response.responseJSON.data.password);
+                }
             }
         })
     }

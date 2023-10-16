@@ -36,7 +36,6 @@ public class HomeController {
 
     @RequestMapping(value = "/user/mypage", method = RequestMethod.GET)
     public String mypage(Model model){
-        System.out.println("page mapping");
         model.addAttribute("userAddressList",userAddressService.getUserAddressList());
         return "/user/mypage";
     }

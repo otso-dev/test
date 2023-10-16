@@ -34,10 +34,7 @@
                             </footer>
                         </div>
                     </c:forEach>
-
                 </div>
-
-
             </div>
         </div>
     </main>

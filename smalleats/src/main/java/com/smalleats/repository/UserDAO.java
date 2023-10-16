@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
@@ -28,6 +29,11 @@ public class UserDAO implements UserDAOImpl{
     @Override
     public int addAuthority(Authority authority) {
         return sqlSession.insert(NS + "addAuthority" ,authority);
+    }
+
+    @Override
+    public int passwordUpdate(Map<String,String> passwordMap) {
+        return sqlSession.update(NS + "passwordUpdate", passwordMap);
     }
 
 }

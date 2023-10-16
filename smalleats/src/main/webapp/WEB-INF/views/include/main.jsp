@@ -20,6 +20,7 @@
     </script>
     <script src="${pageContext.request.contextPath}/resources/JS/main.js?testNm=1"></script>
     <script src="${pageContext.request.contextPath}/resources/JS/auth.js?testNm=2"></script>
+    <script src="${pageContext.request.contextPath}/resources/JS/mypage.js?testNm=3"></script>
 </head>
 <body>
     <header class="header-style">
@@ -35,12 +36,26 @@
             <div class="join-content">
                 <button class="smalleats-register-btn" type="button" onclick="location='/auth/register'">회원가입</button>
                 <button class="smalleats-login-btn" type="button" onclick="location='/auth/login'">로그인</button>
-                <button class="smalleats-logout-btn hidden-main" type="button" onclick="location='/'">로그아웃</button>
+                <button class="smalleats-logout-btn hidden-main" type="button" onclick="logout()">로그아웃</button>
             </div>
         </div>
     </header>
 
 <script>
+    function logout(){
+        console.log("??")
+        $.ajax({
+            url:"/user/logout",
+            type: "GET",
+            success:function (response){
+                console.log(response)
+                alert("로그아웃");
+                window.location.href="/";
+            },error:function (response){
+                console.log(response);
+            }
+        })
+    }
 
 </script>
 </body>

@@ -61,15 +61,14 @@ public class AuthenticationService implements UserDetailsService {
 
     public Map<String,String> login(LoginReqDto loginReqDto, HttpServletResponse response){
         Map<String,String> loginResp = new HashMap<>();
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                loginReqDto.getEmail(), loginReqDto.getPassword());
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(usernamePasswordAuthenticationToken);
         User userEntity = userDAO.findUserByEmail(loginReqDto.getEmail());
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if(!passwordEncoder.matches(loginReqDto.getPassword(),userEntity.getPassword())){
             throw new CustomException("로그인 실패",ErrorMap.builder().put("login","사용자 정보를 확인하세요").build());
         }
-
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                loginReqDto.getEmail(), loginReqDto.getPassword());
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(usernamePasswordAuthenticationToken);
         JwtTokenRespDto jwtTokenRespDto = tokenProvider.generateToken(authentication);
         Cookie cookie = new Cookie("JWT-TOKEN","Bearer=" + jwtTokenRespDto.getAccessToken());
         cookie.setSecure(true);
@@ -90,7 +89,7 @@ public class AuthenticationService implements UserDetailsService {
         if(!validateToken){
             throw new CustomException("잘못된 접근입니다.");
         }
-        Claims claims = tokenProvider.getClaims(tokenProvider.getToken(token));
+        Claims claims = tokenProvider.getClaims(token);
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return AuthoritiesRespDto.builder()
                 .userName(principalUser.getUsername())

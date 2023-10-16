@@ -1,6 +1,7 @@
 class Auth {
     static #instance = null;
     authFlag = false;
+    authorities = null;
     static getInstance(){
         if(this.#instance == null){
             this.#instance = new Auth();
@@ -10,6 +11,10 @@ class Auth {
 
     getAuthFlag(){
         return this.authFlag;
+    }
+
+    getAuthorities(){
+        return this.authorities;
     }
 
     getAuthenticate(){
@@ -27,5 +32,25 @@ class Auth {
         })
         this.authFlag = authFlag;
         return this.authFlag;
+    }
+    getApiAuthorities(){
+        let authorities = null;
+        if(this.authFlag){
+            $.ajax({
+                url:"/auth/authorities",
+                type: "GET",
+                async: false,
+                success:function (response){
+                    console.log(response);
+                    authorities = response.authorities;
+                },
+                error:function (response){
+                    alert(response.data);
+                }
+            })
+            this.authorities = authorities;
+
+        }
+        return this.authorities;
     }
 }
