@@ -17,7 +17,7 @@ public class OrderController {
     @RequestMapping(value = "/user/order",method = RequestMethod.POST)
     public ResponseEntity<?> getOrder(@RequestBody OrderReqDto orderReqDto){
         System.out.println(orderReqDto);
-        orderService.orderInsert(orderReqDto);
-        return ResponseEntity.ok(true);
+
+        return ResponseEntity.ok(orderService.orderInsert(orderReqDto));
     }
 }

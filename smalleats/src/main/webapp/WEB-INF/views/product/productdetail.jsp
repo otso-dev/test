@@ -29,7 +29,7 @@
                 <div id="selected-menu-list">
                 </div>
                 <p id="total-price"></p>
-                 <button type="button" onclick="order()">결제하기</button>
+                 <button type="button" onclick="order()">결제하러가기</button>
             </div>
     </div>
     <div class="detail-box">
@@ -81,12 +81,10 @@
         const menuContainer = document.getElementById('selected-menu-list');
         menuContainer.innerHTML = '';
 
-        let totalPrice = 0;
-
         for (const id in selectedMenus) {
             if (selectedMenus[id].count > 0) {
                 const menuItemElement = document.createElement('p');
-                menuItemElement.textContent = selectedMenus[id].name + " - " + selectedMenus[id].price + " x " + selectedMenus[id].count;
+                menuItemElement.textContent = selectedMenus[id].name + "가격: "+ selectedMenus[id].price + selectedMenus[id].count;
 
 
                 const plusButton = document.createElement('button');
@@ -108,12 +106,8 @@
                 menuItemElement.appendChild(minusButton);
 
                 menuContainer.insertBefore(menuItemElement, menuContainer.firstChild); // 새로 추가된 메뉴 아이템을 맨 위에 추가합니다.
-
-                totalPrice += selectedMenus[id].price * selectedMenus[id].count; // 각 메뉴 아이템의 가격과 수량을 곱한 값을 합계에 더합니다.
             }
         }
-       const totalprice = document.getElementById('total-price');
-        totalprice.textContent = "총 가격: " + totalPrice;
     }
 
     let today = new Date();
@@ -148,11 +142,15 @@
         const orderReqTime = document.getElementById('delivery-time').value;
         const orderReqDeliveryDay = document.getElementById('delivery-date').value;
         const foodId = ${productDetail.foodId};
-        console.log(selectedMenus);
+        if(orderReqTime === null || orderReqDeliveryDay === null){
+            alert("배달 요청 날짜와 시간은 선택해야만 합니다.")
+            return;
+        }
         $.ajax({
             url:"/user/order",
             type:"POST",
             contentType: "application/json",
+            async: false,
             data:JSON.stringify({
                 userId: 0,
                 foodId: foodId,
@@ -161,7 +159,7 @@
                 orderMenu: selectedMenus
             }),
             success:function (response) {
-                alert(response)
+                window.location.href="/payment/paymentpage/" + response;
             },error:function (response) {
                 console.log(response)
                 alert(response)

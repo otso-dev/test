@@ -1,13 +1,16 @@
 package com.smalleats.controller;
 
 
+import com.smalleats.DTO.orderDTO.OrderReqDto;
 import com.smalleats.service.FoodProductService;
+import com.smalleats.service.PaymentService;
 import com.smalleats.service.UserAddressService;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class HomeController {
     private final UserAddressService userAddressService;
     private final FoodProductService foodProductService;
+    private final PaymentService paymentService;
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Model model) {
         model.addAttribute("productList",foodProductService.getFoodProducts());
@@ -44,12 +48,11 @@ public class HomeController {
         model.addAttribute("foodMenuList", foodProductService.getFoodMenu(foodId));
         model.addAttribute("foodDeliveryList", foodProductService.getFoodDeliverArea(foodId));
         model.addAttribute("productDetail", foodProductService.getProductDetail(foodId));
-        model.addAttribute("foodId",foodId);
         return "/product/productdetail";
     }
-    @RequestMapping(value = "/payment/paymentpage", method = RequestMethod.GET)
-    public String payment(Model model){
-
+    @RequestMapping(value = "/payment/paymentpage/{orderId}", method = RequestMethod.GET)
+    public String payment(@PathVariable int orderId, Model model){
+        System.out.println(orderId);
         return "/payment/paymentpage";
     }
 }

@@ -5,6 +5,7 @@ import com.smalleats.DTO.orderDTO.OrderReqDto;
 import com.smalleats.entity.Order;
 import com.smalleats.entity.OrderMenu;
 import com.smalleats.repository.OrderDAOImpl;
+import com.smalleats.repository.PaymentDAOImpl;
 import com.smalleats.security.PrincipalUser;
 import com.smalleats.service.exception.CustomException;
 import com.sun.org.apache.xpath.internal.operations.Or;
@@ -21,7 +22,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderService {
     private final OrderDAOImpl orderDAO;
-
 
     public int orderInsert(OrderReqDto orderReqDto){
         Order order = new Order();
@@ -46,6 +46,6 @@ public class OrderService {
         if(orderMenuResult == 1){
             throw new CustomException("주문실패");
         }
-        return 1;
+        return order.getOrderId();
     }
 }
