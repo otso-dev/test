@@ -44,13 +44,11 @@
                 password: password,
             }),
             success:function (response){
-               console.log("success login");
                alert(response.data);
                window.location.href="/";
             },
             error:function (response){
-                console.log(response);
-                alert(response.responseText);
+                alert(response.responseJSON.data.login);
             }
         })
     }

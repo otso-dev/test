@@ -30,6 +30,7 @@ public class FoodProduct {
 
     public ProductDetailRespDto toProductDetailRespDto(){
         return ProductDetailRespDto.builder()
+                .foodId(foodId)
                 .foodName(foodName)
                 .foodImg(foodImg)
                 .foodOpen(foodOpen)

@@ -22,7 +22,8 @@
                 </label>
                 <h3>배달 요청 시간</h3>
                     <label for="delivery-time">
-                        <select id="delivery-time">
+                        <select id="delivery-time" required="required">
+                            <option value="" selected disabled hidden="">시간 선택</option>
                         </select>
                     </label>
                 <div id="selected-menu-list">
@@ -65,18 +66,16 @@
 </main>
 </body>
 <script>
-
     let selectedMenus = {};
 
     function menuChoice(id, price, name) {
         if (selectedMenus[id]) {
             selectedMenus[id].count += 1;
         } else {
-            selectedMenus[id] = { name: name, price: price, count: 1 };
+            selectedMenus[id] = { menuId: id, name: name, price: price, count: 1 };
         }
         updateSelectedMenus();
     }
-    console.log(selectedMenus);
 
     function updateSelectedMenus() {
         const menuContainer = document.getElementById('selected-menu-list');
@@ -144,6 +143,30 @@
         optionElement.text=(i < 12 ? "오전 " : "오후 ") + (i <= 12 ? i : i-12) + ":00";
         optionElement.value=i;
         selectTimeElement.add(optionElement);
+    }
+    function order(){
+        const orderReqTime = document.getElementById('delivery-time').value;
+        const orderReqDeliveryDay = document.getElementById('delivery-date').value;
+        const foodId = ${productDetail.foodId};
+        console.log(selectedMenus);
+        $.ajax({
+            url:"/user/order",
+            type:"POST",
+            contentType: "application/json",
+            data:JSON.stringify({
+                userId: 0,
+                foodId: foodId,
+                orderReqTime: orderReqTime,
+                orderReqDeliveryDay: orderReqDeliveryDay,
+                orderMenu: selectedMenus
+            }),
+            success:function (response) {
+                alert(response)
+            },error:function (response) {
+                console.log(response)
+                alert(response)
+            }
+        })
     }
 </script>
 </html>

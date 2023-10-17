@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductDetailRespDto {
+    private int foodId;
     private String foodName;
     private String foodImg;
     private String foodOpen;
