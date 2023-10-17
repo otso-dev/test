@@ -7,10 +7,18 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <head>
-    <title>$Title$</title>
-  </head>
-  <body>
-  $END$
-  </body>
+<jsp:include page="../include/main.jsp"/>
+<head>
+    <title>smalleats</title>
+</head>
+<body>
+    <main class="main-style">
+            <div class="sidebar">
+
+            </div>
+            <div>
+
+            </div>
+    </main>
+</body>
 </html>
