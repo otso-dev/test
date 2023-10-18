@@ -36,10 +36,6 @@ public class PaymentService {
     }
 
     public int paid(PaidReqDto paidReqDto){
-        Payment payment = new Payment();
-        payment.setOrderId(paidReqDto.getOrderId());
-        payment.setFoodId(paidReqDto.getFoodId());
-        payment.setPaymentPrice(paidReqDto.getPaymentPrice());
-        return paymentDAO.paid(payment);
+        return paymentDAO.paid(paidReqDto.toEntity());
     }
 }

@@ -3,7 +3,9 @@ package com.smalleats.entity;
 
 import com.smalleats.DTO.paymentDTO.PaymentOrderRespDto;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter

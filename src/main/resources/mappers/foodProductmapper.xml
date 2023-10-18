@@ -20,7 +20,7 @@
         <association property="foodProduct" resultMap="foodProductMap"/>
     </resultMap>
 
-    <resultMap id="foodDeliveryAreaMap" type="com.smalleats.entity.FoodDeliveryArea">
+    <resultMap id="DeliveryAreaMap" type="com.smalleats.entity.FoodDeliveryArea">
         <id property="foodDeliveryId" column="food_delivery_id"/>
         <result property="foodId" column="food_id"/>
         <result property="foodDeliveryArea" column="food_delivery_area"/>
@@ -47,7 +47,7 @@
             food_id = #{foodId}
     </select>
 
-    <select id="getDeliveryArea" resultMap="foodDeliveryAreaMap">
+    <select id="getDeliveryArea" resultMap="DeliveryAreaMap">
         select
             food_delivery_area
         from

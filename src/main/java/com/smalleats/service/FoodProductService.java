@@ -38,6 +38,7 @@ public class FoodProductService {
     }
 
     public List<FoodDeliveryRespDto> getFoodDeliverArea(int foodId){
+        System.out.println(foodId);
         List<FoodDeliveryRespDto> foodDeliveryRespDtoList = new ArrayList<>();
         List<FoodDeliveryArea> foodDeliveryAreaList = foodProductDAO.getDeliveryArea(foodId);
         foodDeliveryAreaList.forEach(foodDeliveryArea -> {
