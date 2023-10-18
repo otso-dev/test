@@ -1,6 +1,7 @@
 package com.smalleats.repository;
 
 
+import com.smalleats.entity.FoodDeliveryArea;
 import com.smalleats.entity.Order;
 import com.smalleats.entity.OrderMenu;
 import com.smalleats.entity.Payment;
@@ -29,4 +30,10 @@ public class PaymentDAO implements PaymentDAOImpl{
     public int paid(Payment payment) {
         return sqlSession.insert(NS+"paid",payment);
     }
+
+    @Override
+    public List<FoodDeliveryArea> getDeliveryArea(int orderId) {
+        return sqlSession.selectList(NS+"getDeliveryArea", orderId);
+    }
+
 }

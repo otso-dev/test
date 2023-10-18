@@ -63,4 +63,14 @@
         insert into payment_tb
         (payment_id, order_id, food_id, payment_price) VALUES (0,#{orderId},#{foodId},#{paymentPrice})
     </insert>
+
+    <select id="getDeliveryArea" parameterType="com.smalleats.entity.FoodDeliveryArea">
+        select
+            food_delivery_area
+        from order_tb ob
+                 left join smalleatsDB.food_tb ft on ob.food_id = ft.food_id
+                 left join smalleatsDB.food_delivery_tb fdt on ft.food_id = fdt.food_id
+        where
+            ob.order_id = #{orderId}
+    </select>
 </mapper>
