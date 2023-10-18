@@ -1,7 +1,10 @@
 package com.smalleats.entity;
 
 
-import lombok.*;
+import com.smalleats.DTO.paymentDTO.PaymentOrderRespDto;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
@@ -16,4 +19,15 @@ public class Order {
 
     private FoodProduct food;
     private User user;
+
+    public PaymentOrderRespDto toPaymentOrder(){
+        return PaymentOrderRespDto.builder()
+                .orderId(orderId)
+                .foodId(foodId)
+                .orderDeliveryDay(orderDeliveryDay)
+                .orderReqTime(orderReqTime)
+                .foodName(food.getFoodName())
+                .foodDeliveryPrice(food.getFoodDeliveryPrice())
+                .build();
+    }
 }

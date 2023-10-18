@@ -52,7 +52,8 @@ public class HomeController {
     }
     @RequestMapping(value = "/payment/paymentpage/{orderId}", method = RequestMethod.GET)
     public String payment(@PathVariable int orderId, Model model){
-        System.out.println(orderId);
+        model.addAttribute("currentOrder", paymentService.getOrder(orderId));
+        model.addAttribute("paymentMenuList",paymentService.getOrderMenuList(orderId));
         return "/payment/paymentpage";
     }
 }
