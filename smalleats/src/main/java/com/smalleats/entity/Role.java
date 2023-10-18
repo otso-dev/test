@@ -1,11 +1,9 @@
 package com.smalleats.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-@Builder//테스트용 배포시 삭제 필요
-@Data
+import lombok.*;
+
+@Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Role {

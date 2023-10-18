@@ -12,7 +12,6 @@ class Mypage {
     }
 
     init() {
-        console.log("init");
         // 각 버튼과 컨텐츠 div들에 대한 참조 가져오기
         this.userInfoBtn = document.querySelector('.userinfo-btn');
 
@@ -63,7 +62,6 @@ class Mypage {
                 if (this.userInfoDiv.classList.contains("hidden-mypage")) {
                     this.clearAllHiddenClasses();
                     this.userInfoDiv.classList.remove("hidden-mypage");
-                    this.addressInfoDiv.classList.remove("hidden-mypage");
                 }
                 break;
 
@@ -99,8 +97,4 @@ class Mypage {
         this.passwordChangeDiv.className += " hidden-mypage";
         this.addressContentDiv.className += " hidden-mypage";
     }
-}
-
-window.onload = () => {
-    Mypage.getInstance();
 }

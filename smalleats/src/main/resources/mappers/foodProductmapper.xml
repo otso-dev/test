@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.smalleats.repository.FoodProductDAO">
+    <resultMap id="foodProductMap" type="com.smalleats.entity.FoodProduct">
+        <id property="foodId" column="food_id"/>
+        <result property="foodName" column="food_name"/>
+        <result property="foodImg" column="food_img"/>
+        <result property="foodOpen" column="food_open"/>
+        <result property="foodClose" column="food_close"/>
+        <result property="foodMin" column="food_min"/>
+        <result property="foodDeliveryPrice" column="food_delivery_price"/>
+    </resultMap>
+
+    <resultMap id="foodMenuMap" type="com.smalleats.entity.FoodMenu">
+        <id property="foodMenuId" column="food_menu_id"/>
+        <result property="foodMenuName" column="food_menu_name"/>
+        <result property="foodId" column="food_id"/>
+        <result property="foodMenuImg" column="food_menu_img"/>
+        <result property="foodMenuPrice" column="food_menu_price"/>
+        <association property="foodProduct" resultMap="foodProductMap"/>
+    </resultMap>
+
+    <resultMap id="foodDeliveryAreaMap" type="com.smalleats.entity.FoodDeliveryArea">
+        <id property="foodDeliveryId" column="food_delivery_id"/>
+        <result property="foodId" column="food_id"/>
+        <result property="foodDeliveryArea" column="food_delivery_area"/>
+        <association property="foodProduct" resultMap="foodProductMap"/>
+    </resultMap>
+    <select id="getFoodProducts" resultMap="foodProductMap">
+        select
+            food_id,
+            food_name,
+            food_open,
+            food_close
+        from
+            food_tb
+    </select>
+    <select id="getFoodMenu" resultMap="foodMenuMap">
+        select
+            food_menu_name,
+            food_menu_price,
+            food_menu_img,
+            food_menu_id
+        from
+            food_menu_tb
+        where
+            food_id = #{foodId}
+    </select>
+
+    <select id="getDeliveryArea" resultMap="foodDeliveryAreaMap">
+        select
+            food_delivery_area
+        from
+            food_delivery_tb
+        where
+            food_id = #{foodId}
+    </select>
+
+    <select id="getProductDetail" resultMap="foodProductMap">
+    select
+        food_id,
+        food_name,
+        food_img,
+        food_min,
+        food_open,
+        food_close,
+        food_delivery_price
+    from
+        food_tb
+    where
+        food_id = #{foodId}
+    </select>
+</mapper>

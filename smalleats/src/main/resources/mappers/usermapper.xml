@@ -53,6 +53,11 @@
         insert into authority_tb (authority_id, user_id, role_id)
         values (0,#{userId},#{roleId})
     </insert>
-
+    <update id="passwordUpdate">
+        update user_tb
+        set password = #{changePassword}
+        where
+            user_id = #{userId}
+    </update>
 
 </mapper>

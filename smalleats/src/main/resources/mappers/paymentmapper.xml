@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.smalleats.repository.PaymentDAO">
+    <select id="getOrder">
+        select
+        select
+            order_id,
+            food_id,
+            order_req_time,
+            order_delivery_day
+        from
+            order_tb
+        where
+            order_id = #{orderId}
+    </select>
+</mapper>

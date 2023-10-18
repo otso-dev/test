@@ -1,3 +1,7 @@
 window.onload = () =>{
-    main.getInstance().TestQuerySelecterEvent();
+    Auth.getInstance().getAuthenticate();
+    Auth.getInstance().getApiAuthorities();
+    Main.getInstance().TestQuerySelecterEvent();
+    Main.getInstance().testAuthorities();
+    Mypage.getInstance();
 }
