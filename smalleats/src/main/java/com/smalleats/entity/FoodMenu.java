@@ -16,13 +16,4 @@ public class FoodMenu {
     private int foodMenuPrice;
 
     private FoodProduct foodProduct;
-
-    public FoodMenuRespDto toDto(){
-        return FoodMenuRespDto.builder()
-                .foodMenuId(foodMenuId)
-                .foodMenuName(foodMenuName)
-                .foodMenuImg(foodMenuImg)
-                .foodMenuPrice(foodMenuPrice)
-                .build();
-    }
 }

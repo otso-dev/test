@@ -1,10 +1,10 @@
 package com.smalleats.DTO.auth;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@Data
-@Builder
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class AuthUserRespDto {
     private int userId;
     private String email;

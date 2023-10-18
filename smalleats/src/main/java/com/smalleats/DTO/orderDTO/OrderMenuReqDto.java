@@ -17,10 +17,10 @@ public class OrderMenuReqDto {
     private int count;
 
     public OrderMenu toEntity(){
-        OrderMenu orderMenu = new OrderMenu();
-        orderMenu.setOrderId(orderId);
-        orderMenu.setFoodMenuId(menuId);
-        orderMenu.setMenuNumbers(count);
-        return orderMenu;
+        return OrderMenu.builder()
+                .foodMenuId(menuId)
+                .orderId(orderId)
+                .menuNumbers(count)
+                .build();
     }
 }

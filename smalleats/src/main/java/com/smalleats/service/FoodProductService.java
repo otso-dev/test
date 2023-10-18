@@ -28,10 +28,11 @@ public class FoodProductService {
     }
 
     public List<FoodMenuRespDto> getFoodMenu(int foodId){
+        FoodMenuRespDto foodMenuRespDto = new FoodMenuRespDto();
         List<FoodMenuRespDto> foodMenuRespDtoList = new ArrayList<>();
         List<FoodMenu> foodMenuList = foodProductDAO.getFoodMenu(foodId);
         foodMenuList.forEach(foodMenu -> {
-            foodMenuRespDtoList.add(foodMenu.toDto());
+            foodMenuRespDtoList.add(foodMenuRespDto.toDto(foodMenu));
         });
         return foodMenuRespDtoList;
     }
