@@ -21,7 +21,7 @@
         <id property="roleId" column="role_id"/>
         <result property="roleName" column="role_name"/>
     </resultMap>
-    <select id="findUserByEmail" resultMap="userMap">
+    <select id="com.smalleats.repository.UserDAO.findUserByEmail" resultMap="userMap">
         select
             ub.user_id,
             ub.email,

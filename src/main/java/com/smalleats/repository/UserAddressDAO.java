@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class UserAddressDAO implements UserAddressDAOImpl{
-    private final String NS = "";
+    private final String NS = "com.smalleats.repository.UserAddressDAO.";
     private final SqlSessionTemplate sqlSession;
 
     @Override

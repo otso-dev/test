@@ -14,7 +14,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserDAO implements UserDAOImpl{
 
-    private final String NS = "";
+    private final String NS = "com.smalleats.repository.UserDAO.";
     private final SqlSessionTemplate sqlSession;
     public User findUserByEmail(String email) {
         return sqlSession.selectOne(NS + "findUserByEmail", email);

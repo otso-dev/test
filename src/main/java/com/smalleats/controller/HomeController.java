@@ -1,16 +1,13 @@
 package com.smalleats.controller;
 
 
-import com.smalleats.DTO.orderDTO.OrderReqDto;
 import com.smalleats.service.FoodProductService;
 import com.smalleats.service.PaymentService;
 import com.smalleats.service.UserAddressService;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 

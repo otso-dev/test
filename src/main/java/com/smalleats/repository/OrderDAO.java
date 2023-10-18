@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class OrderDAO implements OrderDAOImpl{
-    private final String NS = "";
+    private final String NS = "com.smalleats.repository.OrderDAO.";
     private final SqlSessionTemplate sqlSession;
 
     @Override
