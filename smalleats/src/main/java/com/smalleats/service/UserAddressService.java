@@ -22,13 +22,8 @@ public class UserAddressService {
     private final UserDAOImpl userDAO;
     public int UserAddressInsert(UserAddressReqDto userAddressReqDto){
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userDAO.findUserByEmail(principalUser.getEmail());
-        UserAddress userAddress = new UserAddress();
-        userAddress.setUserZoneCode(userAddressReqDto.getUserZoneCode());
-        userAddress.setUserDetailAddress(userAddressReqDto.getUserDetailAddress());
-        userAddress.setUserRoadAddress(userAddressReqDto.getUserRoadAddress());
-        userAddress.setUserId(user.getUserId());
-        return userAddressDAO.userAddressInsert(userAddress);
+        User user = userDAO.findUserByEmail(principalUser.getEmail());;
+        return userAddressDAO.userAddressInsert(userAddressReqDto.toEntity(user.getUserId()));
     }
 
     public List<UserAddressRespDto> getUserAddressList(){
@@ -36,18 +31,13 @@ public class UserAddressService {
         List<UserAddressRespDto> userAddressRespList = new ArrayList<>();
         List<UserAddress> userAddressList = userAddressDAO.getUserAddressList(principalUser.getUserId());
         userAddressList.forEach(userAddress -> {
-            userAddressRespList.add(userAddress.toDto());
+            userAddressRespList.add(userAddress.toAddressRespDto());
         });
         return userAddressRespList;
     }
 
     public int UserAddressUpdate(UserAddressReqDto userAddressReqDto){
-        UserAddress userAddress = new UserAddress();
-        userAddress.setUserAddressId(userAddressReqDto.getUserAddressId());
-        userAddress.setUserZoneCode(userAddressReqDto.getUserZoneCode());
-        userAddress.setUserDetailAddress(userAddressReqDto.getUserDetailAddress());
-        userAddress.setUserRoadAddress(userAddressReqDto.getUserRoadAddress());
-        return userAddressDAO.userAddressUpdate(userAddress);
+        return userAddressDAO.userAddressUpdate(userAddressReqDto.toEntity());
     }
 
     public int userAddressDelete(int userAddressId){

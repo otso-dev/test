@@ -24,15 +24,10 @@ public class OrderService {
     private final OrderDAOImpl orderDAO;
 
     public int orderInsert(OrderReqDto orderReqDto){
-        Order order = new Order();
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        order.setFoodId(orderReqDto.getFoodId());
-        order.setUserId(principalUser.getUserId());
-        order.setOrderReqTime(orderReqDto.getOrderReqTime());
-        order.setOrderDeliveryDay(orderReqDto.getOrderReqDeliveryDay());
-        System.out.println(order);
+        Order order = orderReqDto.toEntity(principalUser.getUserId());
         int orderResult = orderDAO.orderInsert(order);
-        if(orderResult == 0){
+        if(orderResult <= 0){
             throw new CustomException("주문실패");
         }
         Map<String,OrderMenuReqDto> orderMenuMap = orderReqDto.getOrderMenu();
@@ -43,7 +38,7 @@ public class OrderService {
         });
         System.out.println(orderMenuList);
         int orderMenuResult = orderDAO.orderMenuInsert(orderMenuList);
-        if(orderMenuResult == 1){
+        if(orderMenuResult <= 0){
             throw new CustomException("주문실패");
         }
         return order.getOrderId();

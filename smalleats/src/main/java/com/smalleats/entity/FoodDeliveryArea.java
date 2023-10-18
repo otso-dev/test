@@ -2,11 +2,10 @@ package com.smalleats.entity;
 
 
 import com.smalleats.DTO.foodProductDTO.FoodDeliveryRespDto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class FoodDeliveryArea {

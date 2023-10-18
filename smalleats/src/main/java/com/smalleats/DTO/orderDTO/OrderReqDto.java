@@ -20,4 +20,21 @@ public class OrderReqDto {
     private String orderReqTime;
     private String orderReqDeliveryDay;
     private Map<String,OrderMenuReqDto> orderMenu;
+
+    public Order toEntity(int userId){
+        return Order.builder()
+                .foodId(foodId)
+                .userId(userId)
+                .orderReqTime(orderReqTime)
+                .orderDeliveryDay(getOrderReqDeliveryDay())
+                .build();
+    }
+
+    public Order toEntity(){
+        return Order.builder()
+                .foodId(foodId)
+                .orderReqTime(orderReqTime)
+                .orderDeliveryDay(getOrderReqDeliveryDay())
+                .build();
+    }
 }

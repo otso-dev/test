@@ -1,10 +1,9 @@
 package com.smalleats.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderMenu {

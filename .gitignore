@@ -4,7 +4,7 @@ smalleats/target
 !**/src/test/**/target/
 
 ### IntelliJ IDEA ###
-.smalleats/idea
+smalleats/idea
 *.iws
 *.iml
 *.ipr
