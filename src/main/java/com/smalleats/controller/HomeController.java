@@ -22,7 +22,6 @@ public class HomeController {
         model.addAttribute("productList",foodProductService.getFoodProducts());
         return "index";
     }
-
     @RequestMapping(value = "/auth/login",method = RequestMethod.GET)
     public String login(){
         return "/auth/login";

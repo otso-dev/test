@@ -32,10 +32,13 @@ class Main {
         let authorities = Auth.getInstance().getAuthorities();
         console.log("authorities: "+authorities)
         const myPageBtn = document.querySelector(".smalleats-mypage-btn");
+        const partnerBtn = document.querySelector(".smalleats-partners-btn");
         if(authorities === "ROLE_USER" && myPageBtn.classList.contains("hidden-main")){
             myPageBtn.classList.remove("hidden-main");
+            partnerBtn.className += " hidden-main";
         }else{
             myPageBtn.className += " hidden-main";
+            partnerBtn.classList.remove("hidden-main");
         }
     }
     testLogout(){

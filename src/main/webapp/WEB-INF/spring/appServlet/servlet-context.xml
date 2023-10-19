@@ -19,6 +19,6 @@
     </beans:bean>
 
 <!--view 에서  controller 가는 경로 설정-->
-    <context:component-scan base-package="com.smalleats"/>
+    <context:component-scan base-package="com.smalleats.controller"/>
 
 </beans:beans>
