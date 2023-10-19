@@ -1,6 +1,5 @@
 package com.smalleats.entity;
 
-import com.smalleats.DTO.user.UserInfoRespDto;
 import com.smalleats.security.PrincipalUser;
 import lombok.*;
 
@@ -29,13 +28,6 @@ public class User {
                 .phoneNumber(phoneNumber)
                 .authorities(authorities)
                 .provider(provider)
-                .build();
-    }
-    public UserInfoRespDto toUserInfoRespDto(){
-        return UserInfoRespDto.builder()
-                .username(userName)
-                .email(email)
-                .phoneNumber(phoneNumber)
                 .build();
     }
 }

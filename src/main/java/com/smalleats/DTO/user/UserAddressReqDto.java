@@ -1,12 +1,9 @@
 package com.smalleats.DTO.user;
 
 import com.smalleats.entity.UserAddress;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserAddressReqDto {
@@ -15,14 +12,6 @@ public class UserAddressReqDto {
     private String userDetailAddress;
     private int userZoneCode;
 
-    public UserAddress toEntity(){
-        return UserAddress.builder()
-                .userAddressId(userAddressId)
-                .userZoneCode(userZoneCode)
-                .userDetailAddress(userDetailAddress)
-                .userRoadAddress(userRoadAddress)
-                .build();
-    }
     public UserAddress toEntity(int userId){
         return UserAddress.builder()
                 .userAddressId(userAddressId)

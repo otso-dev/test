@@ -1,16 +1,21 @@
 package com.smalleats.DTO.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.smalleats.entity.User;
+import lombok.*;
 
-@Data
-@Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserInfoRespDto {
     private String username;
     private String email;
     private String phoneNumber;
+
+    public UserInfoRespDto toEntity(User user){
+        return new UserInfoRespDto(
+                this.username = user.getUserName(),
+                this.email = user.getEmail(),
+                this.phoneNumber = user.getPhoneNumber()
+        );
+    }
 }

@@ -20,10 +20,13 @@
         <div class="main-content">
             main-content
             <div>
-                <label>email</label>
-                <input class="login-email" type="email"/>
-                <label>password</label>
-                <input class="login-password" type="password"/>
+                <label>email
+                    <input class="login-email" type="email"/>
+                </label>
+
+                <label>password
+                    <input class="login-password" type="password"/>
+                </label>
                 <button type="button" onclick="submitLogin()">확인</button>
             </div>
         </div>
@@ -36,7 +39,7 @@
         let email = $('.login-email').val();
         let password = $('.login-password').val();
         $.ajax({
-            url: '${pageContext.request.contextPath}/auth/login',
+            url: '/auth/login',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({

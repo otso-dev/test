@@ -1,15 +1,16 @@
 package com.smalleats.DTO.foodProductDTO;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.smalleats.entity.FoodDeliveryArea;
+import lombok.*;
 
-@Data
-@Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class FoodDeliveryRespDto {
     private String foodDeliveryArea;
+
+    public FoodDeliveryRespDto toEntity(FoodDeliveryArea foodDeliveryArea){
+        return new FoodDeliveryRespDto(this.foodDeliveryArea = foodDeliveryArea.getFoodDeliveryArea());
+    }
 }

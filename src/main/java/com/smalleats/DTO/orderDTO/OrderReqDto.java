@@ -1,17 +1,11 @@
 package com.smalleats.DTO.orderDTO;
 
 import com.smalleats.entity.Order;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
-@Data
-@Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderReqDto {

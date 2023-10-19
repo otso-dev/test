@@ -19,10 +19,11 @@ import java.util.List;
 public class FoodProductService {
     private final FoodProductDAOImpl foodProductDAO;
     public List<FoodProductsRespDto> getFoodProducts(){
+        FoodProductsRespDto foodProductsRespDto = new FoodProductsRespDto();
         List<FoodProductsRespDto> foodProductRespDtoList = new ArrayList<>();
         List<FoodProduct> foodProductList = foodProductDAO.getFoodProducts();
         foodProductList.forEach(foodProduct -> {
-            foodProductRespDtoList.add(foodProduct.toDto());
+            foodProductRespDtoList.add(foodProductsRespDto.toEntity(foodProduct));
         });
         return foodProductRespDtoList;
     }
@@ -38,16 +39,17 @@ public class FoodProductService {
     }
 
     public List<FoodDeliveryRespDto> getFoodDeliverArea(int foodId){
-        System.out.println(foodId);
+        FoodDeliveryRespDto foodDeliveryRespDto = new FoodDeliveryRespDto();
         List<FoodDeliveryRespDto> foodDeliveryRespDtoList = new ArrayList<>();
         List<FoodDeliveryArea> foodDeliveryAreaList = foodProductDAO.getDeliveryArea(foodId);
         foodDeliveryAreaList.forEach(foodDeliveryArea -> {
-            foodDeliveryRespDtoList.add(foodDeliveryArea.toDto());
+            foodDeliveryRespDtoList.add(foodDeliveryRespDto.toEntity(foodDeliveryArea));
         });
         return foodDeliveryRespDtoList;
     }
     public ProductDetailRespDto getProductDetail(int foodId){
+        ProductDetailRespDto productDetailRespDto = new ProductDetailRespDto();
         FoodProduct foodProduct = foodProductDAO.getProductDetail(foodId);
-        return foodProduct.toProductDetailRespDto();
+        return productDetailRespDto.toEntity(foodProduct);
     }
 }

@@ -1,11 +1,8 @@
 package com.smalleats.service;
 
 import com.smalleats.DTO.user.PasswordReqDto;
-import com.smalleats.DTO.user.UserAddressReqDto;
-import com.smalleats.DTO.user.UserAddressRespDto;
 import com.smalleats.DTO.user.UserInfoRespDto;
 import com.smalleats.entity.User;
-import com.smalleats.entity.UserAddress;
 import com.smalleats.repository.UserDAOImpl;
 import com.smalleats.security.PrincipalUser;
 import com.smalleats.service.exception.CustomException;
@@ -14,14 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -31,14 +24,15 @@ public class UserService {
 
     public UserInfoRespDto getUserInfo(){
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserInfoRespDto userInfoRespDto = new UserInfoRespDto();
         User user = userDAO.findUserByEmail(principalUser.getEmail());
         if(user == null){
             throw new CustomException("사용자 정보 오류",ErrorMap.builder().put("userInfo","사용자 정보 오류").build());
         }
-        return user.toUserInfoRespDto();
+        return userInfoRespDto.toEntity(user);
     }
 
-    public int userLogout(HttpServletRequest request, HttpServletResponse response){
+    public int userLogout(HttpServletResponse response){
         Cookie jwtTokenDelete = new Cookie("JWT-TOKEN", null);
         jwtTokenDelete.setMaxAge(0);
         jwtTokenDelete.setPath("/");

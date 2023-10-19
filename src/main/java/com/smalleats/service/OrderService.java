@@ -30,10 +30,10 @@ public class OrderService {
         Map<String,OrderMenuReqDto> orderMenuMap = orderReqDto.getOrderMenu();
         List<OrderMenu> orderMenuList = new ArrayList<>();
         orderMenuMap.forEach((key,value) ->{
-            value.setOrderId(order.getOrderId());
-            orderMenuList.add(value.toEntity());
+            orderMenuList.add(value.toEntity(order.getOrderId()));
         });
         System.out.println(orderMenuList);
+
         int orderMenuResult = orderDAO.orderMenuInsert(orderMenuList);
         if(orderMenuResult <= 0){
             throw new CustomException("주문실패");

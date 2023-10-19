@@ -48,7 +48,7 @@ public class TokenProvider {
                 .setExpiration(tokenExpiresDate)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
-        return JwtTokenRespDto.builder().grantType("Bearer").accessToken(acessToken).build();
+        return new JwtTokenRespDto("Bearer",acessToken);
     }
 
     public String getToken(String token) {

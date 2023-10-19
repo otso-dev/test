@@ -12,9 +12,6 @@
     <insert id="orderMenuInsert" parameterType="list">
         insert into order_menu_tb
         (order_menu_id, order_id, menu_id, order_menu_numbers)
-        values
-        <foreach collection="list" item="item" separator=",">
-            (0,#{item.orderId},#{item.foodMenuId},#{item.menuNumbers})
-        </foreach>
+        values (0,#{item.orderId},#{item.foodMenuId},#{item.menuNumbers})
     </insert>
 </mapper>

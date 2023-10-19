@@ -1,12 +1,9 @@
 package com.smalleats.DTO.paymentDTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.smalleats.entity.Order;
+import lombok.*;
 
-@Data
-@Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentOrderRespDto {
@@ -19,5 +16,14 @@ public class PaymentOrderRespDto {
     private String foodName;
     private String foodDeliveryPrice;
 
-
+    public PaymentOrderRespDto toEntity(Order order){
+        return new PaymentOrderRespDto(
+                this.orderId = order.getOrderId(),
+                this.foodId = order.getFoodId(),
+                this.orderReqTime = order.getOrderReqTime(),
+                this.orderDeliveryDay = order.getOrderDeliveryDay(),
+                this.foodName = order.getFood().getFoodName(),
+                this.foodDeliveryPrice = order.getFood().getFoodDeliveryPrice()
+        );
+    }
 }

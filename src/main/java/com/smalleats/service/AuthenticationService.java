@@ -13,7 +13,6 @@ import com.smalleats.service.exception.CustomException;
 import com.smalleats.service.exception.ErrorMap;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -26,9 +25,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -91,10 +88,7 @@ public class AuthenticationService implements UserDetailsService {
         }
         Claims claims = tokenProvider.getClaims(token);
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return AuthoritiesRespDto.builder()
-                .userName(principalUser.getUsername())
-                .authorities((String) claims.get("auth"))
-                .build();
+        return new AuthoritiesRespDto(principalUser.getUsername(),(String)claims.get("auth"));
     }
 
 }

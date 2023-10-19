@@ -1,7 +1,5 @@
 package com.smalleats.entity;
 
-import com.smalleats.DTO.user.UserAddressReqDto;
-import com.smalleats.DTO.user.UserAddressRespDto;
 import lombok.*;
 
 @Getter
@@ -17,13 +15,5 @@ public class UserAddress {
 
     private User user;
 
-    public UserAddressRespDto toAddressRespDto() {
-        return UserAddressRespDto.builder()
-                .userAddressId(userAddressId)
-                .userRoadAddress(userRoadAddress)
-                .userDetailAddress(userDetailAddress)
-                .userZoneCode(userZoneCode)
-                .build();
-    }
 
 }

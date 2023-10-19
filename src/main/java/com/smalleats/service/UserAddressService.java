@@ -10,7 +10,6 @@ import com.smalleats.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,22 +21,24 @@ public class UserAddressService {
     private final UserDAOImpl userDAO;
     public int UserAddressInsert(UserAddressReqDto userAddressReqDto){
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userDAO.findUserByEmail(principalUser.getEmail());;
+        User user = userDAO.findUserByEmail(principalUser.getEmail());
         return userAddressDAO.userAddressInsert(userAddressReqDto.toEntity(user.getUserId()));
     }
 
     public List<UserAddressRespDto> getUserAddressList(){
+        UserAddressRespDto userAddressRespDto = new UserAddressRespDto();
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<UserAddressRespDto> userAddressRespList = new ArrayList<>();
         List<UserAddress> userAddressList = userAddressDAO.getUserAddressList(principalUser.getUserId());
         userAddressList.forEach(userAddress -> {
-            userAddressRespList.add(userAddress.toAddressRespDto());
+            userAddressRespList.add(userAddressRespDto.toEntity(userAddress));
         });
         return userAddressRespList;
     }
 
     public int UserAddressUpdate(UserAddressReqDto userAddressReqDto){
-        return userAddressDAO.userAddressUpdate(userAddressReqDto.toEntity());
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userAddressDAO.userAddressUpdate(userAddressReqDto.toEntity(principalUser.getUserId()));
     }
 
     public int userAddressDelete(int userAddressId){

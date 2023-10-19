@@ -1,7 +1,6 @@
 package com.smalleats.entity;
 
 
-import com.smalleats.DTO.foodProductDTO.FoodDeliveryRespDto;
 import lombok.*;
 
 @Getter
@@ -15,9 +14,4 @@ public class FoodDeliveryArea {
 
     private FoodProduct foodProduct;
 
-    public FoodDeliveryRespDto toDto(){
-        return FoodDeliveryRespDto.builder()
-                .foodDeliveryArea(foodDeliveryArea)
-                .build();
-    }
 }

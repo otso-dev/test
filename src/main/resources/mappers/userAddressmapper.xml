@@ -55,7 +55,7 @@
             user_detail_address = #{userDetailAddress},
             user_zonecode = #{userZoneCode}
         where
-            user_address_id = #{userAddressId}
+            user_id = #{userId} and user_address_id = #{userAddressId}
     </update>
     <delete id="userAddressDelete">
         delete

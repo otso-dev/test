@@ -1,7 +1,7 @@
 package com.smalleats.entity;
 
 
-import com.smalleats.DTO.paymentDTO.PaymentMenuRespDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,12 +21,5 @@ public class OrderMenu {
     private Order order;
     private FoodMenu foodMenu;
 
-    public PaymentMenuRespDto toPaymentMenu(){
-        return PaymentMenuRespDto.builder()
-                .MenuNumbers(menuNumbers)
-                .foodMenuPrice(foodMenu.getFoodMenuPrice())
-                .foodMenuName(foodMenu.getFoodMenuName())
-                .build();
-    }
 
 }

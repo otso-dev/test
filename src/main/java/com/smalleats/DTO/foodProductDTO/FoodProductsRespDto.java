@@ -1,12 +1,9 @@
 package com.smalleats.DTO.foodProductDTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.smalleats.entity.FoodProduct;
+import lombok.*;
 
-@Data
-@Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class FoodProductsRespDto {
@@ -15,4 +12,14 @@ public class FoodProductsRespDto {
     private String foodImg;
     private String foodOpen;
     private String foodClose;
+
+    public FoodProductsRespDto toEntity(FoodProduct foodProduct){
+        return new FoodProductsRespDto(
+                this.foodId = foodProduct.getFoodId(),
+                this.foodName = foodProduct.getFoodName(),
+                this.foodImg = foodProduct.getFoodImg(),
+                this.foodOpen = foodProduct.getFoodOpen(),
+                this.foodClose = foodProduct.getFoodClose()
+        );
+    }
 }
