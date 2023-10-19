@@ -4,6 +4,7 @@ import com.smalleats.entity.UserAddress;
 import lombok.*;
 
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserAddressRespDto {
@@ -12,12 +13,12 @@ public class UserAddressRespDto {
     private String userDetailAddress;
     private int userZoneCode;
 
-    public UserAddressRespDto toEntity(UserAddress userAddress){
-        return new UserAddressRespDto(
-          this.userAddressId = userAddress.getUserAddressId(),
-          this.userRoadAddress = userAddress.getUserRoadAddress(),
-          this.userDetailAddress = userAddress.getUserDetailAddress(),
-          this.userZoneCode = userAddress.getUserZoneCode()
-        );
+    public UserAddressRespDto toDto(UserAddress userAddress){
+        return UserAddressRespDto.builder()
+                .userAddressId(userAddress.getUserAddressId())
+                .userRoadAddress(userAddress.getUserRoadAddress())
+                .userDetailAddress(userAddress.getUserDetailAddress())
+                .userZoneCode(userAddress.getUserZoneCode())
+                .build();
     }
 }

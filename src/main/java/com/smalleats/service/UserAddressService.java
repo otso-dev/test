@@ -4,8 +4,8 @@ import com.smalleats.DTO.user.UserAddressReqDto;
 import com.smalleats.DTO.user.UserAddressRespDto;
 import com.smalleats.entity.User;
 import com.smalleats.entity.UserAddress;
-import com.smalleats.repository.UserAddressDAOImpl;
-import com.smalleats.repository.UserDAOImpl;
+import com.smalleats.repository.UserAddressDAO;
+import com.smalleats.repository.UserDAO;
 import com.smalleats.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,8 +17,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserAddressService {
-    private final UserAddressDAOImpl userAddressDAO;
-    private final UserDAOImpl userDAO;
+    private final UserAddressDAO userAddressDAO;
+    private final UserDAO userDAO;
     public int UserAddressInsert(UserAddressReqDto userAddressReqDto){
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userDAO.findUserByEmail(principalUser.getEmail());
@@ -31,7 +31,7 @@ public class UserAddressService {
         List<UserAddressRespDto> userAddressRespList = new ArrayList<>();
         List<UserAddress> userAddressList = userAddressDAO.getUserAddressList(principalUser.getUserId());
         userAddressList.forEach(userAddress -> {
-            userAddressRespList.add(userAddressRespDto.toEntity(userAddress));
+            userAddressRespList.add(userAddressRespDto.toDto(userAddress));
         });
         return userAddressRespList;
     }

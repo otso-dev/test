@@ -2,7 +2,6 @@ package com.smalleats.controller;
 
 
 import com.smalleats.DTO.paymentDTO.PaidReqDto;
-import com.smalleats.repository.PaymentDAO;
 import com.smalleats.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

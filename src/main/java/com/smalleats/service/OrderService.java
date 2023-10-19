@@ -4,7 +4,7 @@ import com.smalleats.DTO.orderDTO.OrderMenuReqDto;
 import com.smalleats.DTO.orderDTO.OrderReqDto;
 import com.smalleats.entity.Order;
 import com.smalleats.entity.OrderMenu;
-import com.smalleats.repository.OrderDAOImpl;
+import com.smalleats.repository.OrderDAO;
 import com.smalleats.security.PrincipalUser;
 import com.smalleats.service.exception.CustomException;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class OrderService {
-    private final OrderDAOImpl orderDAO;
+    private final OrderDAO orderDAO;
 
     public int orderInsert(OrderReqDto orderReqDto){
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

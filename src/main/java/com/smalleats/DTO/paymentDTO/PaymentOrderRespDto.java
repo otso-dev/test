@@ -4,6 +4,7 @@ import com.smalleats.entity.Order;
 import lombok.*;
 
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentOrderRespDto {
@@ -16,14 +17,14 @@ public class PaymentOrderRespDto {
     private String foodName;
     private String foodDeliveryPrice;
 
-    public PaymentOrderRespDto toEntity(Order order){
-        return new PaymentOrderRespDto(
-                this.orderId = order.getOrderId(),
-                this.foodId = order.getFoodId(),
-                this.orderReqTime = order.getOrderReqTime(),
-                this.orderDeliveryDay = order.getOrderDeliveryDay(),
-                this.foodName = order.getFood().getFoodName(),
-                this.foodDeliveryPrice = order.getFood().getFoodDeliveryPrice()
-        );
+    public PaymentOrderRespDto toDto(Order order){
+        return PaymentOrderRespDto.builder()
+                .orderId(order.getOrderId())
+                .foodId(order.getFoodId())
+                .orderReqTime(order.getOrderReqTime())
+                .orderDeliveryDay(order.getOrderDeliveryDay())
+                .foodName(order.getFood().getFoodName())
+                .foodDeliveryPrice(order.getFood().getFoodDeliveryPrice())
+                .build();
     }
 }

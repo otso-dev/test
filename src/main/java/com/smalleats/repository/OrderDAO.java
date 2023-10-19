@@ -2,24 +2,14 @@ package com.smalleats.repository;
 
 import com.smalleats.entity.Order;
 import com.smalleats.entity.OrderMenu;
-import lombok.RequiredArgsConstructor;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
-@Repository
-@RequiredArgsConstructor
-public class OrderDAO implements OrderDAOImpl{
-    private final String NS = "com.smalleats.repository.OrderDAO.";
-    private final SqlSessionTemplate sqlSession;
+@Mapper
+public interface OrderDAO {
 
-    @Override
-    public int orderInsert(Order order) {
-        return sqlSession.insert(NS+"orderInsert",order);
-    }
-    @Override
-    public int orderMenuInsert(List<OrderMenu> orderMenuList) {
-        return sqlSession.insert(NS + "orderMenuInsert",orderMenuList);
-    }
+    int orderInsert(Order order);
+
+    int orderMenuInsert(List<OrderMenu> orderMenuList);
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
-<mapper namespace="com.smalleats.repository.UserDAO">
+<mapper namespace="com.smalleats.repository.UserDAOImpl">
 
     <resultMap id="userMap" type="com.smalleats.entity.User">
         <id property="userId" column="user_id"/>
@@ -21,7 +21,7 @@
         <id property="roleId" column="role_id"/>
         <result property="roleName" column="role_name"/>
     </resultMap>
-    <select id="com.smalleats.repository.UserDAO.findUserByEmail" resultMap="userMap">
+    <select id="com.smalleats.repository.UserDAOImpl.findUserByEmail" resultMap="userMap">
         select
             ub.user_id,
             ub.email,

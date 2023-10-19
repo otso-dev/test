@@ -11,10 +11,10 @@ public class OrderMenuReqDto {
     private int menuId;
     private int count;
 
-    public OrderMenu toEntity(int orderId){
+    public OrderMenu toEntity(int orderId) {
         return OrderMenu.builder()
-                .foodMenuId(menuId)
                 .orderId(orderId)
+                .foodMenuId(menuId)
                 .menuNumbers(count)
                 .build();
     }

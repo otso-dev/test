@@ -3,16 +3,34 @@ package com.smalleats.repository;
 import com.smalleats.entity.FoodDeliveryArea;
 import com.smalleats.entity.FoodMenu;
 import com.smalleats.entity.FoodProduct;
-import org.apache.ibatis.annotations.Mapper;
+import lombok.RequiredArgsConstructor;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Mapper
-public interface FoodProductDAOImpl {
-    public List<FoodProduct> getFoodProducts();
+@Repository
+@RequiredArgsConstructor
+public class FoodProductDAOImpl implements FoodProductDAO {
+    private final String NS = "com.smalleats.repository.FoodProductDAOImpl.";
+    private final SqlSessionTemplate sqlSession;
+    @Override
+    public List<FoodProduct> getFoodProducts() {
+        return sqlSession.selectList(NS + "getFoodProducts");
+    }
 
-    public List<FoodMenu> getFoodMenu(int foodId);
-    public List<FoodDeliveryArea> getDeliveryArea(int foodId);
+    @Override
+    public List<FoodMenu> getFoodMenu(int foodId) {
+        return sqlSession.selectList(NS + "getFoodMenu", foodId);
+    }
 
-    public FoodProduct getProductDetail(int foodId);
+    @Override
+    public List<FoodDeliveryArea> getDeliveryArea(int foodId) {
+        return sqlSession.selectList(NS + "getDeliveryArea", foodId);
+    }
+
+    @Override
+    public FoodProduct getProductDetail(int foodId) {
+        return sqlSession.selectOne(NS + "getProductDetail", foodId);
+    }
 }

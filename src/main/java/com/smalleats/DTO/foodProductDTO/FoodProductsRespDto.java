@@ -4,6 +4,7 @@ import com.smalleats.entity.FoodProduct;
 import lombok.*;
 
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class FoodProductsRespDto {
@@ -13,13 +14,13 @@ public class FoodProductsRespDto {
     private String foodOpen;
     private String foodClose;
 
-    public FoodProductsRespDto toEntity(FoodProduct foodProduct){
-        return new FoodProductsRespDto(
-                this.foodId = foodProduct.getFoodId(),
-                this.foodName = foodProduct.getFoodName(),
-                this.foodImg = foodProduct.getFoodImg(),
-                this.foodOpen = foodProduct.getFoodOpen(),
-                this.foodClose = foodProduct.getFoodClose()
-        );
+    public FoodProductsRespDto toDto(FoodProduct foodProduct){
+        return FoodProductsRespDto.builder()
+                .foodId(foodProduct.getFoodId())
+                .foodName(foodProduct.getFoodName())
+                .foodOpen(foodProduct.getFoodOpen())
+                .foodClose(foodProduct.getFoodClose())
+                .foodImg(foodProduct.getFoodImg())
+                .build();
     }
 }

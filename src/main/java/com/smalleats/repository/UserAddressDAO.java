@@ -1,35 +1,18 @@
 package com.smalleats.repository;
 
 import com.smalleats.entity.UserAddress;
-import lombok.RequiredArgsConstructor;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
-@Repository
-@RequiredArgsConstructor
-public class UserAddressDAO implements UserAddressDAOImpl{
-    private final String NS = "com.smalleats.repository.UserAddressDAO.";
-    private final SqlSessionTemplate sqlSession;
+@Mapper
+public interface UserAddressDAO {
 
-    @Override
-    public int userAddressInsert(UserAddress userAddress) {
-        return sqlSession.insert(NS + "userAddressInsert", userAddress);
-    }
+    int userAddressInsert(UserAddress userAddress);
+    List<UserAddress> getUserAddressList(int userId);
 
-    @Override
-    public List<UserAddress> getUserAddressList(int userId) {
-        return sqlSession.selectList(NS + "getUserAddressList", userId);
-    }
+    int userAddressUpdate(UserAddress userAddress);
 
-    @Override
-    public int userAddressUpdate(UserAddress userAddress) {
-        return sqlSession.update(NS +"userAddressUpdate", userAddress);
-    }
+    int userAddressDelete(int userAddressId);
 
-    @Override
-    public int userAddressDelete(int userAddressId) {
-        return sqlSession.delete(NS + "userAddressDelete",userAddressId);
-    }
 }

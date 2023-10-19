@@ -7,7 +7,7 @@ import com.smalleats.DTO.user.SignupReqDto;
 import com.smalleats.entity.Authority;
 import com.smalleats.entity.User;
 import com.smalleats.jwt.TokenProvider;
-import com.smalleats.repository.UserDAOImpl;
+import com.smalleats.repository.UserDAO;
 import com.smalleats.security.PrincipalUser;
 import com.smalleats.service.exception.CustomException;
 import com.smalleats.service.exception.ErrorMap;
@@ -32,7 +32,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService implements UserDetailsService {
-    private final UserDAOImpl userDAO;
+    private final UserDAO userDAO;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
     @Override

@@ -17,18 +17,10 @@ public class OrderReqDto {
 
     public Order toEntity(int userId){
         return Order.builder()
-                .foodId(foodId)
                 .userId(userId)
-                .orderReqTime(orderReqTime)
-                .orderDeliveryDay(getOrderReqDeliveryDay())
-                .build();
-    }
-
-    public Order toEntity(){
-        return Order.builder()
                 .foodId(foodId)
                 .orderReqTime(orderReqTime)
-                .orderDeliveryDay(getOrderReqDeliveryDay())
+                .orderDeliveryDay(orderReqDeliveryDay)
                 .build();
     }
 }

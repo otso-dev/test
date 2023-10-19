@@ -5,16 +5,35 @@ import com.smalleats.entity.FoodDeliveryArea;
 import com.smalleats.entity.Order;
 import com.smalleats.entity.OrderMenu;
 import com.smalleats.entity.Payment;
-import org.apache.ibatis.annotations.Mapper;
+import lombok.RequiredArgsConstructor;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Mapper
-public interface PaymentDAOImpl {
+@Repository
+@RequiredArgsConstructor
+public class PaymentDAOImpl implements PaymentDAO {
+    private final String NS = "com.smalleats.repository.PaymentDAOImpl.";
+    private final SqlSessionTemplate sqlSession;
+    @Override
+    public Order getOrder(int orderId) {
+        return sqlSession.selectOne(NS+"getOrder",orderId);
+    }
 
-    public Order getOrder(int orderId);
-    public List<OrderMenu> getOrderMenuList(int orderId);
-    public int paid(Payment payment);
+    @Override
+    public List<OrderMenu> getOrderMenuList(int orderId) {
+        return sqlSession.selectList(NS+"getOrderMenuList", orderId);
+    }
 
-    public List<FoodDeliveryArea> getDeliveryArea(int orderId);
+    @Override
+    public int paid(Payment payment) {
+        return sqlSession.insert(NS+"paid",payment);
+    }
+
+    @Override
+    public List<FoodDeliveryArea> getDeliveryArea(int orderId) {
+        return sqlSession.selectList(NS+"getDeliveryArea", orderId);
+    }
+
 }

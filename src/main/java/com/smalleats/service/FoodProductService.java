@@ -7,7 +7,7 @@ import com.smalleats.DTO.foodProductDTO.ProductDetailRespDto;
 import com.smalleats.entity.FoodDeliveryArea;
 import com.smalleats.entity.FoodMenu;
 import com.smalleats.entity.FoodProduct;
-import com.smalleats.repository.FoodProductDAOImpl;
+import com.smalleats.repository.FoodProductDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +17,13 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class FoodProductService {
-    private final FoodProductDAOImpl foodProductDAO;
+    private final FoodProductDAO foodProductDAO;
     public List<FoodProductsRespDto> getFoodProducts(){
         FoodProductsRespDto foodProductsRespDto = new FoodProductsRespDto();
         List<FoodProductsRespDto> foodProductRespDtoList = new ArrayList<>();
         List<FoodProduct> foodProductList = foodProductDAO.getFoodProducts();
         foodProductList.forEach(foodProduct -> {
-            foodProductRespDtoList.add(foodProductsRespDto.toEntity(foodProduct));
+            foodProductRespDtoList.add(foodProductsRespDto.toDto(foodProduct));
         });
         return foodProductRespDtoList;
     }
@@ -43,13 +43,13 @@ public class FoodProductService {
         List<FoodDeliveryRespDto> foodDeliveryRespDtoList = new ArrayList<>();
         List<FoodDeliveryArea> foodDeliveryAreaList = foodProductDAO.getDeliveryArea(foodId);
         foodDeliveryAreaList.forEach(foodDeliveryArea -> {
-            foodDeliveryRespDtoList.add(foodDeliveryRespDto.toEntity(foodDeliveryArea));
+            foodDeliveryRespDtoList.add(foodDeliveryRespDto.toDto(foodDeliveryArea));
         });
         return foodDeliveryRespDtoList;
     }
     public ProductDetailRespDto getProductDetail(int foodId){
         ProductDetailRespDto productDetailRespDto = new ProductDetailRespDto();
         FoodProduct foodProduct = foodProductDAO.getProductDetail(foodId);
-        return productDetailRespDto.toEntity(foodProduct);
+        return productDetailRespDto.toDto(foodProduct);
     }
 }
