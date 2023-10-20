@@ -10,12 +10,25 @@
         <result property="phoneNumber" column="phone_number"/>
         <collection property="authorities" javaType="list" resultMap="authorityMap"/>
     </resultMap>
+
+    <resultMap id="partnerUserMap" type="com.smalleats.entity.PartnerUser">
+        <id property="partnerId" column="partner_id"/>
+        <result property="partnerUserName" column="partner_username"/>
+        <result property="partnerPassword" column="partner_user_password"/>
+        <result property="partnerUserEmail" column="partner_user_email"/>
+        <result property="partnerPhoneNumber" column="partner_phone_number"/>
+        <result property="partnerBusinessName" column="partner_business_name"/>
+        <result property="partnerBusinessNumber" column="partner_business_number"/>
+        <association property="authorities" javaType="list" resultMap="authorityMap"/>
+    </resultMap>
+
     <resultMap type="com.smalleats.entity.Authority" id="authorityMap">
         <id property="authorityId" column="authority_id"/>
         <result property="userId" column="user_id"/>
         <result property="roleId" column="role_id"/>
         <association property="role" resultMap="roleMap" />
     </resultMap>
+
 
     <resultMap type="com.smalleats.entity.Role" id="roleMap">
         <id property="roleId" column="role_id"/>
@@ -50,8 +63,8 @@
         values (0, #{userName},#{email},#{password},#{phoneNumber},#{profileImg},#{provider})
     </insert>
     <insert id="addAuthority" parameterType="com.smalleats.entity.Authority">
-        insert into authority_tb (authority_id, user_id, role_id)
-        values (0,#{userId},#{roleId})
+        insert into authority_tb (authority_id, user_id, role_id,partner_id)
+        values (0,#{userId},#{roleId},#{partnerId})
     </insert>
     <update id="passwordUpdate">
         update user_tb
@@ -60,4 +73,32 @@
             user_id = #{userId}
     </update>
 
+
+<!--partner-->
+    <select id="findPartnerUserByEmail" resultMap="partnerUserMap">
+        select
+            partner_username,
+            partner_user_password,
+            partner_user_email,
+            partner_phone_number,
+            partner_business_name,
+            partner_business_number
+        from partner_user_tb
+        where
+            partner_user_email = #{email};
+    </select>
+
+    <insert id="savePartnerUser" parameterType="com.smalleats.entity.PartnerUser"
+            useGeneratedKeys="true"
+            keyProperty="partnerId">
+        insert into partner_user_tb
+        (partner_id, partner_username, partner_user_password, partner_user_email, partner_phone_number, partner_business_name, partner_business_number)
+        values (0,#{partnerUserName},#{partnerPassword},#{partnerUserEmail},#{partnerPhoneNumber},#{partnerBusinessName},#{partnerBusinessNumber});
+    </insert>
+
+    <insert id="partnerAddAuthority" parameterType="com.smalleats.entity.PartnerAuthority">
+        insert into partner_authority_tb
+            (partner_authority_id, partner_id, role_id)
+        values (0,#{partnerId},#{roleId});
+    </insert>
 </mapper>

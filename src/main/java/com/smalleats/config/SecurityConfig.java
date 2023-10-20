@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,6 +27,7 @@ import javax.servlet.Filter;
 @EnableWebMvc
 @ComponentScan(basePackages = "com.smalleats")
 @RequiredArgsConstructor
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     private final TokenProvider tokenProvider;
     private final AuthEntryPoint authEntryPoint;
@@ -58,4 +62,5 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/resources/**")
                 .antMatchers("/favicon.ico");
     }
+
 }

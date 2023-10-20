@@ -2,9 +2,12 @@ package com.smalleats.service;
 
 import com.smalleats.DTO.auth.AuthoritiesRespDto;
 import com.smalleats.DTO.auth.JwtTokenRespDto;
+import com.smalleats.DTO.partnerDto.PartnerLoginReqDto;
+import com.smalleats.DTO.partnerDto.PartnerRegisterReqDto;
 import com.smalleats.DTO.user.LoginReqDto;
 import com.smalleats.DTO.user.SignupReqDto;
 import com.smalleats.entity.Authority;
+import com.smalleats.entity.PartnerUser;
 import com.smalleats.entity.User;
 import com.smalleats.jwt.TokenProvider;
 import com.smalleats.repository.UserDAO;
@@ -36,11 +39,15 @@ public class AuthenticationService implements UserDetailsService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public PrincipalUser loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userDAO.findUserByEmail(email);
+        PartnerUser partnerUser = userDAO.findPartnerUserByEmail(email);
         System.out.println("userlogin");
-        if(user == null){
+        if(user == null && partnerUser == null){
             throw new CustomException("로그인 실패", ErrorMap.builder().put("login","사용자 정보를 확인하세요").build());
+        }
+        if(partnerUser != null && user == null) {
+            return partnerUser.toPrincipal();
         }
         return user.toPrincipal();
     }
@@ -58,14 +65,15 @@ public class AuthenticationService implements UserDetailsService {
 
     public Map<String,String> login(LoginReqDto loginReqDto, HttpServletResponse response){
         Map<String,String> loginResp = new HashMap<>();
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                loginReqDto.getEmail(), loginReqDto.getPassword());
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(usernamePasswordAuthenticationToken);
         User userEntity = userDAO.findUserByEmail(loginReqDto.getEmail());
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if(!passwordEncoder.matches(loginReqDto.getPassword(),userEntity.getPassword())){
             throw new CustomException("로그인 실패",ErrorMap.builder().put("login","사용자 정보를 확인하세요").build());
         }
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                loginReqDto.getEmail(), loginReqDto.getPassword());
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(usernamePasswordAuthenticationToken);
+
         JwtTokenRespDto jwtTokenRespDto = tokenProvider.generateToken(authentication);
         Cookie cookie = new Cookie("JWT-TOKEN","Bearer=" + jwtTokenRespDto.getAccessToken());
         cookie.setSecure(true);
@@ -89,6 +97,47 @@ public class AuthenticationService implements UserDetailsService {
         Claims claims = tokenProvider.getClaims(token);
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return new AuthoritiesRespDto(principalUser.getUsername(),(String)claims.get("auth"));
+    }
+
+    public void duplicatedEmail(String email){
+        PartnerUser partnerUser = userDAO.findPartnerUserByEmail(email);
+        if(partnerUser != null){
+            throw new CustomException("email중복");
+        }
+    }
+    public int savePartner(PartnerRegisterReqDto partnerRegisterReqDto){
+        PartnerUser partnerUser = partnerRegisterReqDto.toEntity();
+        int savePartner = userDAO.savePartnerUser(partnerUser);
+        int partnerAddAuth = userDAO.addAuthority(Authority.builder()
+                .partnerId(partnerUser.getPartnerId())
+                .roleId(2)
+                .build());
+        if(savePartner != 1 && partnerAddAuth != 1){
+            return 0;
+        }
+        return 1;
+    }
+    public Map<String,String> partnerLogin(PartnerLoginReqDto partnerLoginReqDto, HttpServletResponse response){
+        Map<String,String> loginResp = new HashMap<>();
+        System.out.println(partnerLoginReqDto.getPartnerUserEmail());
+        System.out.println(partnerLoginReqDto.getPartnerUserPassword());
+        PartnerUser partnerUser = userDAO.findPartnerUserByEmail(partnerLoginReqDto.getPartnerUserEmail());
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                partnerLoginReqDto.getPartnerUserEmail(),partnerLoginReqDto.getPartnerUserPassword()
+        );
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(usernamePasswordAuthenticationToken);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if(!passwordEncoder.matches(partnerLoginReqDto.getPartnerUserPassword(),partnerUser.getPartnerPassword())){
+            throw new CustomException("로그인 실패", ErrorMap.builder().put("login","사용자 정보를 확인하세요").build());
+        }
+        JwtTokenRespDto jwtTokenRespDto = tokenProvider.generateToken(authentication);
+        Cookie cookie = new Cookie("JWT-TOKEN","Bearer="+jwtTokenRespDto.getAccessToken());
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(24 * 60 * 30);
+        response.addCookie(cookie);
+        return loginResp;
     }
 
 }

@@ -1,6 +1,8 @@
 package com.smalleats.repository;
 
 import com.smalleats.entity.Authority;
+import com.smalleats.entity.PartnerAuthority;
+import com.smalleats.entity.PartnerUser;
 import com.smalleats.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -32,6 +34,21 @@ public class UserDAOImpl implements UserDAO{
     @Override
     public int passwordUpdate(Map<String,String> passwordMap) {
         return sqlSession.update(NS + "passwordUpdate", passwordMap);
+    }
+
+    @Override
+    public PartnerUser findPartnerUserByEmail(String email) {
+        return sqlSession.selectOne(NS+"findPartnerUserByEmail",email);
+    }
+
+    @Override
+    public int savePartnerUser(PartnerUser partnerUser) {
+        return sqlSession.insert(NS+"savePartnerUser", partnerUser);
+    }
+
+    @Override
+    public int partnerAddAuthority(PartnerAuthority partnerAuthority) {
+        return sqlSession.insert(NS+"partnerAddAuthority", partnerAuthority);
     }
 
 }

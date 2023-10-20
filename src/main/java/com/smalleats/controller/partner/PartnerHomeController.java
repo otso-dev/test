@@ -11,4 +11,18 @@ public class PartnerHomeController {
     public String partner(){
         return "/auth/partner";
     }
+
+    @RequestMapping(value = "/auth/partner/register", method = RequestMethod.GET)
+    public String partnerRegister(){
+        return "/auth/partner/register";
+    }
+    @RequestMapping(value = "/auth/partner/login",method = RequestMethod.GET)
+    public String partnerLogin(){
+        return "/auth/partner/login";
+    }
+
+    @RequestMapping(value = "/partner/partnerpage",method = RequestMethod.GET)
+    public String partnerHome(){
+        return"/partner/partnerpage";
+    }
 }
