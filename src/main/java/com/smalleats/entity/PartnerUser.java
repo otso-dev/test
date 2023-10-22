@@ -31,6 +31,7 @@ public class PartnerUser {
                 .partnerUserEmail(partnerUserEmail)
                 .partnerPassword(partnerPassword)
                 .authorities(authorities)
+                .isUser(false)
                 .build();
     }
 }

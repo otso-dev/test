@@ -77,13 +77,23 @@
 <!--partner-->
     <select id="findPartnerUserByEmail" resultMap="partnerUserMap">
         select
-            partner_username,
-            partner_user_password,
-            partner_user_email,
-            partner_phone_number,
-            partner_business_name,
-            partner_business_number
-        from partner_user_tb
+            pb.partner_id,
+            pb.partner_username,
+            pb.partner_user_password,
+            pb.partner_user_email,
+            pb.partner_phone_number,
+            pb.partner_business_name,
+            pb.partner_business_number,
+
+            ab.authority_id,
+            ab.role_id,
+            ab.partner_id,
+            rt.role_id,
+            rt.role_name
+
+        from partner_user_tb pb
+        left join authority_tb ab on pb.partner_id = ab.partner_id
+        left join role_tb rt on ab.role_id = rt.role_id
         where
             partner_user_email = #{email};
     </select>

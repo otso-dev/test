@@ -66,6 +66,9 @@ public class AuthenticationService implements UserDetailsService {
     public Map<String,String> login(LoginReqDto loginReqDto, HttpServletResponse response){
         Map<String,String> loginResp = new HashMap<>();
         User userEntity = userDAO.findUserByEmail(loginReqDto.getEmail());
+        if(userEntity == null){
+            throw new CustomException("로그인 실패",ErrorMap.builder().put("login","사용자 정보를 확인하세요").build());
+        }
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if(!passwordEncoder.matches(loginReqDto.getPassword(),userEntity.getPassword())){
             throw new CustomException("로그인 실패",ErrorMap.builder().put("login","사용자 정보를 확인하세요").build());
@@ -119,17 +122,18 @@ public class AuthenticationService implements UserDetailsService {
     }
     public Map<String,String> partnerLogin(PartnerLoginReqDto partnerLoginReqDto, HttpServletResponse response){
         Map<String,String> loginResp = new HashMap<>();
-        System.out.println(partnerLoginReqDto.getPartnerUserEmail());
-        System.out.println(partnerLoginReqDto.getPartnerUserPassword());
         PartnerUser partnerUser = userDAO.findPartnerUserByEmail(partnerLoginReqDto.getPartnerUserEmail());
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                partnerLoginReqDto.getPartnerUserEmail(),partnerLoginReqDto.getPartnerUserPassword()
-        );
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(usernamePasswordAuthenticationToken);
+        if(partnerUser == null){
+            throw new CustomException("로그인 실패",ErrorMap.builder().put("login","사용자 정보를 확인하세요").build());
+        }
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if(!passwordEncoder.matches(partnerLoginReqDto.getPartnerUserPassword(),partnerUser.getPartnerPassword())){
             throw new CustomException("로그인 실패", ErrorMap.builder().put("login","사용자 정보를 확인하세요").build());
         }
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                partnerLoginReqDto.getPartnerUserEmail(),partnerLoginReqDto.getPartnerUserPassword()
+        );
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(usernamePasswordAuthenticationToken);
         JwtTokenRespDto jwtTokenRespDto = tokenProvider.generateToken(authentication);
         Cookie cookie = new Cookie("JWT-TOKEN","Bearer="+jwtTokenRespDto.getAccessToken());
         cookie.setSecure(true);

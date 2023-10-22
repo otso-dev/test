@@ -1,6 +1,7 @@
 package com.smalleats.jwt;
 
 import com.smalleats.DTO.auth.JwtTokenRespDto;
+import com.smalleats.entity.PartnerUser;
 import com.smalleats.entity.User;
 import com.smalleats.repository.UserDAOImpl;
 import com.smalleats.security.PrincipalUser;
@@ -81,9 +82,15 @@ public class TokenProvider {
         String email = claims.get("email").toString();
 
         User user = userDAO.findUserByEmail(email);
+        PartnerUser partnerUser = userDAO.findPartnerUserByEmail(email);
+        PrincipalUser principalUser = null;
+        if(user != null){
+            principalUser = user.toPrincipal();
+        }else {
+            principalUser = partnerUser.toPrincipal();
+        }
 
-        PrincipalUser principalsUser = user.toPrincipal();
-        authentication = new UsernamePasswordAuthenticationToken(principalsUser, null, principalsUser.getAuthorities());
+        authentication = new UsernamePasswordAuthenticationToken(principalUser, null, principalUser.getAuthorities());
         return authentication;
     }
     public boolean validateToken(String token) {

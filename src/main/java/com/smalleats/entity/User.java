@@ -28,6 +28,7 @@ public class User {
                 .phoneNumber(phoneNumber)
                 .authorities(authorities)
                 .provider(provider)
+                .isUser(true)
                 .build();
     }
 }

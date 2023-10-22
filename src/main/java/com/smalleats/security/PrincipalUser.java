@@ -29,9 +29,10 @@ public class PrincipalUser implements UserDetails {
     private String partnerPhoneNumber;
 
     private List<Authority> authorities;
+
+    private boolean isUser;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        System.out.println(this.authorities.get(0));
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         this.authorities.forEach(authority -> {
            authorities.add(new SimpleGrantedAuthority(authority.getRole().getRoleName()));
@@ -41,12 +42,18 @@ public class PrincipalUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        return password;
+        if(isUser){
+            return password;
+        }
+        return partnerPassword;
     }
 
     @Override
     public String getUsername() {
-        return email;
+        if(isUser){
+            return email;
+        }
+        return partnerUserEmail;
     }
 
     @Override
