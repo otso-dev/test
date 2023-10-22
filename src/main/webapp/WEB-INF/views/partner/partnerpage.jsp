@@ -10,8 +10,31 @@
 <html>
 <head>
     <title>SmallEatsPartner</title>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/partner/partner.css">
 </head>
 <body>
-    <h2>partnerpage</h2>
+    <main class="main-style">
+        <div class="sidebar">
+            <ul class="partner-sidebar-list">
+                <li class="food-register">
+                    입점신청
+                </li>
+                <li class="menu-register" onclick="location='/partner/foodregister'">
+                    메뉴등록
+                </li>
+                <li class="delivery-register" onclick="location='/partner/partnerdelivery">
+                    배달지역 설정
+                </li>
+                <li class="order-state" onclick="location='/partner/orderstate'">
+                    주문현황
+                </li>
+            </ul>
+        </div>
+        <div>
+            <h2>SmallEats 파트너를 위한 페이지 입니다.</h2>
+        </div>
+    </main>
+
 </body>
 </html>

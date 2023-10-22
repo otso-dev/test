@@ -1,0 +1,29 @@
+.partner-sidebar-list li{
+    display: flex;
+    align-items: center;
+
+    border-bottom: 1px solid #dbdbdb;
+    margin: 0;
+    padding: 3px;
+    height: 40px;
+    background-color: #3F9FF3;
+
+    font-size: 16px;
+    color: #FFF;
+}
+
+.food-register{
+    cursor: pointer;
+}
+
+.menu-register{
+    cursor: pointer;
+}
+
+.delivery-register{
+    cursor: pointer;
+}
+
+.order-state{
+    cursor: pointer;
+}
