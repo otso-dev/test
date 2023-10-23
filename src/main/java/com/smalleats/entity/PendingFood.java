@@ -13,6 +13,7 @@ public class PendingFood {
     private int pendingFoodId;
     private int foodId;
     private int categoryId;
+    private int partnerId;
     private String foodName;
     private String foodImg;
     private int foodOpen;

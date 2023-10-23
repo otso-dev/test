@@ -17,13 +17,13 @@
     <main class="main-style">
         <div class="sidebar">
             <ul class="partner-sidebar-list">
-                <li class="food-register">
+                <li class="food-register" onclick="location='/partner/foodregister'">
                     입점신청
                 </li>
-                <li class="menu-register" onclick="location='/partner/foodregister'">
+                <li class="menu-register" onclick="location='/partner/menu'">
                     메뉴등록
                 </li>
-                <li class="delivery-register" onclick="location='/partner/partnerdelivery">
+                <li class="delivery-register" onclick="location='/partner/delivery'">
                     배달지역 설정
                 </li>
                 <li class="order-state" onclick="location='/partner/orderstate'">

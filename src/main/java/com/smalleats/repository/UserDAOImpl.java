@@ -1,7 +1,6 @@
 package com.smalleats.repository;
 
 import com.smalleats.entity.Authority;
-import com.smalleats.entity.PartnerAuthority;
 import com.smalleats.entity.PartnerUser;
 import com.smalleats.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -46,9 +45,5 @@ public class UserDAOImpl implements UserDAO{
         return sqlSession.insert(NS+"savePartnerUser", partnerUser);
     }
 
-    @Override
-    public int partnerAddAuthority(PartnerAuthority partnerAuthority) {
-        return sqlSession.insert(NS+"partnerAddAuthority", partnerAuthority);
-    }
 
 }

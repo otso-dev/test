@@ -106,9 +106,4 @@
         values (0,#{partnerUserName},#{partnerPassword},#{partnerUserEmail},#{partnerPhoneNumber},#{partnerBusinessName},#{partnerBusinessNumber});
     </insert>
 
-    <insert id="partnerAddAuthority" parameterType="com.smalleats.entity.PartnerAuthority">
-        insert into partner_authority_tb
-            (partner_authority_id, partner_id, role_id)
-        values (0,#{partnerId},#{roleId});
-    </insert>
 </mapper>

@@ -15,6 +15,7 @@ public class PartnerPendingFoodReqDto {
     private int pendingFoodId;
     private int foodId;
     private int categoryId;
+    private int partnerId;
     private String foodName;
     private String foodImg;
     private int foodOpen;
@@ -26,9 +27,11 @@ public class PartnerPendingFoodReqDto {
     private String foodDetailAddress;
     private int foodZoneCode;
 
-    public PendingFood toEntity(){
+    public PendingFood toEntity(int foodId, int partnerId){
         return PendingFood.builder()
+                .foodId(foodId)
                 .categoryId(categoryId)
+                .partnerId(partnerId)
                 .foodName(foodName)
                 .foodImg(foodImg)
                 .foodOpen(foodOpen)
