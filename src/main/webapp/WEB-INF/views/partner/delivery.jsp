@@ -33,6 +33,7 @@
     </div>
     <div>
         <h2>배달지역등록</h2>
+        <p>${pendingFood.foodAddressSido}</p>
     </div>
 </main>
 </body>

@@ -45,10 +45,11 @@ public class PartnerHomeController {
         return"/partner/menu";
     }
     @RequestMapping(value = "/partner/delivery",method = RequestMethod.GET)
-    public String partnerDelivery(){
+    public String partnerDelivery(Model model){
         if(partnerFoodService.checkPending()){
             throw new CustomException("입점신청 후 이용해주세요");
         }
+        model.addAttribute("pendingFood",partnerFoodService.getPendingFood());
         return"/partner/delivery";
     }
     @RequestMapping(value = "/partner/orderstate",method = RequestMethod.GET)

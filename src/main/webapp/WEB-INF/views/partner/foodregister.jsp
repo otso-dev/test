@@ -79,6 +79,7 @@
                     document.querySelector(".foodAddressSido").value = data.sido;
                     document.querySelector(".foodRoadAddress").value = data.roadAddress;
                     document.querySelector(".foodZoneCode").value = data.zonecode;
+                    console.log(data);
                 }else if(data.userSelectedType === "J"){
                     alert("지번주소는 더 이상 지원하지 않습니다.");
                     close();
