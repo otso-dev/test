@@ -31,9 +31,6 @@ public class HomeController {
         return "/auth/register";
     }
 
-    @RequestMapping(value = "/admin/adminpage", method = RequestMethod.GET)
-    public String admin() {return "/admin/adminpage";}
-
     @RequestMapping(value = "/user/mypage", method = RequestMethod.GET)
     public String mypage(Model model){
         model.addAttribute("userAddressList",userAddressService.getUserAddressList());

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.smalleats.repository.admin.AdminFoodManageDAOImpl">
+    <resultMap id="pendingFoodMap" type="com.smalleats.entity.PendingFood">
+        <id property="pendingFoodId" column="pending_food_id"/>
+        <result property="foodId" column="food_id"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="foodName" column="food_name"/>
+        <result property="foodOpen" column="food_open"/>
+        <result property="foodClose" column="food_close"/>
+        <result property="foodMin" column="food_min"/>
+        <result property="foodDeliveryPrice" column="food_delivery_price"/>
+        <result property="foodAddressSido" column="food_address_sido"/>
+        <result property="foodRoadAddress" column="food_road_address"/>
+        <result property="foodDetailAddress" column="food_detail_address"/>
+        <result property="foodZoneCode" column="food_zonecode"/>
+        <association property="category" resultMap="categoryMap"/>
+    </resultMap>
+
+    <resultMap id="categoryMap" type="com.smalleats.entity.Category">
+        <id property="categoryId" column="coategory_id"/>
+        <result property="categoryName" column="category_name"/>
+    </resultMap>
+
+    <select id="beforePendingFoods" resultMap="pendingFoodMap">
+        select
+            pending_food_id,
+            food_id,
+            food_name,
+            food_address_sido,
+            food_road_address,
+            food_detail_address,
+            food_open,
+            food_close
+        from
+            pending_food_tb;
+    </select>
+
+    <insert id="adminFoodInsert">
+        insert into food_tb
+        select
+            food_id,
+            category_id,
+            food_name,
+            food_img,
+            food_open,
+            food_close,
+            food_min,
+            food_delivery_price,
+            food_address_sido,
+            food_road_address,
+            food_detail_address,
+            food_zonecode
+        from pending_food_tb
+        where pending_food_id = #{foodId}
+    </insert>
+
+</mapper>

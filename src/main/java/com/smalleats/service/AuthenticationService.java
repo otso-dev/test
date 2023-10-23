@@ -1,5 +1,7 @@
 package com.smalleats.service;
 
+import com.smalleats.DTO.adminDto.AdminLoginReqDto;
+import com.smalleats.DTO.adminDto.AdminRegisterReqDto;
 import com.smalleats.DTO.auth.AuthoritiesRespDto;
 import com.smalleats.DTO.auth.JwtTokenRespDto;
 import com.smalleats.DTO.partnerDto.PartnerLoginReqDto;
@@ -62,7 +64,35 @@ public class AuthenticationService implements UserDetailsService {
         userDAO.saveUser(saveUser);
         userDAO.addAuthority(Authority.builder().userId(saveUser.getUserId()).roleId(1).build());
     }
+    public void saveAdmin(AdminRegisterReqDto adminRegisterReqDto){
+        User saveAdmin = adminRegisterReqDto.toEntity();
+        userDAO.saveUser(saveAdmin);
+        userDAO.addAuthority(Authority.builder().userId(saveAdmin.getUserId()).roleId(3).build());
+    }
+    public Map<String,String> login(AdminLoginReqDto adminLoginReqDto, HttpServletResponse response){
+        Map<String,String> loginResp = new HashMap<>();
+        User userEntity = userDAO.findUserByEmail(adminLoginReqDto.getEmail());
+        if(userEntity == null){
+            throw new CustomException("로그인 실패",ErrorMap.builder().put("login","사용자 정보를 확인하세요").build());
+        }
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if(!passwordEncoder.matches(adminLoginReqDto.getPassword(),userEntity.getPassword())){
+            throw new CustomException("로그인 실패",ErrorMap.builder().put("login","사용자 정보를 확인하세요").build());
+        }
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                adminLoginReqDto.getEmail(), adminLoginReqDto.getPassword());
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(usernamePasswordAuthenticationToken);
 
+        JwtTokenRespDto jwtTokenRespDto = tokenProvider.generateToken(authentication);
+        Cookie cookie = new Cookie("JWT-TOKEN","Bearer=" + jwtTokenRespDto.getAccessToken());
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(24 * 60 * 60);
+        response.addCookie(cookie);
+        loginResp.put("data","ok");
+        return loginResp;
+    }
     public Map<String,String> login(LoginReqDto loginReqDto, HttpServletResponse response){
         Map<String,String> loginResp = new HashMap<>();
         User userEntity = userDAO.findUserByEmail(loginReqDto.getEmail());

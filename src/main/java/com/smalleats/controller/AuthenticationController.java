@@ -1,5 +1,7 @@
 package com.smalleats.controller;
 
+import com.smalleats.DTO.adminDto.AdminLoginReqDto;
+import com.smalleats.DTO.adminDto.AdminRegisterReqDto;
 import com.smalleats.DTO.partnerDto.PartnerLoginReqDto;
 import com.smalleats.DTO.partnerDto.PartnerRegisterReqDto;
 import com.smalleats.DTO.user.LoginReqDto;
@@ -49,9 +51,19 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/partner/login", method = RequestMethod.POST)
-    public  ResponseEntity<?> partnerLogin(@RequestBody PartnerLoginReqDto partnerLoginReqDto, HttpServletResponse response){
+    public ResponseEntity<?> partnerLogin(@RequestBody PartnerLoginReqDto partnerLoginReqDto, HttpServletResponse response){
         return ResponseEntity.ok(authenticationService.partnerLogin(partnerLoginReqDto,response));
     }
-
+    @RequestMapping(value = "/admin/register", method = RequestMethod.POST)
+    public ResponseEntity<?> adminRegister(@RequestBody AdminRegisterReqDto adminRegisterReqDto){
+        authenticationService.checkDuplicatedEmail(adminRegisterReqDto.getEmail());
+        authenticationService.duplicatedEmail(adminRegisterReqDto.getEmail());
+        authenticationService.saveAdmin(adminRegisterReqDto);
+        return ResponseEntity.ok(true);
+    }
+    @RequestMapping(value = "/admin/login",method = RequestMethod.POST)
+    public ResponseEntity<?> adminLogin(@RequestBody AdminLoginReqDto adminLoginReqDto,HttpServletResponse response){
+        return ResponseEntity.ok(authenticationService.login(adminLoginReqDto,response));
+    }
 
 }

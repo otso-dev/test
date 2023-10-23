@@ -28,6 +28,7 @@
                 <label>전화번호</label>
                 <input class="inputphone" type="text" placeholder="전화번호"/>
                 <button type="button" onclick="submitRegister()">확인</button>
+                <button type="button" onclick="location='/auth/admin/register'">관리자 회원가입</button>
             </div>
         </div>
     </div>
