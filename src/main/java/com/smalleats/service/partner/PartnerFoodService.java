@@ -4,6 +4,7 @@ import com.smalleats.DTO.partnerDto.FoodDeliveryAreaReqDto;
 import com.smalleats.DTO.partnerDto.MenuRegisterReqDto;
 import com.smalleats.DTO.partnerDto.PartnerPendingFoodReqDto;
 import com.smalleats.DTO.partnerDto.PendingFoodRespDto;
+import com.smalleats.entity.FoodDeliveryArea;
 import com.smalleats.entity.PendingFood;
 import com.smalleats.repository.partner.PartnerFoodDAO;
 import com.smalleats.security.PrincipalUser;
@@ -12,7 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +44,13 @@ public class PartnerFoodService {
         return partnerFoodDAO.foodMenuInsert(menuRegisterReqDto.toEntity());
     }
     public int foodDeliveryInsert(FoodDeliveryAreaReqDto foodDeliveryAreaReqDto){
+        Map<String,String> map = new HashMap<>();
+        map.put("foodId",String.valueOf(foodDeliveryAreaReqDto.getFoodId()));
+        map.put("foodDeliveryArea",foodDeliveryAreaReqDto.getFoodDeliveryArea());
+        FoodDeliveryArea foodDeliveryArea = partnerFoodDAO.getDeliveryArea(map);
+        if(foodDeliveryArea != null){
+            throw new CustomException("이미 등록된 배달지역입니다,");
+        }
         return partnerFoodDAO.foodDeliveryAreaInsert(foodDeliveryAreaReqDto.toEntity());
     }
 

@@ -35,12 +35,13 @@
         <h2>배달지역등록</h2>
         <select name="sido1" id="sido1"></select>
         <select name="gugun1" id="gugun1"></select>
+        <button id="addAreaButton">추가하기</button>
     </div>
 </main>
 </body>
 <script>
     $('document').ready(function() {
-        let area0 = ["시/도 선택","서울특별시","인천광역시","대전광역시","광주광역시","대구광역시","울산광역시","부산"];
+        let area0 = ["시/도 선택","서울","인천","대전","광주","대구","울산","부산"];
         let area1 = ["강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
         let area2 = ["계양구","남구","남동구","동구","부평구","서구","연수구","중구","강화군","옹진군"];
         let area3 = ["대덕구","동구","서구","유성구","중구"];
@@ -99,13 +100,16 @@
                 contentType: 'application/json',
                 data: JSON.stringify(foodDeliveryAreaReqDto),
                 success: function(response) {
+                    console.log(response);
                     alert('배달 지역이 성공적으로 등록되었습니다.');
                 },
                 error: function(error) {
                     console.error(error);
-                    alert('배달 지역 등록 중 오류가 발생했습니다.');
+                    alert(error.responseJSON.message);
                 }
             });
+        });
     });
+
 </script>
 </html>

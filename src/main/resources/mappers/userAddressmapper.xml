@@ -8,6 +8,9 @@
         <result property="userRoadAddress" column="user_road_address"/>
         <result property="userDetailAddress" column="user_detail_address"/>
         <result property="userZoneCode" column="user_zonecode"/>
+        <result property="userAddressSido" column="user_address_sido"/>
+        <result property="userAddressSigungu" column="user_address_sigungu"/>
+        <result property="userAddressCategory" column="user_address_category"/>
         <association property="user" resultMap="userMap"/>
     </resultMap>
 

@@ -6,6 +6,7 @@ import com.smalleats.entity.PendingFood;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface PartnerFoodDAO {
@@ -14,4 +15,6 @@ public interface PartnerFoodDAO {
     int foodDeliveryAreaInsert(FoodDeliveryArea foodDeliveryArea);
     List<PendingFood> pendingFoods();
     PendingFood getPendingFood(int partnerId);
+
+    FoodDeliveryArea getDeliveryArea(Map<String,String> deliveryMap);
 }

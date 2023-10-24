@@ -23,6 +23,12 @@
         <result property="categoryName" column="category_name"/>
     </resultMap>
 
+    <resultMap id="deliveryAreaMap" type="com.smalleats.entity.FoodDeliveryArea">
+        <id property="foodDeliveryId" column="food_delivery_id"/>
+        <result property="foodId" column="food_id"/>
+        <result property="foodDeliveryArea" column="food_delivery_area"/>
+    </resultMap>
+
     <select id="pendingFoods" resultMap="pendingFoodMap">
         select
             pending_food_id,
@@ -45,6 +51,15 @@
             food_zonecode
         from pending_food_tb
         where partner_id = #{partnerId}
+    </select>
+
+    <select id="duplicatedArea" resultMap="deliveryAreaMap">
+        select
+            food_id,
+            food_delivery_area
+        from food_delivery_tb
+        where
+            food_id = #{foodId} and food_delivery_area = #{foodDeliveryArea}
     </select>
 
     <insert id="pendingFoodInsert" parameterType="com.smalleats.entity.PendingFood"

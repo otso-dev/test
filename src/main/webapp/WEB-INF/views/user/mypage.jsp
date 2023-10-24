@@ -126,17 +126,29 @@
         })
     }
     function postCard() {
-       new daum.Postcode({
-           oncomplete:function (data) {
-                if(data.userSelectedType === "R"){
-                    document.getElementById('road-name').value = data.roadAddress;
-                    document.getElementById('zone-code').value = data.zonecode;
-                }else if(data.userSelectedType ==="J"){
+        const city = ["서울","인천","대전","광주","대구","울산","부산"];
+        let count = 0;
+        new daum.Postcode({
+            onComplete:function (data){
+                city.forEach((city)=>{
+                    if(city === data.sido){
+                        count++;
+                    }
+                })
+                if(data.userSelectedType === "R" && count >= 1){
+                    document.querySelector(".foodAddressSido").value = data.sido;
+                    document.querySelector(".foodRoadAddress").value = data.roadAddress;
+                    document.querySelector(".foodZoneCode").value = data.zonecode;
+                    // console.log(data);
+                }else if(data.userSelectedType === "J"){
                     alert("지번주소는 더 이상 지원하지 않습니다.");
                     close();
+                }else{
+                    alert("광역시와 특별시만 지원합니다.");
+                    close();
                 }
-           }
-       }).open();
+            }
+        }).open();
     }
 
     function onClickUpdate(userAddressId){

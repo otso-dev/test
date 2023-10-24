@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
@@ -39,5 +40,10 @@ public class PartnerFoodDAOImpl implements PartnerFoodDAO {
     @Override
     public PendingFood getPendingFood(int partnerId) {
         return sqlSession.selectOne(NS+"getPendingFood",partnerId);
+    }
+
+    @Override
+    public FoodDeliveryArea getDeliveryArea(Map<String, String> deliveryMap) {
+        return sqlSession.selectOne(NS+"duplicatedArea", deliveryMap);
     }
 }
