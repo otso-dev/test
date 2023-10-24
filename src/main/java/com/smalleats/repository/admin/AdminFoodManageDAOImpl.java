@@ -1,5 +1,6 @@
 package com.smalleats.repository.admin;
 
+import com.smalleats.entity.Category;
 import com.smalleats.entity.PendingFood;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -20,5 +21,10 @@ public class AdminFoodManageDAOImpl implements AdminFoodManageDAO{
     @Override
     public int adminFoodInsert(int foodId) {
         return sqlSession.insert(NS + "adminFoodInsert",foodId);
+    }
+
+    @Override
+    public int adminCategory(Category category) {
+        return sqlSession.insert(NS+"categoryInsert",category);
     }
 }

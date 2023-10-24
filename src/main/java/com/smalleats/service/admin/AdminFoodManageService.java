@@ -1,6 +1,7 @@
 package com.smalleats.service.admin;
 
 import com.smalleats.DTO.adminDto.AdminPendingFoodRespDto;
+import com.smalleats.entity.Category;
 import com.smalleats.entity.PendingFood;
 import com.smalleats.repository.admin.AdminFoodManageDAO;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +28,10 @@ public class AdminFoodManageService {
     public int adminFoodRegister(Map<String,Integer> foodId){
         System.out.println(foodId);
         return adminFoodManageDAO.adminFoodInsert(foodId.get("foodId"));
+    }
+    public int adminCategoryInsert(String categoryName){
+        Category category = new Category(0,categoryName);
+        System.out.println(categoryName);
+        return adminFoodManageDAO.adminCategory(category);
     }
 }

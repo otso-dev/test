@@ -20,4 +20,9 @@ public class AdminFoodManageController {
     public ResponseEntity<?> adminFoodRegister(@RequestBody Map<String,Integer> foodId){
         return ResponseEntity.ok(adminFoodManageService.adminFoodRegister(foodId));
     }
+    @RequestMapping(value = "/admin/category", method = RequestMethod.POST)
+    public ResponseEntity<?> adminCategoryInsert(@RequestBody Map<String,String> categoryMap){
+        String categoryName = categoryMap.get("categoryName");
+        return ResponseEntity.ok(adminFoodManageService.adminCategoryInsert(categoryName));
+    }
 }

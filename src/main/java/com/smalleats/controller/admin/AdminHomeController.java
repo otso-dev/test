@@ -24,7 +24,10 @@ public class AdminHomeController {
     public String adminLogin(){
         return "/auth/admin/login";
     }
-
+    @RequestMapping(value = "/admin/category",method = RequestMethod.GET)
+    public String adminCategory(){
+        return "/admin/category";
+    }
     @RequestMapping(value = "/admin/foodmanage",method = RequestMethod.GET)
     public String adminFoodManage(Model model){
         model.addAttribute("pendingFoodList",adminFoodManageService.getPendingFoods());

@@ -22,6 +22,9 @@
         <li class="food-manage-btn" onclick="location='/admin/foodmanage'">
             음식점 관리
         </li>
+        <li>
+            음식점 카테고리 등록
+        </li>
     </ul>
 </div>
     <div>

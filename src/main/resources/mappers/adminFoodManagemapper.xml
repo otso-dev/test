@@ -55,4 +55,10 @@
         where pending_food_id = #{foodId}
     </insert>
 
+    <insert id="categoryInsert" parameterType="com.smalleats.entity.Category">
+        insert into category_tb
+        (category_id, category_name)
+        values (0,#{categoryName})
+    </insert>
+
 </mapper>
