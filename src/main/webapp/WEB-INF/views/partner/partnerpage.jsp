@@ -26,7 +26,7 @@
                 <li class="delivery-register" onclick="location='/partner/delivery'">
                     배달지역 설정
                 </li>
-                <li class="order-state" onclick="location='/partner/orderstate'">
+                <li class="order-state" onclick="partnerOrderState()">
                     주문현황
                 </li>
             </ul>
@@ -35,6 +35,16 @@
             <h2>SmallEats 파트너를 위한 페이지 입니다.</h2>
         </div>
     </main>
-
 </body>
+<script>
+    function partnerOrderState(){
+        $.ajax({
+            url:"/partner/orderstate",
+            type:"GET",
+            data:{
+                foodCode:${pendingFood.foodId}
+            }
+        })
+    }
+</script>
 </html>

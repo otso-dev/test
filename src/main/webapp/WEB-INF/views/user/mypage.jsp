@@ -103,12 +103,15 @@
             console.log(response);
         }
     })
+    let userAddressSido = null;
+    let userAddressSigungu = null;
+    let userAddressCategory = null;
 
 
     function addressInsert(){
-        const roadAddress = document.getElementById('road-name').value;
-        const detailAddress= document.getElementById('detail-address').value;
-        const zoneCode = document.getElementById('zone-code').value;
+        const roadAddress = document.getElementById("road-name").value;
+        const detailAddress= document.getElementById("detail-address").value;
+        const zoneCode = document.getElementById("zone-code").value;
         $.ajax({
             url: '${pageContext.request.contextPath}/user/address/create',
             type: 'POST',
@@ -116,6 +119,9 @@
             data:JSON.stringify({
                 userRoadAddress : roadAddress,
                 userDetailAddress : detailAddress,
+                userAddressSido: userAddressSido,
+                userAddressSigungu: userAddressSigungu,
+                userAddressCategory: userAddressCategory,
                 userZoneCode : zoneCode
             }),
             success:function (response){
@@ -135,10 +141,12 @@
                         count++;
                     }
                 })
+                console.log(data);
                 if(data.userSelectedType === "R" && count >= 1){
-                    document.querySelector(".foodAddressSido").value = data.sido;
-                    document.querySelector(".foodRoadAddress").value = data.roadAddress;
-                    document.querySelector(".foodZoneCode").value = data.zonecode;
+                    userAddressSido = data.sido;
+                    userAddressSigungu = data.sigungu;
+                    document.getElementById("road-name").value = data.roadAddress;
+                    document.getElementById("zone-code").value = data.zonecode;
                     // console.log(data);
                 }else if(data.userSelectedType === "J"){
                     alert("지번주소는 더 이상 지원하지 않습니다.");

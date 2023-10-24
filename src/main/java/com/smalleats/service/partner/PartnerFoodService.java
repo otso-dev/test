@@ -1,11 +1,7 @@
 package com.smalleats.service.partner;
 
-import com.smalleats.DTO.partnerDto.FoodDeliveryAreaReqDto;
-import com.smalleats.DTO.partnerDto.MenuRegisterReqDto;
-import com.smalleats.DTO.partnerDto.PartnerPendingFoodReqDto;
-import com.smalleats.DTO.partnerDto.PendingFoodRespDto;
-import com.smalleats.entity.FoodDeliveryArea;
-import com.smalleats.entity.PendingFood;
+import com.smalleats.DTO.partnerDto.*;
+import com.smalleats.entity.*;
 import com.smalleats.repository.partner.PartnerFoodDAO;
 import com.smalleats.security.PrincipalUser;
 import com.smalleats.service.exception.CustomException;
@@ -13,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,5 +65,35 @@ public class PartnerFoodService {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         PendingFood pendingFood = partnerFoodDAO.getPendingFood(principalUser.getPartnerId());
         return pendingFood == null;
+    }
+
+    public List<OrderListRespDto> orderList(){
+        PrincipalUser principalUser = getPartnerUser();
+        PendingFood pendingFood = partnerFoodDAO.getPendingFood(principalUser.getPartnerId());
+        OrderListRespDto orderListRespDto = new OrderListRespDto();
+        List<OrderListRespDto> orderListRespDtos = new ArrayList<>();
+        List<Order> orderList = partnerFoodDAO.partnerOrderList(pendingFood.getFoodId());
+        orderList.forEach(order->{
+            orderListRespDtos.add(orderListRespDto.toDto(order));
+        });
+        OrderMenuRespDto orderMenuRespDto = new OrderMenuRespDto();
+        List<OrderMenuRespDto> orderMenuRespDtos = new ArrayList<>();
+        List<OrderMenu> orderMenuList = partnerFoodDAO.partnerOrderMenuList(pendingFood.getFoodId());
+        orderMenuList.forEach(orderMenu->{
+            orderMenuRespDtos.add(orderMenuRespDto.toDto(orderMenu));
+        });
+        orderListRespDtos.forEach(order->{
+            orderMenuRespDtos.forEach(orderMenu->{
+                if(order.getOrderId() == orderMenu.getOrderId()){
+                   order.getOrderMenuList().add(orderMenu);
+                }
+            });
+        });
+        System.out.println(orderListRespDtos);
+        return orderListRespDtos;
+    }
+
+    private PrincipalUser getPartnerUser(){
+        return (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

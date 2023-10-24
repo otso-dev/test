@@ -142,8 +142,12 @@
         const orderReqTime = document.getElementById('delivery-time').value;
         const orderReqDeliveryDay = document.getElementById('delivery-date').value;
         const foodId = ${productDetail.foodId};
-        if(orderReqTime === null || orderReqDeliveryDay === null){
-            alert("배달 요청 날짜와 시간은 선택해야만 합니다.")
+        if(orderReqTime === "" || orderReqDeliveryDay === ""){
+            alert("배달 요청과 시간을 선택해주세요");
+            return;
+        }
+        if(Object.keys(selectedMenus).length === 0 && selectedMenus.constructor === Object){
+            alert("메뉴를 선택해주세요");
             return;
         }
         $.ajax({

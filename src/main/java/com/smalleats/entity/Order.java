@@ -20,4 +20,6 @@ public class Order {
 
     private FoodProduct food;
     private User user;
+    private Payment payment;
+    private UserAddress userAddress;
 }

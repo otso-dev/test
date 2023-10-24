@@ -1,8 +1,6 @@
 package com.smalleats.repository.partner;
 
-import com.smalleats.entity.FoodDeliveryArea;
-import com.smalleats.entity.FoodMenu;
-import com.smalleats.entity.PendingFood;
+import com.smalleats.entity.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -15,6 +13,8 @@ public interface PartnerFoodDAO {
     int foodDeliveryAreaInsert(FoodDeliveryArea foodDeliveryArea);
     List<PendingFood> pendingFoods();
     PendingFood getPendingFood(int partnerId);
-
     FoodDeliveryArea getDeliveryArea(Map<String,String> deliveryMap);
+
+    List<Order> partnerOrderList(int foodId);
+    List<OrderMenu> partnerOrderMenuList(int foodId);
 }

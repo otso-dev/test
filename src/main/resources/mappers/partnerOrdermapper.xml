@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.smalleats.repository.partner.PartnerFoodDAOImpl">
+    <resultMap id="orderMap" type="com.smalleats.entity.Order">
+        <id property="orderId" column="order_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="orderReqTime" column="order_req_time"/>
+        <result property="orderDeliveryDay" column="order_delivery_day"/>
+        <association property="food" resultMap="foodMap"/>
+        <association property="user" resultMap="userMap"/>
+        <association property="payment" resultMap="paymentMap"/>
+        <association property="userAddress" resultMap="userAddressMap"/>
+    </resultMap>
+
+    <resultMap id="orderMenuMap" type="com.smalleats.entity.OrderMenu">
+        <id property="orderMenuId" column="order_menu_id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="menuId" column="menuId"/>
+        <result property="menuNumbers" column="order_menu_numbers"/>
+        <association property="order" resultMap="orderMap"/>
+        <association property="foodMenu" resultMap="foodMenuMap"/>
+        <association property="user" resultMap="userMap"/>
+    </resultMap>
+
+    <resultMap id="foodMenuMap" type="com.smalleats.entity.FoodMenu">
+        <id property="foodMenuId" column="food_menu_id"/>
+        <result property="foodMenuName" column="food_menu_name"/>
+        <result property="foodMenuPrice" column="food_menu_price"/>
+    </resultMap>
+
+    <resultMap id="foodMap" type="com.smalleats.entity.FoodProduct">
+        <id property="foodId" column="food_id"/>
+        <result property="foodName" column="food_name"/>
+    </resultMap>
+    <resultMap id="userMap" type="com.smalleats.entity.User">
+        <id property="userId" column="user_id"/>
+        <result property="userName" column="username"/>
+        <result property="phoneNumber" column="phone_number"/>
+    </resultMap>
+    <resultMap id="paymentMap" type="com.smalleats.entity.Payment">
+        <id property="paymentId" column="payment_id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="paymentPrice" column="payment_price"/>
+    </resultMap>
+    <resultMap id="userAddressMap" type="com.smalleats.entity.UserAddress">
+        <id property="userAddressId" column="user_address_id"/>
+        <result property="userRoadAddress" column="user_road_address"/>
+        <result property="userDetailAddress" column="user_detail_address"/>
+        <result property="userZoneCode" column="user_zonecode"/>
+    </resultMap>
+
+    <select id="partnerOrderList" resultMap="orderMap">
+        select
+            ot.order_id,
+            ot.user_id,
+            ut.username,
+            ut.phone_number,
+            uat.user_road_address,
+            uat.user_detail_address,
+            uat.user_zonecode,
+            ot.order_req_time,
+            ot.order_delivery_day,
+            ft.food_name,
+            pt.payment_price
+        from
+            order_tb ot
+                left join smalleatsDB.food_tb ft on ot.food_id = ft.food_id
+                left join smalleatsDB.payment_tb pt on ot.order_id = pt.order_id
+                left join smalleatsDB.user_tb ut on ot.user_id = ut.user_id
+                left join smalleatsDB.user_address_tb uat on ot.user_id = uat.user_id
+        where
+            ot.food_id = #{foodId};
+    </select>
+
+    <select id="partnerOrderMenuList" resultMap="orderMenuMap">
+        select
+            ut.user_id,
+            ot.order_id,
+            omt.order_menu_numbers,
+            fmt.food_menu_name,
+            fmt.food_menu_price
+        from
+            order_menu_tb omt
+                left join smalleatsDB.order_tb ot on omt.order_id = ot.order_id
+                left join food_menu_tb fmt on fmt.food_menu_id = omt.menu_id
+                left join smalleatsDB.user_tb ut on ot.user_id = ut.user_id
+        where
+            ot.food_id = #{foodId};
+    </select>
+</mapper>

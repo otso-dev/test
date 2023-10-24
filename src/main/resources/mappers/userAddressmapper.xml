@@ -36,8 +36,10 @@
 
     <insert id="userAddressInsert" parameterType="com.smalleats.entity.UserAddress">
         insert into user_address_tb
-        (user_address_id,user_id,user_road_address,user_detail_address,user_zonecode)
-        values (0,#{userId},#{userRoadAddress},#{userDetailAddress},#{userZoneCode})
+        (user_address_id, user_id, user_road_address, user_detail_address, user_zonecode
+        , user_address_sido, user_address_sigungu, user_address_category)
+        values (0,#{userId},#{userRoadAddress},#{userDetailAddress},#{userZoneCode}
+               ,#{userAddressSido},#{userAddressSigungu},#{userAddressCategory})
     </insert>
 
     <select id="getUserAddressList" resultMap="userAddressMap">
@@ -45,6 +47,8 @@
             user_address_id,
             user_road_address,
             user_detail_address,
+            user_address_sido,
+            user_address_sigungu,
             user_zonecode
         from
             user_address_tb

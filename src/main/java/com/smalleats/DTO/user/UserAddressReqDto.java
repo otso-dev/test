@@ -10,6 +10,9 @@ public class UserAddressReqDto {
     private int userAddressId;
     private String userRoadAddress;
     private String userDetailAddress;
+    private String userAddressSido;
+    private String userAddressSigungu;
+    private String userAddressCategory;
     private int userZoneCode;
 
     public UserAddress toEntity(int userId){
@@ -19,6 +22,9 @@ public class UserAddressReqDto {
                 .userZoneCode(userZoneCode)
                 .userDetailAddress(userDetailAddress)
                 .userRoadAddress(userRoadAddress)
+                .userAddressCategory(userAddressCategory)
+                .userAddressSido(userAddressSido)
+                .userAddressSigungu(userAddressSigungu)
                 .build();
     }
 }

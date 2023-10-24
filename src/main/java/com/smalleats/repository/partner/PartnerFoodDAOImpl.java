@@ -1,8 +1,6 @@
 package com.smalleats.repository.partner;
 
-import com.smalleats.entity.FoodDeliveryArea;
-import com.smalleats.entity.FoodMenu;
-import com.smalleats.entity.PendingFood;
+import com.smalleats.entity.*;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -45,5 +43,15 @@ public class PartnerFoodDAOImpl implements PartnerFoodDAO {
     @Override
     public FoodDeliveryArea getDeliveryArea(Map<String, String> deliveryMap) {
         return sqlSession.selectOne(NS+"duplicatedArea", deliveryMap);
+    }
+
+    @Override
+    public List<Order> partnerOrderList(int foodId) {
+        return sqlSession.selectList(NS + "partnerOrderList",foodId);
+    }
+
+    @Override
+    public List<OrderMenu> partnerOrderMenuList(int foodId) {
+        return sqlSession.selectList(NS + "partnerOrderMenuList",foodId);
     }
 }

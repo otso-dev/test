@@ -18,6 +18,5 @@ public class OrderMenu {
 
     private Order order;
     private FoodMenu foodMenu;
-
-
+    private User user;
 }
