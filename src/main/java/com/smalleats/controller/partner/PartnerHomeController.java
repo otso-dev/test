@@ -61,7 +61,7 @@ public class PartnerHomeController {
         if(partnerFoodService.checkPending()){
             throw new CustomException("입점신청 후 이용해주세요");
         }
-        model.addAttribute("orderMenuList",partnerFoodService.orderList());
+        model.addAttribute("orderList",partnerFoodService.orderList());
         return"/partner/orderstate";
     }
 
