@@ -29,6 +29,14 @@
         <result property="foodDeliveryArea" column="food_delivery_area"/>
     </resultMap>
 
+    <resultMap id="foodMenuMap" type="com.smalleats.entity.FoodMenu">
+        <id property="foodMenuId" column="food_menu_id"/>
+        <result property="foodId" column="food_id"/>
+        <result property="foodMenuName" column="food_menu_name"/>
+        <result property="foodMenuImg" column="food_menu_img"/>
+        <result property="foodMenuPrice" column="food_menu_price"/>
+    </resultMap>
+
     <select id="pendingFoods" resultMap="pendingFoodMap">
         select
             pending_food_id,
@@ -62,6 +70,17 @@
             food_id = #{foodId} and food_delivery_area = #{foodDeliveryArea}
     </select>
 
+    <select id="getFoodMenu" resultMap="foodMenuMap">
+        select
+            food_menu_id,
+            food_menu_name,
+            food_menu_price,
+            food_id
+        from food_menu_tb
+        where
+            food_id = #{foodId} and food_menu_name = #{foodMenuName}
+    </select>
+
     <insert id="pendingFoodInsert" parameterType="com.smalleats.entity.PendingFood"
     useGeneratedKeys="true" keyProperty="pendingFoodId"
     >
@@ -84,4 +103,6 @@
         (food_delivery_id, food_id, food_delivery_area)
         values (0,#{foodId},#{foodDeliveryArea})
     </insert>
+
+
 </mapper>

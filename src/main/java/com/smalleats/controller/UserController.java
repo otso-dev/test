@@ -23,6 +23,6 @@ public class UserController {
     }
     @RequestMapping(value = "/user/password/change", method = RequestMethod.PUT)
     public ResponseEntity<?> userPasswordChange(@RequestBody PasswordReqDto passwordReqDto){
-        return ResponseEntity.ok(userService.userPasswordchange(passwordReqDto));
+        return ResponseEntity.ok(userService.userPasswordChange(passwordReqDto));
     }
 }

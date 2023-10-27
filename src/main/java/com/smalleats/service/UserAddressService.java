@@ -20,14 +20,14 @@ public class UserAddressService {
     private final UserAddressDAO userAddressDAO;
     private final UserDAO userDAO;
     public int UserAddressInsert(UserAddressReqDto userAddressReqDto){
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        PrincipalUser principalUser = getPrincipal();
         User user = userDAO.findUserByEmail(principalUser.getEmail());
         return userAddressDAO.userAddressInsert(userAddressReqDto.toEntity(user.getUserId()));
     }
 
     public List<UserAddressRespDto> getUserAddressList(){
         UserAddressRespDto userAddressRespDto = new UserAddressRespDto();
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        PrincipalUser principalUser = getPrincipal();
         List<UserAddressRespDto> userAddressRespList = new ArrayList<>();
         List<UserAddress> userAddressList = userAddressDAO.getUserAddressList(principalUser.getUserId());
         userAddressList.forEach(userAddress -> {
@@ -37,11 +37,15 @@ public class UserAddressService {
     }
 
     public int UserAddressUpdate(UserAddressReqDto userAddressReqDto){
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        PrincipalUser principalUser = getPrincipal();
         return userAddressDAO.userAddressUpdate(userAddressReqDto.toEntity(principalUser.getUserId()));
     }
 
     public int userAddressDelete(int userAddressId){
         return userAddressDAO.userAddressDelete(userAddressId);
+    }
+
+    private PrincipalUser getPrincipal(){
+        return (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

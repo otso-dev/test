@@ -10,11 +10,12 @@ class Main {
 
     TestQuerySelecterEvent() {
         let authFlag = Auth.getInstance().getAuthFlag();
+        let authorities = Auth.getInstance().getAuthorities();
         const registerBtn = document.querySelector(".smalleats-register-btn");
         const loginBtn = document.querySelector(".smalleats-login-btn");
         const logoutBtn = document.querySelector(".smalleats-logout-btn");
 
-        if(authFlag){
+        if(authFlag && authorities === 'ROLE_USER'){
             if(logoutBtn.classList.contains("hidden-main")){
                 logoutBtn.classList.remove("hidden-main");
             }
@@ -39,6 +40,16 @@ class Main {
         }else{
             myPageBtn.className += " hidden-main";
             partnerBtn.classList.remove("hidden-main");
+        }
+        if(authorities === "ROLE_PAINTER"){
+            partnerBtn.value = "파트너페이지";
+        }
+        partnerBtn.onclick = () =>{
+            if(authorities === "ROLE_PARTNER" && authorities === "ROLE_ADMIN"){
+                location.href="/partner/partnerpage";
+            }else{
+                location.href="/auth/partner";
+            }
         }
     }
     testLogout(){

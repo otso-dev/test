@@ -42,7 +42,51 @@
                     <p id="phone-number">전화번호: </p>
                 </div>
                 <div class="order-list hidden-mypage">
-                    주문조회
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>음식점 이름</th>
+                                <th>배달 요청 시간</th>
+                                <th>배달 요청 날짜</th>
+                                <th>배달 주소</th>
+                                <th>메뉴</th>
+                                <th>총 가격</th>
+                                <th>상태</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="userOrderList" items="${userOrderList}">
+                                <tr>
+                                    <td>
+                                        ${userOrderList.foodName}
+                                    </td>
+                                    <td>
+                                        ${userOrderList.orderReqTime}
+                                    </td>
+                                    <td>
+                                        ${userOrderList.orderDeliveryDay}
+                                    </td>
+                                    <td>
+                                         ${userOrderList.userRoadAddress} ${userOrderList.userDetailAddress} ${userOrderList.userZoneCode}
+                                    </td>
+                                    <td>
+                                        <c:forEach var="orderMenuList" items="${userOrderList.userOrderMenuList}">
+                                            <p>${orderMenuList.foodMenuName}</p>
+                                            <p>${orderMenuList.menuNumbers}</p>
+                                            <p>${orderMenuList.foodMenuPrice}</p>
+                                        </c:forEach>
+                                    </td>
+                                    <td>
+                                        ${userOrderList.paymentPrice}
+                                    </td>
+                                    <td>
+                                        ${userOrderList.paymentOrderState}
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+
                 </div>
                 <div class="password-change hidden-mypage">
                     비밀번호 변경

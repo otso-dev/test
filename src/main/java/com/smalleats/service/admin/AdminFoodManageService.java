@@ -26,12 +26,10 @@ public class AdminFoodManageService {
         return adminPendingFoodRespDtos;
     }
     public int adminFoodRegister(Map<String,Integer> foodId){
-        System.out.println(foodId);
         return adminFoodManageDAO.adminFoodInsert(foodId.get("foodId"));
     }
     public int adminCategoryInsert(String categoryName){
         Category category = new Category(0,categoryName);
-        System.out.println(categoryName);
         return adminFoodManageDAO.adminCategory(category);
     }
 }

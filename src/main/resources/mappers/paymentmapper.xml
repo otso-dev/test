@@ -61,7 +61,7 @@
 
     <insert id="paid" parameterType="com.smalleats.entity.Payment">
         insert into payment_tb
-        (payment_id, order_id, food_id, payment_price) VALUES (0,#{orderId},#{foodId},#{paymentPrice})
+        (payment_id, order_id, food_id, payment_price,payment_order_state) VALUES (0,#{orderId},#{foodId},#{paymentPrice},'주문접수대기중')
     </insert>
 
     <select id="getDeliveryArea" parameterType="com.smalleats.entity.FoodDeliveryArea">

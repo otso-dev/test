@@ -1,7 +1,11 @@
-package com.smalleats.DTO.partnerDto;
+package com.smalleats.DTO.user;
 
+import com.smalleats.DTO.partnerDto.OrderMenuRespDto;
 import com.smalleats.entity.Order;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,37 +14,31 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class OrderListRespDto {
+public class UserOrderListRespDto {
     private int orderId;
-    private int userId;
-    private String userName;
-    private String phoneNumber;
     private String foodName;
+    private String orderReqTime;
+    private String orderDeliveryDay;
     private String userRoadAddress;
     private String userDetailAddress;
     private int userZoneCode;
-    private String orderReqTime;
-    private String orderDeliveryDay;
     private int paymentPrice;
     private String paymentOrderState;
 
-    private List<OrderMenuRespDto> orderMenuList;
-    public OrderListRespDto toDto(Order order){
-        return OrderListRespDto.builder()
+    private List<OrderMenuRespDto> userOrderMenuList;
+
+    public UserOrderListRespDto toDto(Order order){
+        return UserOrderListRespDto.builder()
                 .orderId(order.getOrderId())
-                .userId(order.getUserId())
-                .userName(order.getUser().getUserName())
-                .phoneNumber(order.getUser().getPhoneNumber())
                 .foodName(order.getFood().getFoodName())
+                .orderReqTime(order.getOrderReqTime())
+                .orderDeliveryDay(order.getOrderDeliveryDay())
                 .userRoadAddress(order.getUserAddress().getUserRoadAddress())
                 .userDetailAddress(order.getUserAddress().getUserDetailAddress())
                 .userZoneCode(order.getUserAddress().getUserZoneCode())
-                .orderReqTime(order.getOrderReqTime())
-                .orderDeliveryDay(order.getOrderDeliveryDay())
                 .paymentPrice(order.getPayment().getPaymentPrice())
                 .paymentOrderState(order.getPayment().getPaymentOrderState())
-                .orderMenuList(new ArrayList<>())
+                .userOrderMenuList(new ArrayList<>())
                 .build();
     }
 }

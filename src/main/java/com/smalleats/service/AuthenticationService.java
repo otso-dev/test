@@ -165,7 +165,7 @@ public class AuthenticationService implements UserDetailsService {
         );
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(usernamePasswordAuthenticationToken);
         JwtTokenRespDto jwtTokenRespDto = tokenProvider.generateToken(authentication);
-        Cookie cookie = new Cookie("JWT-TOKEN","Bearer="+jwtTokenRespDto.getAccessToken());
+        Cookie cookie = new Cookie("JWT-TOKEN-PARTNER","Bearer="+jwtTokenRespDto.getAccessToken());
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
         cookie.setPath("/");

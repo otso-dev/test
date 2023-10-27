@@ -26,7 +26,7 @@
                 <li class="delivery-register" onclick="location='/partner/delivery'">
                     배달지역 설정
                 </li>
-                <li class="order-state" onclick="partnerOrderState()">
+                <li class="order-state" onclick="location='/partner/orderstate'">
                     주문현황
                 </li>
             </ul>
@@ -36,15 +36,4 @@
         </div>
     </main>
 </body>
-<script>
-    function partnerOrderState(){
-        $.ajax({
-            url:"/partner/orderstate",
-            type:"GET",
-            data:{
-                foodCode:${pendingFood.foodId}
-            }
-        })
-    }
-</script>
 </html>

@@ -54,4 +54,15 @@ public class PartnerFoodDAOImpl implements PartnerFoodDAO {
     public List<OrderMenu> partnerOrderMenuList(int foodId) {
         return sqlSession.selectList(NS + "partnerOrderMenuList",foodId);
     }
+
+    @Override
+    public FoodMenu getFoodMenu(Map<String,String> foodMenuMap) {
+        return sqlSession.selectOne(NS+"getFoodMenu", foodMenuMap);
+    }
+
+    @Override
+    public int paymentOrderStateChange(Payment payment) {
+        System.out.println(payment);
+        return sqlSession.update(NS+"paymentOrderStateChange", payment);
+    }
 }

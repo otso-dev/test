@@ -31,28 +31,55 @@
             </li>
         </ul>
     </div>
-    <div>
+    <div id="orderList-box">
         <h2>주문현황</h2>
         <c:forEach var="orderList" items="${orderList}">
-            <div>
-                <p>${orderList.userName}</p>
-                <p>${orderList.phoneNumber}</p>
-                <p>${orderList.userRoadAddress}</p>
-                <p>${orderList.userDetailAddress}</p>
-                <p>${orderList.userZoneCode}</p>
-                <p>${orderList.orderReqTime}</p>
-                <p>${orderList.orderDeliveryDay}</p>
+            <div >
+                <p>이름: ${orderList.userName}</p>
+                <p>전화번호: ${orderList.phoneNumber}</p>
+                <p>주소: ${orderList.userRoadAddress} ${orderList.userDetailAddress}</p>
+                <p>우편번호: ${orderList.userZoneCode}</p>
+                <p>배달요청시간: ${orderList.orderReqTime}</p>
+                <p>배달요청날짜: ${orderList.orderDeliveryDay}</p>
                 <c:forEach var="orderMenuList" items="${orderList.orderMenuList}">
                     <div>
-                        ${orderMenuList.foodMenuName}
-                        ${orderMenuList.foodMenuPrice}
-                        ${orderMenuList.menuNumbers}
+                        메뉴: ${orderMenuList.foodMenuName}
+                        가격: ${orderMenuList.foodMenuPrice}
+                        개수: ${orderMenuList.menuNumbers}
                     </div>
                 </c:forEach>
-                <p>${orderList.paymentPrice}</p>
+                <p>총 가격: ${orderList.paymentPrice}</p>
+                <button class="order-state-btn" id="state" onclick="orderStateHandler(${orderList.orderId},'${orderList.paymentOrderState}')">${orderList.paymentOrderState}</button>
             </div>
         </c:forEach>
     </div>
 </main>
 </body>
+<script>
+    // function disabledBtn(){
+    //     const orderStateBtn = document.querySelector(".order-state-btn");
+    //     console.log(orderStateBtn);
+    //     if(orderStateBtn.value === '배달완료'){
+    //         console.log("true");
+    //         orderStateBtn.disabled = true;
+    //     }
+    // } disabledBtn();
+
+    function orderStateHandler(orderId,orderState){
+        $.ajax({
+            url:"/partner/payment/orderstate",
+            type:"PUT",
+            contentType:"application/json",
+            data: JSON.stringify({
+                orderId:orderId,
+                paymentOrderState: orderState
+            }),success:function (response){
+                alert(response);
+                $("#orderList-box").load(location.href+' #orderList-box');
+            },error:function (response){
+                alert(response.responseJSON.message);
+            }
+        })
+    }
+</script>
 </html>

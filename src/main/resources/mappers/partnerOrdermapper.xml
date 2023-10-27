@@ -18,13 +18,15 @@
         <result property="menuId" column="menuId"/>
         <result property="menuNumbers" column="order_menu_numbers"/>
         <association property="order" resultMap="orderMap"/>
-        <association property="foodMenu" resultMap="foodMenuMap"/>
+        <association property="foodMenu" resultMap="foodMenumap"/>
         <association property="user" resultMap="userMap"/>
     </resultMap>
 
-    <resultMap id="foodMenuMap" type="com.smalleats.entity.FoodMenu">
+    <resultMap id="foodMenumap" type="com.smalleats.entity.FoodMenu">
         <id property="foodMenuId" column="food_menu_id"/>
+        <result property="foodId" column="food_id"/>
         <result property="foodMenuName" column="food_menu_name"/>
+        <result property="foodMenuImg" column="food_menu_img"/>
         <result property="foodMenuPrice" column="food_menu_price"/>
     </resultMap>
 
@@ -41,6 +43,7 @@
         <id property="paymentId" column="payment_id"/>
         <result property="orderId" column="order_id"/>
         <result property="paymentPrice" column="payment_price"/>
+        <result property="paymentOrderState" column="payment_order_state"/>
     </resultMap>
     <resultMap id="userAddressMap" type="com.smalleats.entity.UserAddress">
         <id property="userAddressId" column="user_address_id"/>
@@ -61,7 +64,8 @@
             ot.order_req_time,
             ot.order_delivery_day,
             ft.food_name,
-            pt.payment_price
+            pt.payment_price,
+            pt.payment_order_state
         from
             order_tb ot
                 left join smalleatsDB.food_tb ft on ot.food_id = ft.food_id
@@ -87,4 +91,21 @@
         where
             ot.food_id = #{foodId};
     </select>
+
+    <update id="paymentOrderStateChange" parameterType="com.smalleats.entity.Payment">
+        update payment_tb
+        <trim prefix="set" suffixOverrides=",">
+            <if test="paymentOrderState == '주문접수대기중'">
+                payment_order_state = '주문접수',
+            </if>
+            <if test="paymentOrderState == '주문접수'">
+                payment_order_state = '배달중',
+            </if>
+            <if test="paymentOrderState == '배달중'">
+                payment_order_state = '배달완료',
+            </if>
+        </trim>
+        where
+        order_id = #{orderId};
+    </update>
 </mapper>

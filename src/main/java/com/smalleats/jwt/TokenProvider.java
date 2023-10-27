@@ -61,9 +61,16 @@ public class TokenProvider {
     }
 
     public String getCookieToken(String token) {
-        String type = "JWT-TOKEN=Bearer";
-        if (StringUtils.hasText(token) && token.startsWith(type)) {
-            String subString = token.substring(type.length() + 1);
+        String userType = "JWT-TOKEN=Bearer";
+        String partnerType = "JWT-TOKEN-PARTNER=Bearer";
+        if(token.startsWith(userType)){
+            if (StringUtils.hasText(token) && token.startsWith(userType)) {
+                String subString = token.substring(userType.length() + 1);
+                int index = subString.indexOf(";");
+                return subString.substring(0,index);
+            }
+        }else if(token.startsWith(partnerType)){
+            String subString = token.substring(partnerType.length() + 1);
             int index = subString.indexOf(";");
             return subString.substring(0,index);
         }
