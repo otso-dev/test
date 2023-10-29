@@ -86,10 +86,10 @@
     >
         insert into pending_food_tb
         (pending_food_id, food_id, category_id, food_name, food_img, food_open, food_close, food_min,
-         food_delivery_price, food_address_sido, food_road_address, food_detail_address, food_zonecode,partner_id)
+         food_delivery_price, food_address_sido, food_road_address, food_detail_address, food_zonecode,partner_id, pending_status)
         values (0,#{foodId},0,#{foodName},#{foodImg},#{foodOpen},#{foodClose},#{foodMin}
                ,#{foodDeliveryPrice},#{foodAddressSido},#{foodRoadAddress}
-               ,#{foodDetailAddress},#{foodZoneCode},#{partnerId})
+               ,#{foodDetailAddress},#{foodZoneCode},#{partnerId}, 'PENDING')
     </insert>
 
     <insert id="foodMenuInsert" parameterType="com.smalleats.entity.FoodMenu">
