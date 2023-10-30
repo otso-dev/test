@@ -27,4 +27,5 @@ public class PendingFood {
     private String pendingStatus;
 
     private Category category;
+    private PartnerUser partnerUser;
 }

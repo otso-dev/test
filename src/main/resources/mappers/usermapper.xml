@@ -19,7 +19,7 @@
         <result property="partnerPhoneNumber" column="partner_phone_number"/>
         <result property="partnerBusinessName" column="partner_business_name"/>
         <result property="partnerBusinessNumber" column="partner_business_number"/>
-        <association property="authorities" javaType="list" resultMap="authorityMap"/>
+        <collection property="authorities" javaType="list" resultMap="authorityMap"/>
     </resultMap>
 
     <resultMap type="com.smalleats.entity.Authority" id="authorityMap">

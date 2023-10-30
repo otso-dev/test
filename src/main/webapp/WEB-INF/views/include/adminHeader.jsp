@@ -10,6 +10,7 @@
 <head>
     <title>admin</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/main/adminHeader.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/reset/reset.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
     </script>
 </head>

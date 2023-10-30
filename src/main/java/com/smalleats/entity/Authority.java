@@ -13,4 +13,6 @@ public class Authority {
     private int partnerId;
 
     private Role role;
+    private User user;
+    private PartnerUser partnerUser;
 }

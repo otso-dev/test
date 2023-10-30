@@ -1,10 +1,13 @@
 package com.smalleats.controller.admin;
 
 
+import com.smalleats.service.UserService;
 import com.smalleats.service.admin.AdminFoodManageService;
+import com.smalleats.service.admin.AdminUserManageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequiredArgsConstructor
 public class AdminHomeController {
     private final AdminFoodManageService adminFoodManageService;
+    private final AdminUserManageService adminUserManageService;
+    private final UserService userService;
     @RequestMapping(value = "/admin/adminpage",method = RequestMethod.GET)
     public String adminPage(){
         return "/admin/adminpage";
@@ -32,5 +37,18 @@ public class AdminHomeController {
     public String adminFoodManage(Model model){
         model.addAttribute("pendingFoodList",adminFoodManageService.getPendingFoods());
         return "/admin/foodmanage";
+    }
+
+    @RequestMapping(value = "/admin/usermanage", method = RequestMethod.GET)
+    public String adminUserManage(Model model){
+        model.addAttribute("adminUserList",adminUserManageService.adminUserSelectList());
+        return "/admin/usermanage";
+    }
+    @RequestMapping(value = "/admin/usermanage/user/{userId}", method = RequestMethod.GET)
+    public String adminUserDetail(Model model,@PathVariable int userId){
+        model.addAttribute("userInfo",adminUserManageService.getUserDetail(userId));
+        model.addAttribute("userAddressList",adminUserManageService.getUserAddressList(userId));
+        model.addAttribute("userOrderList",userService.getUserOrderList(userId));
+        return "/admin/user";
     }
 }

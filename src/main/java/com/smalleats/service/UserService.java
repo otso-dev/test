@@ -64,10 +64,34 @@ public class UserService {
     }
     public List<UserOrderListRespDto> getUserOrderList(){
         PrincipalUser principalUser = getPrincipal();
+
         UserOrderListRespDto userOrderListRespDto = new UserOrderListRespDto();
         OrderMenuRespDto orderMenuRespDto = new OrderMenuRespDto();
         List<Order> orderList = userDAO.getUserOrderList(principalUser.getUserId());
         List<OrderMenu> orderMenuList = userDAO.getUserOrderMenuList(principalUser.getUserId());
+        List<UserOrderListRespDto> userOrderList = new ArrayList<>();
+        List<OrderMenuRespDto> orderMenuRespDtoList = new ArrayList<>();
+        orderList.forEach(order -> {
+            userOrderList.add(userOrderListRespDto.toDto(order));
+        });
+        orderMenuList.forEach(orderMenu -> {
+            orderMenuRespDtoList.add(orderMenuRespDto.toDto(orderMenu));
+        });
+        userOrderList.forEach(userOrder->{
+            orderMenuRespDtoList.forEach(userOrderMenu->{
+                if(userOrder.getOrderId() == userOrderMenu.getOrderId()){
+                    userOrder.getUserOrderMenuList().add(userOrderMenu);
+                }
+            });
+        });
+        return userOrderList;
+    }
+
+    public List<UserOrderListRespDto> getUserOrderList(int userId){
+        UserOrderListRespDto userOrderListRespDto = new UserOrderListRespDto();
+        OrderMenuRespDto orderMenuRespDto = new OrderMenuRespDto();
+        List<Order> orderList = userDAO.getUserOrderList(userId);
+        List<OrderMenu> orderMenuList = userDAO.getUserOrderMenuList(userId);
         List<UserOrderListRespDto> userOrderList = new ArrayList<>();
         List<OrderMenuRespDto> orderMenuRespDtoList = new ArrayList<>();
         orderList.forEach(order -> {
