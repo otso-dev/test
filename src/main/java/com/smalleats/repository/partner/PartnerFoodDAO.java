@@ -2,12 +2,14 @@ package com.smalleats.repository.partner;
 
 import com.smalleats.entity.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 
 @Mapper
 public interface PartnerFoodDAO {
+
     int pendingFoodInsert(PendingFood pendingFood);
     int foodMenuInsert(FoodMenu foodMenu);
     int foodDeliveryAreaInsert(FoodDeliveryArea foodDeliveryArea);

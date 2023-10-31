@@ -8,8 +8,6 @@ public class TransTest {
     @Test
     @Transactional
     public void test(){
-        if(!TransactionSynchronizationManager.isActualTransactionActive()){
-            System.out.println(true);
-        }
+        System.out.println(TransactionSynchronizationManager.isActualTransactionActive());
     }
 }

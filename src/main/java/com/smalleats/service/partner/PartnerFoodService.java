@@ -20,6 +20,9 @@ import java.util.Map;
 public class PartnerFoodService {
     private final PartnerFoodDAO partnerFoodDAO;
 
+
+
+
     @Transactional
     public int pendingFoodInsert(PartnerPendingFoodReqDto partnerPendingFoodReqDto){
         PrincipalUser principalUser = getPrincipalUser();
@@ -72,19 +75,26 @@ public class PartnerFoodService {
     }
     public List<OrderListRespDto> orderList(){
         PrincipalUser principalUser = getPrincipalUser();
+
         PendingFood pendingFood = partnerFoodDAO.getPendingFood(principalUser.getPartnerId());
         OrderListRespDto orderListRespDto = new OrderListRespDto();
+
         List<OrderListRespDto> orderListRespDtos = new ArrayList<>();
         List<Order> orderList = partnerFoodDAO.partnerOrderList(pendingFood.getFoodId());
+
         orderList.forEach(order->{
             orderListRespDtos.add(orderListRespDto.toDto(order));
         });
+
         OrderMenuRespDto orderMenuRespDto = new OrderMenuRespDto();
+
         List<OrderMenuRespDto> orderMenuRespDtos = new ArrayList<>();
         List<OrderMenu> orderMenuList = partnerFoodDAO.partnerOrderMenuList(pendingFood.getFoodId());
+
         orderMenuList.forEach(orderMenu->{
             orderMenuRespDtos.add(orderMenuRespDto.toDto(orderMenu));
         });
+
         orderListRespDtos.forEach(order->{
             orderMenuRespDtos.forEach(orderMenu->{
                 if(order.getOrderId() == orderMenu.getOrderId()){
@@ -92,6 +102,7 @@ public class PartnerFoodService {
                 }
             });
         });
+
         return orderListRespDtos;
     }
     public int paymentOrderStateChange(PartnerOrderStateReqDto partnerOrderStateReqDto){
