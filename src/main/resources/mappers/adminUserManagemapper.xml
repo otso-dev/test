@@ -75,7 +75,7 @@
             ut.username is not null;
     </select>
 
-    <select id="adminParterUserSelect" resultMap="partnerUserMap">
+    <select id="adminPartnerUserSelect" resultMap="partnerUserMap">
         select
             pst.partner_id,
             pst.partner_username,
@@ -93,7 +93,7 @@
                 left join smalleatsDB.role_tb rt on aut.role_id = rt.role_id;
     </select>
 
-    <select id="getUserDetail" resultMap="userMap">
+    <select id="getUserDetail" resultType="com.smalleats.entity.User">
         select
             username,
             email,
@@ -104,7 +104,7 @@
             user_id = #{userId}
     </select>
 
-    <select id="getUserAddressList" resultMap="userAddressMap">
+    <select id="getUserAddressList" resultType="com.smalleats.entity.UserAddress">
         select
             user_road_address,
             user_detail_address,

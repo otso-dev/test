@@ -1,10 +1,7 @@
 package com.smalleats.entity;
 
 import com.smalleats.security.PrincipalUser;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -12,6 +9,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class PartnerUser {
     private int partnerId;
     private String partnerUserName;

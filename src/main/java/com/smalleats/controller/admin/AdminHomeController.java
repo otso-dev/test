@@ -51,4 +51,10 @@ public class AdminHomeController {
         model.addAttribute("userOrderList",userService.getUserOrderList(userId));
         return "/admin/user";
     }
+
+    @RequestMapping(value = "/admin/partnermanage", method = RequestMethod.GET)
+    public String adminPartnerUserManager(Model model){
+        model.addAttribute("partnerUserList",adminUserManageService.adminPartnerUserSelectList());
+        return "/admin/partnermanage";
+    }
 }

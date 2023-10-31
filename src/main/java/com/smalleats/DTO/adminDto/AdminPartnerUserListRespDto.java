@@ -1,6 +1,7 @@
 package com.smalleats.DTO.adminDto;
 
 import com.smalleats.entity.PartnerUser;
+import com.smalleats.entity.PendingFood;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,6 +22,20 @@ public class AdminPartnerUserListRespDto {
     private String roleName;
 
     public AdminPartnerUserListRespDto toDto(PartnerUser partnerUser){
+        if(partnerUser.getPendingFood() == null){
+            PendingFood pendingFood = new PendingFood();
+            System.out.println(pendingFood.getFoodName());
+            return AdminPartnerUserListRespDto.builder()
+                    .partnerId(partnerUser.getPartnerId())
+                    .partnerUserName(partnerUser.getPartnerUserName())
+                    .partnerUserEmail(partnerUser.getPartnerUserEmail())
+                    .partnerPhoneNumber(partnerUser.getPartnerPhoneNumber())
+                    .partnerBusinessName(partnerUser.getPartnerBusinessName())
+                    .foodName(pendingFood.getFoodName())
+                    .pendingStatus(pendingFood.getPendingStatus())
+                    .roleName(partnerUser.getRole().getRoleName())
+                    .build();
+        }
         return AdminPartnerUserListRespDto.builder()
                 .partnerId(partnerUser.getPartnerId())
                 .partnerUserName(partnerUser.getPartnerUserName())
