@@ -4,6 +4,7 @@ package com.smalleats.controller;
 import com.smalleats.service.FoodProductService;
 import com.smalleats.service.PaymentService;
 import com.smalleats.service.UserAddressService;
+import com.smalleats.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequiredArgsConstructor
 public class HomeController {
     private final UserAddressService userAddressService;
+    private final UserService userService;
     private final FoodProductService foodProductService;
     private final PaymentService paymentService;
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -22,7 +24,6 @@ public class HomeController {
         model.addAttribute("productList",foodProductService.getFoodProducts());
         return "index";
     }
-
     @RequestMapping(value = "/auth/login",method = RequestMethod.GET)
     public String login(){
         return "/auth/login";
@@ -32,12 +33,10 @@ public class HomeController {
         return "/auth/register";
     }
 
-    @RequestMapping(value = "/admin/adminpage", method = RequestMethod.GET)
-    public String admin() {return "/admin/adminpage";}
-
     @RequestMapping(value = "/user/mypage", method = RequestMethod.GET)
     public String mypage(Model model){
         model.addAttribute("userAddressList",userAddressService.getUserAddressList());
+        model.addAttribute("userOrderList",userService.getUserOrderList());
         return "/user/mypage";
     }
     @RequestMapping(value = "/product/productdetail/{foodId}", method = RequestMethod.GET)

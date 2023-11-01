@@ -30,7 +30,7 @@
             </div>
             <div class="page-btn-content">
                 <button class="smalleats-mypage-btn hidden-main" type="button" onclick="location='/user/mypage'">마이페이지</button>
-                <button class="smalleats-partners-btn hidden-main" type="button" onclick="location='/user/mypage'">파트너스 페이지</button>
+                <button class="smalleats-partners-btn" type="button" onclick="location='/auth/partner'">입점문의</button>
                 <button class="smalleats-admin-btn hidden-main"  type="button" onclick="location='/user/mypage'">관리자 페이지</button>
             </div>
             <div class="join-content">

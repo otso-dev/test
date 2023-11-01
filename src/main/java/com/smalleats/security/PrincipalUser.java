@@ -3,6 +3,7 @@ package com.smalleats.security;
 import com.smalleats.entity.Authority;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Data
+@Getter
 @Builder
 public class PrincipalUser implements UserDetails {
     private int userId;
@@ -20,7 +21,16 @@ public class PrincipalUser implements UserDetails {
     private String password;
     private String phoneNumber;
     private String provider;
+
+    private int partnerId;
+    private String partnerUserName;
+    private String partnerPassword;
+    private String partnerUserEmail;
+    private String partnerPhoneNumber;
+
     private List<Authority> authorities;
+
+    private boolean isUser;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
@@ -32,12 +42,18 @@ public class PrincipalUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        return password;
+        if(isUser){
+            return password;
+        }
+        return partnerPassword;
     }
 
     @Override
     public String getUsername() {
-        return email;
+        if(isUser){
+            return email;
+        }
+        return partnerUserEmail;
     }
 
     @Override

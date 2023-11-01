@@ -10,12 +10,71 @@
         <result property="phoneNumber" column="phone_number"/>
         <collection property="authorities" javaType="list" resultMap="authorityMap"/>
     </resultMap>
+
+    <resultMap id="partnerUserMap" type="com.smalleats.entity.PartnerUser">
+        <id property="partnerId" column="partner_id"/>
+        <result property="partnerUserName" column="partner_username"/>
+        <result property="partnerPassword" column="partner_user_password"/>
+        <result property="partnerUserEmail" column="partner_user_email"/>
+        <result property="partnerPhoneNumber" column="partner_phone_number"/>
+        <result property="partnerBusinessName" column="partner_business_name"/>
+        <result property="partnerBusinessNumber" column="partner_business_number"/>
+        <collection property="authorities" javaType="list" resultMap="authorityMap"/>
+    </resultMap>
+
     <resultMap type="com.smalleats.entity.Authority" id="authorityMap">
         <id property="authorityId" column="authority_id"/>
         <result property="userId" column="user_id"/>
         <result property="roleId" column="role_id"/>
         <association property="role" resultMap="roleMap" />
     </resultMap>
+
+    <resultMap id="orderMap" type="com.smalleats.entity.Order">
+        <id property="orderId" column="order_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="orderReqTime" column="order_req_time"/>
+        <result property="orderDeliveryDay" column="order_delivery_day"/>
+        <association property="food" resultMap="foodMap"/>
+        <association property="user" resultMap="userMap"/>
+        <association property="payment" resultMap="paymentMap"/>
+        <association property="userAddress" resultMap="userAddressMap"/>
+    </resultMap>
+
+    <resultMap id="orderMenuMap" type="com.smalleats.entity.OrderMenu">
+        <id property="orderMenuId" column="order_menu_id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="menuId" column="menuId"/>
+        <result property="menuNumbers" column="order_menu_numbers"/>
+        <association property="order" resultMap="orderMap"/>
+        <association property="foodMenu" resultMap="foodMenumap"/>
+        <association property="user" resultMap="userMap"/>
+    </resultMap>
+
+    <resultMap id="foodMenumap" type="com.smalleats.entity.FoodMenu">
+        <id property="foodMenuId" column="food_menu_id"/>
+        <result property="foodId" column="food_id"/>
+        <result property="foodMenuName" column="food_menu_name"/>
+        <result property="foodMenuImg" column="food_menu_img"/>
+        <result property="foodMenuPrice" column="food_menu_price"/>
+    </resultMap>
+
+    <resultMap id="foodMap" type="com.smalleats.entity.FoodProduct">
+        <id property="foodId" column="food_id"/>
+        <result property="foodName" column="food_name"/>
+    </resultMap>
+    <resultMap id="paymentMap" type="com.smalleats.entity.Payment">
+        <id property="paymentId" column="payment_id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="paymentPrice" column="payment_price"/>
+        <result property="paymentOrderState" column="payment_order_state"/>
+    </resultMap>
+    <resultMap id="userAddressMap" type="com.smalleats.entity.UserAddress">
+        <id property="userAddressId" column="user_address_id"/>
+        <result property="userRoadAddress" column="user_road_address"/>
+        <result property="userDetailAddress" column="user_detail_address"/>
+        <result property="userZoneCode" column="user_zonecode"/>
+    </resultMap>
+
 
     <resultMap type="com.smalleats.entity.Role" id="roleMap">
         <id property="roleId" column="role_id"/>
@@ -50,8 +109,8 @@
         values (0, #{userName},#{email},#{password},#{phoneNumber},#{profileImg},#{provider})
     </insert>
     <insert id="addAuthority" parameterType="com.smalleats.entity.Authority">
-        insert into authority_tb (authority_id, user_id, role_id)
-        values (0,#{userId},#{roleId})
+        insert into authority_tb (authority_id, user_id, role_id,partner_id)
+        values (0,#{userId},#{roleId},#{partnerId})
     </insert>
     <update id="passwordUpdate">
         update user_tb
@@ -60,4 +119,74 @@
             user_id = #{userId}
     </update>
 
+
+<!--partner-->
+    <select id="findPartnerUserByEmail" resultMap="partnerUserMap">
+        select
+            pb.partner_id,
+            pb.partner_username,
+            pb.partner_user_password,
+            pb.partner_user_email,
+            pb.partner_phone_number,
+            pb.partner_business_name,
+            pb.partner_business_number,
+
+            ab.authority_id,
+            ab.role_id,
+            ab.partner_id,
+            rt.role_id,
+            rt.role_name
+
+        from partner_user_tb pb
+        left join authority_tb ab on pb.partner_id = ab.partner_id
+        left join role_tb rt on ab.role_id = rt.role_id
+        where
+            partner_user_email = #{email};
+    </select>
+
+    <insert id="savePartnerUser" parameterType="com.smalleats.entity.PartnerUser"
+            useGeneratedKeys="true"
+            keyProperty="partnerId">
+        insert into partner_user_tb
+        (partner_id, partner_username, partner_user_password, partner_user_email, partner_phone_number, partner_business_name, partner_business_number)
+        values (0,#{partnerUserName},#{partnerPassword},#{partnerUserEmail},#{partnerPhoneNumber},#{partnerBusinessName},#{partnerBusinessNumber});
+    </insert>
+
+    <select id="getUserOrderList" resultMap="orderMap">
+        select
+            ot.order_id,
+            ot.user_id,
+            ft.food_name,
+            uat.user_road_address,
+            uat.user_detail_address,
+            uat.user_zonecode,
+            ot.order_req_time,
+            ot.order_delivery_day,
+            pt.payment_price,
+            pt.payment_order_state
+        from
+            order_tb ot
+                left join smalleatsDB.food_tb ft on ot.food_id = ft.food_id
+                left join smalleatsDB.payment_tb pt on ot.order_id = pt.order_id
+                left join smalleatsDB.user_tb ut on ot.user_id = ut.user_id
+                left join smalleatsDB.user_address_tb uat on ot.user_id = uat.user_id
+        where
+            ot.user_id = #{userId};
+    </select>
+
+    <select id="getUserOrderMenuList" resultMap="orderMenuMap">
+        select
+            ut.user_id,
+            ot.order_id,
+            omt.order_menu_numbers,
+            fmt.food_menu_name,
+            fmt.food_menu_price
+        from
+            order_menu_tb omt
+                left join smalleatsDB.order_tb ot on omt.order_id = ot.order_id
+                left join food_menu_tb fmt on fmt.food_menu_id = omt.menu_id
+                left join smalleatsDB.user_tb ut on ot.user_id = ut.user_id
+        where
+            ot.user_id = #{userId}
+    </select>
 </mapper>

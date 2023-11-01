@@ -1,6 +1,7 @@
 package com.smalleats.jwt;
 
 import com.smalleats.DTO.auth.JwtTokenRespDto;
+import com.smalleats.entity.PartnerUser;
 import com.smalleats.entity.User;
 import com.smalleats.repository.UserDAOImpl;
 import com.smalleats.security.PrincipalUser;
@@ -60,9 +61,16 @@ public class TokenProvider {
     }
 
     public String getCookieToken(String token) {
-        String type = "JWT-TOKEN=Bearer";
-        if (StringUtils.hasText(token) && token.startsWith(type)) {
-            String subString = token.substring(type.length() + 1);
+        String userType = "JWT-TOKEN=Bearer";
+        String partnerType = "JWT-TOKEN-PARTNER=Bearer";
+        if(token.startsWith(userType)){
+            if (StringUtils.hasText(token) && token.startsWith(userType)) {
+                String subString = token.substring(userType.length() + 1);
+                int index = subString.indexOf(";");
+                return subString.substring(0,index);
+            }
+        }else if(token.startsWith(partnerType)){
+            String subString = token.substring(partnerType.length() + 1);
             int index = subString.indexOf(";");
             return subString.substring(0,index);
         }
@@ -81,9 +89,15 @@ public class TokenProvider {
         String email = claims.get("email").toString();
 
         User user = userDAO.findUserByEmail(email);
+        PartnerUser partnerUser = userDAO.findPartnerUserByEmail(email);
+        PrincipalUser principalUser = null;
+        if(user != null){
+            principalUser = user.toPrincipal();
+        }else {
+            principalUser = partnerUser.toPrincipal();
+        }
 
-        PrincipalUser principalsUser = user.toPrincipal();
-        authentication = new UsernamePasswordAuthenticationToken(principalsUser, null, principalsUser.getAuthorities());
+        authentication = new UsernamePasswordAuthenticationToken(principalUser, null, principalUser.getAuthorities());
         return authentication;
     }
     public boolean validateToken(String token) {

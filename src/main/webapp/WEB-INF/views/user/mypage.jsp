@@ -42,7 +42,51 @@
                     <p id="phone-number">전화번호: </p>
                 </div>
                 <div class="order-list hidden-mypage">
-                    주문조회
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>음식점 이름</th>
+                                <th>배달 요청 시간</th>
+                                <th>배달 요청 날짜</th>
+                                <th>배달 주소</th>
+                                <th>메뉴</th>
+                                <th>총 가격</th>
+                                <th>상태</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="userOrderList" items="${userOrderList}">
+                                <tr>
+                                    <td>
+                                        ${userOrderList.foodName}
+                                    </td>
+                                    <td>
+                                        ${userOrderList.orderReqTime}
+                                    </td>
+                                    <td>
+                                        ${userOrderList.orderDeliveryDay}
+                                    </td>
+                                    <td>
+                                         ${userOrderList.userRoadAddress} ${userOrderList.userDetailAddress} ${userOrderList.userZoneCode}
+                                    </td>
+                                    <td>
+                                        <c:forEach var="orderMenuList" items="${userOrderList.userOrderMenuList}">
+                                            <p>${orderMenuList.foodMenuName}</p>
+                                            <p>${orderMenuList.menuNumbers}</p>
+                                            <p>${orderMenuList.foodMenuPrice}</p>
+                                        </c:forEach>
+                                    </td>
+                                    <td>
+                                        ${userOrderList.paymentPrice}
+                                    </td>
+                                    <td>
+                                        ${userOrderList.paymentOrderState}
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+
                 </div>
                 <div class="password-change hidden-mypage">
                     비밀번호 변경
@@ -103,12 +147,15 @@
             console.log(response);
         }
     })
+    let userAddressSido = null;
+    let userAddressSigungu = null;
+    let userAddressCategory = null;
 
 
     function addressInsert(){
-        const roadAddress = document.getElementById('road-name').value;
-        const detailAddress= document.getElementById('detail-address').value;
-        const zoneCode = document.getElementById('zone-code').value;
+        const roadAddress = document.getElementById("road-name").value;
+        const detailAddress= document.getElementById("detail-address").value;
+        const zoneCode = document.getElementById("zone-code").value;
         $.ajax({
             url: '${pageContext.request.contextPath}/user/address/create',
             type: 'POST',
@@ -116,6 +163,9 @@
             data:JSON.stringify({
                 userRoadAddress : roadAddress,
                 userDetailAddress : detailAddress,
+                userAddressSido: userAddressSido,
+                userAddressSigungu: userAddressSigungu,
+                userAddressCategory: userAddressCategory,
                 userZoneCode : zoneCode
             }),
             success:function (response){
@@ -126,17 +176,31 @@
         })
     }
     function postCard() {
-       new daum.Postcode({
-           oncomplete:function (data) {
-                if(data.userSelectedType === "R"){
-                    document.getElementById('road-name').value = data.roadAddress;
-                    document.getElementById('zone-code').value = data.zonecode;
-                }else if(data.userSelectedType ==="J"){
+        const city = ["서울","인천","대전","광주","대구","울산","부산"];
+        let count = 0;
+        new daum.Postcode({
+            onComplete:function (data){
+                city.forEach((city)=>{
+                    if(city === data.sido){
+                        count++;
+                    }
+                })
+                console.log(data);
+                if(data.userSelectedType === "R" && count >= 1){
+                    userAddressSido = data.sido;
+                    userAddressSigungu = data.sigungu;
+                    document.getElementById("road-name").value = data.roadAddress;
+                    document.getElementById("zone-code").value = data.zonecode;
+                    // console.log(data);
+                }else if(data.userSelectedType === "J"){
                     alert("지번주소는 더 이상 지원하지 않습니다.");
                     close();
+                }else{
+                    alert("광역시와 특별시만 지원합니다.");
+                    close();
                 }
-           }
-       }).open();
+            }
+        }).open();
     }
 
     function onClickUpdate(userAddressId){

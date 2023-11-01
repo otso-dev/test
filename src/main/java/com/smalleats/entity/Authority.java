@@ -10,6 +10,9 @@ public class Authority {
     private int authorityId;
     private int roleId;
     private int userId;
+    private int partnerId;
 
     private Role role;
+    private User user;
+    private PartnerUser partnerUser;
 }

@@ -28,6 +28,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             for(Cookie cookie : cookies){
                 if(cookie.getName().equals("JWT-TOKEN")){
                     getToken = cookie.getValue();
+                }else if(cookie.getName().equals("JWT-TOKEN-PARTNER")){
+                    getToken = cookie.getValue();
                 }
             }
         }
