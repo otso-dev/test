@@ -57,4 +57,11 @@ public class AdminHomeController {
         model.addAttribute("partnerUserList",adminUserManageService.adminPartnerUserSelectList());
         return "/admin/partnermanage";
     }
+
+    @RequestMapping(value = "/admin/partnermanage/partner/{partnerId}", method = RequestMethod.GET)
+    public String adminPartnerUserManager(Model model, @PathVariable int partnerId){
+        model.addAttribute("partnerInfo",adminUserManageService.getPartnerUser(partnerId));
+        model.addAttribute("pendingFoodInfo",adminUserManageService.getPendingFood(partnerId));
+        return "/admin/partner";
+    }
 }

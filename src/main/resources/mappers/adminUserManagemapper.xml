@@ -22,8 +22,6 @@
         <result property="partnerBusinessName" column="partner_business_name"/>
         <result property="partnerBusinessNumber" column="partner_business_number"/>
         <association property="authorities" javaType="list" resultMap="authorityMap"/>
-        <association property="authority" resultMap="authorityMap"/>
-        <association property="pendingFood" resultMap="pendingFoodMap"/>
         <association property="role" resultMap="roleMap"/>
     </resultMap>
 
@@ -80,15 +78,9 @@
             pst.partner_id,
             pst.partner_username,
             pst.partner_user_email,
-            pst.partner_phone_number,
-            pst.partner_business_name,
-            pft.partner_id,
-            pft.food_name,
-            pft.pending_status,
             rt.role_name
         from
             partner_user_tb pst
-                left join smalleatsDB.pending_food_tb pft on pst.partner_id = pft.partner_id
                 left join smalleatsDB.authority_tb aut on pst.partner_id = aut.partner_id
                 left join smalleatsDB.role_tb rt on aut.role_id = rt.role_id;
     </select>
@@ -112,5 +104,17 @@
         from user_address_tb
         where
             user_id = #{userId}
+    </select>
+
+    <select id="getPartnerUser" resultMap="partnerUserMap">
+        select
+            partner_username,
+            partner_user_email,
+            partner_business_name,
+            partner_phone_number,
+            partner_business_number
+        from partner_user_tb
+        where
+            partner_id = #{partnerId}
     </select>
 </mapper>

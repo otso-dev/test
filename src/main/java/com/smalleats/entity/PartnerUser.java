@@ -21,9 +21,7 @@ public class PartnerUser {
 
     private List<Authority> authorities;
 
-    private Authority authority;
     private Role role;
-    private PendingFood pendingFood;
 
 
     public PrincipalUser toPrincipal(){

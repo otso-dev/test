@@ -1,10 +1,7 @@
 package com.smalleats.DTO.adminDto;
 
 import com.smalleats.entity.PendingFood;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @Builder
@@ -19,8 +16,10 @@ public class AdminPendingFoodRespDto {
     private String foodDetailAddress;
     private int foodOpen;
     private int foodClose;
+    private String pendingStatus;
 
     public AdminPendingFoodRespDto toDto(PendingFood pendingFood){
+        //임시로 쓰는 RespDto
         return AdminPendingFoodRespDto.builder()
                 .pendingFoodId(pendingFood.getPendingFoodId())
                 .foodId(pendingFood.getFoodId())
@@ -30,6 +29,7 @@ public class AdminPendingFoodRespDto {
                 .foodDetailAddress(pendingFood.getFoodDetailAddress())
                 .foodOpen(pendingFood.getFoodOpen())
                 .foodClose(pendingFood.getFoodClose())
+                .pendingStatus(pendingFood.getPendingStatus())
                 .build();
     }
 }

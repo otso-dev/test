@@ -15,6 +15,7 @@
         <result property="foodRoadAddress" column="food_road_address"/>
         <result property="foodDetailAddress" column="food_detail_address"/>
         <result property="foodZoneCode" column="food_zonecode"/>
+        <result property="pendingStatus" column="pending_status"/>
         <association property="category" resultMap="categoryMap"/>
     </resultMap>
 
@@ -56,7 +57,8 @@
             food_delivery_price,
             food_address_sido,
             food_road_address,
-            food_zonecode
+            food_zonecode,
+            pending_status
         from pending_food_tb
         where partner_id = #{partnerId}
     </select>

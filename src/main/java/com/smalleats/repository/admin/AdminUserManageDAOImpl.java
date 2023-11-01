@@ -32,6 +32,10 @@ public class AdminUserManageDAOImpl implements AdminUserManageDAO{
     }
 
     @Override
+    public PartnerUser getPartnerUser(int partnerId) {
+        return sqlSession.selectOne(NS +"getPartnerUser", partnerId);
+    }
+    @Override
     public List<UserAddress> getUserAddressList(int userId) {
         return sqlSession.selectList(NS+"getUserAddressList",userId);
     }

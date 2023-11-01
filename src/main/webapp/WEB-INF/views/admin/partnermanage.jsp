@@ -26,38 +26,17 @@
                     <tr>
                         <th>이름</th>
                         <th>이메일</th>
-                        <th>전화번호</th>
-                        <th>상호명</th>
-                        <th>음식점 이름</th>
-                        <th>입점상태</th>
                         <th>타입</th>
                     </tr>
                 </thead>
                 <tbody>
                 <c:forEach var="partnerUserList" items="${partnerUserList}">
-                    <tr>
+                    <tr style="cursor: pointer" onclick="location='/admin/partnermanage/partner/${partnerUserList.partnerId}'">
                         <td>${partnerUserList.partnerUserName}</td>
                         <td>${partnerUserList.partnerUserEmail}</td>
-                        <td>${partnerUserList.partnerPhoneNumber}</td>
-                        <td>${partnerUserList.partnerBusinessName}</td>
-                        <c:choose>
-                            <c:when test="${empty partnerUserList.foodName && empty partnerUserList.pendingStatus}">
-                                <td>입점 미신청<td>
-                                <td>파트너</td>
-                            </c:when>
-                            <c:otherwise>
-                                <td>${partnerUserList.foodName}</td>
-                                <c:if test="${partnerUserList.pendingStatus eq 'PENDING'}">
-                                    <td>입점 대기중</td>
-                                </c:if>
-                                <c:if test="${partnerUserList.pendingStatus eq 'APPROVED'}">
-                                    <td>입점완료</td>
-                                </c:if>
-                                <c:if test="${partnerUserList.roleName eq 'ROLE_PARTNER'}">
-                                    <td>파트너</td>
-                                </c:if>
-                            </c:otherwise>
-                        </c:choose>
+                        <c:if test="${partnerUserList.roleName eq 'ROLE_PARTNER'}">
+                            <td>파트너</td>
+                        </c:if>
                     </tr>
                 </c:forEach>
                 </tbody>
