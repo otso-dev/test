@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,8 +35,8 @@ public class AdminHomeController {
         return "/admin/category";
     }
     @RequestMapping(value = "/admin/foodmanage",method = RequestMethod.GET)
-    public String adminFoodManage(Model model){
-        model.addAttribute("pendingFoodList",adminFoodManageService.getPendingFoods());
+    public String adminFoodManage(Model model, @RequestParam(value ="pendingStatus", required = false) String pendingStatus){
+        model.addAttribute("pendingFoodList",adminFoodManageService.getPendingFoods(pendingStatus));
         return "/admin/foodmanage";
     }
 

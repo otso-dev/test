@@ -14,8 +14,8 @@ public class AdminFoodManageDAOImpl implements AdminFoodManageDAO{
     private final String NS = "com.smalleats.repository.admin.AdminFoodManageDAOImpl.";
     private final SqlSessionTemplate sqlSession;
     @Override
-    public List<PendingFood> beforePendingFoods() {
-        return sqlSession.selectList(NS + "beforePendingFoods");
+    public List<PendingFood> PendingFoods(String pendingStatus) {
+        return sqlSession.selectList(NS + "PendingFoods", pendingStatus);
     }
 
     @Override
@@ -27,4 +27,5 @@ public class AdminFoodManageDAOImpl implements AdminFoodManageDAO{
     public int adminCategory(Category category) {
         return sqlSession.insert(NS+"categoryInsert",category);
     }
+
 }

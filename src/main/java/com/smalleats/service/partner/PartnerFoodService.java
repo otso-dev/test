@@ -41,7 +41,7 @@ public class PartnerFoodService {
         foodMenuMap.put("foodId",String.valueOf(menuRegisterReqDto.getFoodId()));
         foodMenuMap.put("foodMenuName", menuRegisterReqDto.getFoodMenuName());
         FoodMenu foodMenu = partnerFoodDAO.getFoodMenu(foodMenuMap);
-        if(foodMenu == null){
+        if(foodMenu != null){
             throw new CustomException("이미 등록된 메뉴입니다");
         }
         return partnerFoodDAO.foodMenuInsert(menuRegisterReqDto.toEntity());

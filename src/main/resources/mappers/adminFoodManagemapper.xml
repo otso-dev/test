@@ -23,7 +23,7 @@
         <result property="categoryName" column="category_name"/>
     </resultMap>
 
-    <select id="beforePendingFoods" resultMap="pendingFoodMap">
+    <select id="PendingFoods" resultMap="pendingFoodMap">
         select
             pending_food_id,
             food_id,
@@ -37,25 +37,9 @@
         from
             pending_food_tb
         where
-            pending_status = 'PENDING';
+            pending_status = #{pendingStatus};
     </select>
-    
-    <select id="approvedPendingFoods" resultMap="pendingFoodMap">
-        select
-            pending_food_id,
-            food_id,
-            food_name,
-            food_address_sido,
-            food_road_address,
-            food_detail_address,
-            food_open,
-            food_close,
-            pending_status
-        from
-            pending_food_tb
-        where
-            pending_status = 'APPROVED';
-    </select>
+
 
     <insert id="adminFoodInsert">
         insert into food_tb

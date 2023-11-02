@@ -9,9 +9,10 @@ import java.util.Map;
 
 @Mapper
 public interface AdminFoodManageDAO {
-    List<PendingFood> beforePendingFoods();
+    List<PendingFood> PendingFoods(String pendingStatus);
 
     int adminFoodInsert(int foodId);
 
     int adminCategory(Category category);
+
 }

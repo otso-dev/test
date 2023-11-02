@@ -2,15 +2,15 @@
 <%--
   Created by IntelliJ IDEA.
   User: user
-  Date: 2023-10-23
-  Time: 오후 2:58
+  Date: 2023-11-02
+  Time: 오전 9:20
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="../include/adminHeader.jsp"/>
 <html>
 <head>
-    <title>admin</title>
+    <title>Title</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/admin/admin.css">
 </head>
 <body>
@@ -21,7 +21,7 @@
         <div class="food-content">
             <c:choose>
                 <c:when test="${empty pendingFoodList}">
-                    <p>입점을 신청한 음식점이 없습니다.</p>
+                    <p>음식점이 없습니다.</p>
                 </c:when>
                 <c:otherwise>
                     <c:forEach var="pendingFoodList" items="${pendingFoodList}">
@@ -40,9 +40,6 @@
                                     <p>마감시간: ${pendingFoodList.foodClose}</p>
                                 </div>
                             </footer>
-                            <c:if test="${pendingFoodList.pendingStatus eq 'PENDING'}">
-                                <button type="button" onclick="adminFoodSubject(${pendingFoodList.pendingFoodId})">음식점 등록</button>
-                            </c:if>
                         </div>
                     </c:forEach>
                 </c:otherwise>
@@ -50,21 +47,4 @@
         </div>
     </main>
 </body>
-
-<script>
-    function adminFoodSubject(foodId){
-        $.ajax({
-            url:"/admin/food/register",
-            type:"POST",
-            contentType: "application/json",
-            data:JSON.stringify({
-                foodId: foodId
-            }),success:function (response){
-                alert(response + "등록성공");
-            },error:function (response){
-                alert(response + "등록실패");
-            }
-        })
-    }
-</script>
 </html>

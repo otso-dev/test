@@ -16,10 +16,10 @@ import java.util.Map;
 public class AdminFoodManageService {
     private final AdminFoodManageDAO adminFoodManageDAO;
 
-    public List<AdminPendingFoodRespDto> getPendingFoods(){
+    public List<AdminPendingFoodRespDto> getPendingFoods(String pendingStatus){
         AdminPendingFoodRespDto adminPendingFoodRespDto = new AdminPendingFoodRespDto();
         List<AdminPendingFoodRespDto> adminPendingFoodRespDtos = new ArrayList<>();
-        List<PendingFood> pendingFoods = adminFoodManageDAO.beforePendingFoods();
+        List<PendingFood> pendingFoods = adminFoodManageDAO.PendingFoods(pendingStatus);
         pendingFoods.forEach(pendingFood -> {
             adminPendingFoodRespDtos.add(adminPendingFoodRespDto.toDto(pendingFood));
         });

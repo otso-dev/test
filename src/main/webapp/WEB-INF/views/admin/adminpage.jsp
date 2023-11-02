@@ -22,8 +22,11 @@
         <li class="user-manage-btn" onclick="location='/admin/partnermanage'">
             파트너 유저 관리
         </li>
-        <li class="food-manage-btn" onclick="location='/admin/foodmanage'">
-            음식점 관리
+        <li onclick="approvedFoods()">
+            입점 음식점
+        </li>
+        <li onclick="pendingFoods()">
+            입점 신청 음식점
         </li>
         <li>
             음식점 카테고리 등록
@@ -36,4 +39,14 @@
     </div>
 </main>
 </body>
+<script>
+    function pendingFoods(){
+        const pendingStatus = "PENDING";
+        location.href = "/admin/foodmanage?pendingStatus=" + pendingStatus;
+    }
+    function approvedFoods(){
+        const pendingStatus = "APPROVED";
+        location.href = "/admin/foodmanage?pendingStatus=" + pendingStatus;
+    }
+</script>
 </html>
