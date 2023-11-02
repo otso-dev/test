@@ -64,6 +64,13 @@
         where
             user_id = #{userId} and user_address_id = #{userAddressId}
     </update>
+
+    <update id="userAddressDefault" parameterType="com.smalleats.entity.UserAddress">
+        update user_address_tb
+        set
+            user_address_flag = if(user_address_id = #{addressId}, 1, 0)
+        where user_id = #{userId}
+    </update>
     <delete id="userAddressDelete">
         delete
         from
