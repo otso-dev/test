@@ -112,6 +112,19 @@ public class PartnerFoodService {
         Payment payment = partnerOrderStateReqDto.toEntity();
         return partnerFoodDAO.paymentOrderStateChange(payment);
     }
+
+    public List<CategoryRespDto> getCategoryList(){
+        CategoryRespDto categoryRespDto = new CategoryRespDto();
+
+        List<Category> categoryList = partnerFoodDAO.getCategoryList();
+        List<CategoryRespDto> categoryRespDtoList = new ArrayList<>();
+
+        categoryList.forEach(category->{
+            categoryRespDtoList.add(categoryRespDto.toDto(category));
+        });
+
+        return categoryRespDtoList;
+    }
     private PrincipalUser getPrincipalUser(){
         return (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }

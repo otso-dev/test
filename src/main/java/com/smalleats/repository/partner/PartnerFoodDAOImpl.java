@@ -66,4 +66,9 @@ public class PartnerFoodDAOImpl implements PartnerFoodDAO {
         System.out.println(payment);
         return sqlSession.update(NS+"paymentOrderStateChange", payment);
     }
+
+    @Override
+    public List<Category> getCategoryList() {
+        return sqlSession.selectList(NS+"getCategoryList");
+    }
 }

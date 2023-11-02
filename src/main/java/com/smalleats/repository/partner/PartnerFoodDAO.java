@@ -21,4 +21,5 @@ public interface PartnerFoodDAO {
     List<OrderMenu> partnerOrderMenuList(int foodId);
     FoodMenu getFoodMenu(Map<String,String> foodMenuMap);
     int paymentOrderStateChange(Payment payment);
+    List<Category> getCategoryList();
 }

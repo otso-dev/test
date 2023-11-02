@@ -19,7 +19,7 @@
     </resultMap>
 
     <resultMap id="categoryMap" type="com.smalleats.entity.Category">
-        <id property="categoryId" column="coategory_id"/>
+        <id property="categoryId" column="category_id"/>
         <result property="categoryName" column="category_name"/>
     </resultMap>
 
@@ -87,7 +87,7 @@
         insert into pending_food_tb
         (pending_food_id, food_id, category_id, food_name, food_img, food_open, food_close, food_min,
          food_delivery_price, food_address_sido, food_road_address, food_detail_address, food_zonecode,partner_id, pending_status)
-        values (0,#{foodId},0,#{foodName},#{foodImg},#{foodOpen},#{foodClose},#{foodMin}
+        values (0,#{foodId},#{categoryId},#{foodName},#{foodImg},#{foodOpen},#{foodClose},#{foodMin}
                ,#{foodDeliveryPrice},#{foodAddressSido},#{foodRoadAddress}
                ,#{foodDetailAddress},#{foodZoneCode},#{partnerId}, 'PENDING')
     </insert>
@@ -103,6 +103,13 @@
         (food_delivery_id, food_id, food_delivery_area)
         values (0,#{foodId},#{foodDeliveryArea})
     </insert>
+
+    <select id="getCategoryList"  resultMap="categoryMap">
+        select
+            category_id,
+            category_name
+        from category_tb;
+    </select>
 
 
 </mapper>

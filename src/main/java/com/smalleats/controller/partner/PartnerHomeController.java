@@ -37,7 +37,8 @@ public class PartnerHomeController {
         return"/partner/partnerpage";
     }
     @RequestMapping(value = "/partner/foodregister", method = RequestMethod.GET)
-    public String foodRegister(){
+    public String foodRegister(Model model){
+        model.addAttribute("categoryList",partnerFoodService.getCategoryList());
         return "/partner/foodregister";
     }
     @RequestMapping(value = "/partner/menu",method = RequestMethod.GET)
