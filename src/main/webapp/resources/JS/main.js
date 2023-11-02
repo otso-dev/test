@@ -15,7 +15,7 @@ class Main {
         const loginBtn = document.querySelector(".smalleats-login-btn");
         const logoutBtn = document.querySelector(".smalleats-logout-btn");
 
-        if(authFlag && authorities === 'ROLE_USER'){
+        if(authFlag && authorities === 'ROLE_USER' || authFlag && authorities === 'ROLE_ADMIN'){
             if(logoutBtn.classList.contains("hidden-main")){
                 logoutBtn.classList.remove("hidden-main");
             }
@@ -31,9 +31,11 @@ class Main {
     }
     testAuthorities(){
         let authorities = Auth.getInstance().getAuthorities();
-        console.log("authorities: "+authorities)
+        let authFlag = Auth.getInstance().getAuthFlag();
+        console.log("authorities: "+ authorities)
         const myPageBtn = document.querySelector(".smalleats-mypage-btn");
         const partnerBtn = document.querySelector(".smalleats-partners-btn");
+        const adminBtn = document.querySelector(".smalleats-admin-btn");
         if(authorities === "ROLE_USER" && myPageBtn.classList.contains("hidden-main")){
             myPageBtn.classList.remove("hidden-main");
             partnerBtn.className += " hidden-main";
@@ -41,22 +43,28 @@ class Main {
             myPageBtn.className += " hidden-main";
             partnerBtn.classList.remove("hidden-main");
         }
-        if(authorities === "ROLE_PAINTER"){
-            partnerBtn.value = "파트너페이지";
+        if(authFlag && authorities === "ROLE_PAINTER" || authFlag && authorities === "ROLE_ADMIN"){
+            partnerBtn.textContent = "파트너페이지";
+        }
+        if(authFlag && authorities === "ROLE_ADMIN" && adminBtn.classList.contains("hidden-main")){
+            adminBtn.classList.remove("hidden-main");
+        }else{
+            adminBtn.className += " hidden-main";
         }
         partnerBtn.onclick = () =>{
-            if(authorities === "ROLE_PARTNER" && authorities === "ROLE_ADMIN"){
+            if(authFlag && authorities === "ROLE_PARTNER" || authorities === "ROLE_ADMIN"){
                 location.href="/partner/partnerpage";
             }else{
                 location.href="/auth/partner";
             }
         }
-    }
-    testLogout(){
-        const logoutBtn = document.querySelector(".smalleats-logout-btn");
-        logoutBtn.onclick = () =>{
-            console.log("logout click!!");
-
+        adminBtn.onclick = () =>{
+            if(authFlag && authorities === "ROLE_ADMIN"){
+                location.href="/admin/adminpage";
+            }else{
+                location.href="/auth/login";
+            }
         }
+
     }
 }
