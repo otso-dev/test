@@ -15,7 +15,6 @@ public class PaymentMenuRespDto {
 
     public PaymentMenuRespDto toDto(OrderMenu orderMenu){
         return PaymentMenuRespDto.builder()
-                .MenuNumbers(orderMenu.getMenuNumbers())
                 .foodMenuPrice(orderMenu.getFoodMenu().getFoodMenuPrice())
                 .foodMenuName(orderMenu.getFoodMenu().getFoodMenuName())
                 .build();

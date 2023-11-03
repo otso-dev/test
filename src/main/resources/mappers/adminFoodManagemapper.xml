@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
-<mapper namespace="com.smalleats.repository.admin.AdminFoodManageDAOImpl">
-    <resultMap id="pendingFoodMap" type="com.smalleats.entity.PendingFood">
+<mapper namespace="AdminFoodManageDAOImpl">
+
+    <resultMap id="pendingFoodMap" type="PendingFood">
         <id property="pendingFoodId" column="pending_food_id"/>
         <result property="foodId" column="food_id"/>
         <result property="categoryId" column="category_id"/>
@@ -18,7 +19,7 @@
         <association property="category" resultMap="categoryMap"/>
     </resultMap>
 
-    <resultMap id="categoryMap" type="com.smalleats.entity.Category">
+    <resultMap id="categoryMap" type="Category">
         <id property="categoryId" column="coategory_id"/>
         <result property="categoryName" column="category_name"/>
     </resultMap>
@@ -60,7 +61,7 @@
         where pending_food_id = #{foodId}
     </insert>
 
-    <insert id="categoryInsert" parameterType="com.smalleats.entity.Category">
+    <insert id="categoryInsert" parameterType="Category">
         insert into category_tb
         (category_id, category_name)
         values (0,#{categoryName})

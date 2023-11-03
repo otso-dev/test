@@ -30,15 +30,6 @@ public class UserOrderListRespDto {
     public UserOrderListRespDto toDto(Order order){
         return UserOrderListRespDto.builder()
                 .orderId(order.getOrderId())
-                .foodName(order.getFood().getFoodName())
-                .orderReqTime(order.getOrderReqTime())
-                .orderDeliveryDay(order.getOrderDeliveryDay())
-                .userRoadAddress(order.getUserAddress().getUserRoadAddress())
-                .userDetailAddress(order.getUserAddress().getUserDetailAddress())
-                .userZoneCode(order.getUserAddress().getUserZoneCode())
-                .paymentPrice(order.getPayment().getPaymentPrice())
-                .paymentOrderState(order.getPayment().getPaymentOrderState())
-                .userOrderMenuList(new ArrayList<>())
                 .build();
     }
 }

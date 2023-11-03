@@ -11,5 +11,5 @@ public interface OrderDAO {
 
     int orderInsert(Order order);
 
-    int orderMenuInsert(List<OrderMenu> orderMenuList);
+    int orderMenuInsert(OrderMenu orderMenuList);
 }

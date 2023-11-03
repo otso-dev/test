@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class PaymentDAOImpl implements PaymentDAO {
-    private final String NS = "com.smalleats.repository.PaymentDAOImpl.";
+    private final String NS = "PaymentDAOImpl.";
     private final SqlSessionTemplate sqlSession;
     @Override
     public Order getOrder(int orderId) {

@@ -32,15 +32,8 @@ public class OrderListRespDto {
                 .userId(order.getUserId())
                 .userName(order.getUser().getUserName())
                 .phoneNumber(order.getUser().getPhoneNumber())
-                .foodName(order.getFood().getFoodName())
-                .userRoadAddress(order.getUserAddress().getUserRoadAddress())
-                .userDetailAddress(order.getUserAddress().getUserDetailAddress())
-                .userZoneCode(order.getUserAddress().getUserZoneCode())
                 .orderReqTime(order.getOrderReqTime())
                 .orderDeliveryDay(order.getOrderDeliveryDay())
-                .paymentPrice(order.getPayment().getPaymentPrice())
-                .paymentOrderState(order.getPayment().getPaymentOrderState())
-                .orderMenuList(new ArrayList<>())
                 .build();
     }
 }

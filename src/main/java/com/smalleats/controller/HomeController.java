@@ -36,7 +36,7 @@ public class HomeController {
     @RequestMapping(value = "/user/mypage", method = RequestMethod.GET)
     public String mypage(Model model){
         model.addAttribute("userAddressList",userAddressService.getUserAddressList());
-        model.addAttribute("userOrderList",userService.getUserOrderList());
+//        model.addAttribute("userOrderList",userService.getUserOrderList());
         return "/user/mypage";
     }
     @RequestMapping(value = "/product/productdetail/{foodId}", method = RequestMethod.GET)
@@ -44,6 +44,7 @@ public class HomeController {
         model.addAttribute("foodMenuList", foodProductService.getFoodMenu(foodId));
         model.addAttribute("foodDeliveryList", foodProductService.getFoodDeliverArea(foodId));
         model.addAttribute("productDetail", foodProductService.getProductDetail(foodId));
+        model.addAttribute("userAddressList",userAddressService.getUserAddressList());
         return "/product/productdetail";
     }
     @RequestMapping(value = "/payment/paymentpage/{orderId}", method = RequestMethod.GET)

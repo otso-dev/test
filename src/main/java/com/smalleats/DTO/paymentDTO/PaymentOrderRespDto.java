@@ -23,8 +23,6 @@ public class PaymentOrderRespDto {
                 .foodId(order.getFoodId())
                 .orderReqTime(order.getOrderReqTime())
                 .orderDeliveryDay(order.getOrderDeliveryDay())
-                .foodName(order.getFood().getFoodName())
-                .foodDeliveryPrice(order.getFood().getFoodDeliveryPrice())
                 .build();
     }
 }

@@ -42,51 +42,50 @@
                     <p id="phone-number">전화번호: </p>
                 </div>
                 <div class="order-list hidden-mypage">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>음식점 이름</th>
-                                <th>배달 요청 시간</th>
-                                <th>배달 요청 날짜</th>
-                                <th>배달 주소</th>
-                                <th>메뉴</th>
-                                <th>총 가격</th>
-                                <th>상태</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="userOrderList" items="${userOrderList}">
-                                <tr>
-                                    <td>
-                                        ${userOrderList.foodName}
-                                    </td>
-                                    <td>
-                                        ${userOrderList.orderReqTime}
-                                    </td>
-                                    <td>
-                                        ${userOrderList.orderDeliveryDay}
-                                    </td>
-                                    <td>
-                                         ${userOrderList.userRoadAddress} ${userOrderList.userDetailAddress} ${userOrderList.userZoneCode}
-                                    </td>
-                                    <td>
-                                        <c:forEach var="orderMenuList" items="${userOrderList.userOrderMenuList}">
-                                            <p>${orderMenuList.foodMenuName}</p>
-                                            <p>${orderMenuList.menuNumbers}</p>
-                                            <p>${orderMenuList.foodMenuPrice}</p>
-                                        </c:forEach>
-                                    </td>
-                                    <td>
-                                        ${userOrderList.paymentPrice}
-                                    </td>
-                                    <td>
-                                        ${userOrderList.paymentOrderState}
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-
+<%--                    <table>--%>
+<%--                        <thead>--%>
+<%--                            <tr>--%>
+<%--                                <th>음식점 이름</th>--%>
+<%--                                <th>배달 요청 시간</th>--%>
+<%--                                <th>배달 요청 날짜</th>--%>
+<%--                                <th>배달 주소</th>--%>
+<%--                                <th>메뉴</th>--%>
+<%--                                <th>총 가격</th>--%>
+<%--                                <th>상태</th>--%>
+<%--                            </tr>--%>
+<%--                        </thead>--%>
+<%--                        <tbody>--%>
+<%--                            <c:forEach var="userOrderList" items="${userOrderList}">--%>
+<%--                                <tr>--%>
+<%--                                    <td>--%>
+<%--                                        ${userOrderList.foodName}--%>
+<%--                                    </td>--%>
+<%--                                    <td>--%>
+<%--                                        ${userOrderList.orderReqTime}--%>
+<%--                                    </td>--%>
+<%--                                    <td>--%>
+<%--                                        ${userOrderList.orderDeliveryDay}--%>
+<%--                                    </td>--%>
+<%--                                    <td>--%>
+<%--                                         ${userOrderList.userRoadAddress} ${userOrderList.userDetailAddress} ${userOrderList.userZoneCode}--%>
+<%--                                    </td>--%>
+<%--                                    <td>--%>
+<%--                                        <c:forEach var="orderMenuList" items="${userOrderList.userOrderMenuList}">--%>
+<%--                                            <p>${orderMenuList.foodMenuName}</p>--%>
+<%--                                            <p>${orderMenuList.menuNumbers}</p>--%>
+<%--                                            <p>${orderMenuList.foodMenuPrice}</p>--%>
+<%--                                        </c:forEach>--%>
+<%--                                    </td>--%>
+<%--                                    <td>--%>
+<%--                                        ${userOrderList.paymentPrice}--%>
+<%--                                    </td>--%>
+<%--                                    <td>--%>
+<%--                                        ${userOrderList.paymentOrderState}--%>
+<%--                                    </td>--%>
+<%--                                </tr>--%>
+<%--                            </c:forEach>--%>
+<%--                        </tbody>--%>
+<%--                    </table>--%>
                 </div>
                 <div class="password-change hidden-mypage">
                     비밀번호 변경
@@ -107,21 +106,34 @@
                             <p>주소: ${userAddressList.userRoadAddress}</p>
                             <p>상세주소 : ${userAddressList.userDetailAddress}</p>
                             <p>우편번호 : ${userAddressList.userZoneCode}</p>
+                            <c:choose>
+                                <c:when test="${userAddressList.userAddressFlag eq 1}">
+                                    <button class="user-address-default" type="button" onclick="onClickDefault(${userAddressList.userAddressId})" disabled>기본 주소지 설정</button>
+                                </c:when>
+                                <c:otherwise>
+                                    <button class="user-address-default" type="button" onclick="onClickDefault(${userAddressList.userAddressId})">기본 주소지 설정</button>
+                                </c:otherwise>
+                            </c:choose>
                             <button class="user-address-update" type="button" onclick="onClickUpdate(${userAddressList.userAddressId})">변경</button>
                             <button type="button" onclick="userAddressDelete(${userAddressList.userAddressId})">삭제</button>
                         </c:forEach>
                     </div>
-                    <button type="button" onclick="postCard()">주소찾기</button>
-                    <label>
-                        <input id="road-name" type="text" placeholder="도로명 주소" readonly>
-                    </label>
-                    <label>
-                        <input id="detail-address" placeholder="상세주소 입력" type="text">
-                    </label>
-                    <label>
-                        <input id="zone-code" placeholder="우편번호" type="text" readonly>
-                    </label>
-                    <button class="address-button" type="button" onclick="addressInsert()">주소추가</button>
+                    <div>
+                        <button type="button" onclick="postCard()">주소찾기</button>
+                        <label>
+                            <input id="road-name" type="text" placeholder="도로명 주소" readonly>
+                        </label>
+                        <label>
+                            <input id="detail-address" placeholder="상세주소 입력" type="text">
+                        </label>
+                        <label>
+                            <input id="zone-code" placeholder="우편번호" type="text" readonly>
+                        </label>
+                        <label>
+                            <input id="category" placeholder="주소 카테고리 입력" type="text">
+                        </label>
+                        <button class="address-button" type="button" onclick="addressInsert()">주소추가</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -149,13 +161,14 @@
     })
     let userAddressSido = null;
     let userAddressSigungu = null;
-    let userAddressCategory = null;
+
 
 
     function addressInsert(){
         const roadAddress = document.getElementById("road-name").value;
         const detailAddress= document.getElementById("detail-address").value;
         const zoneCode = document.getElementById("zone-code").value;
+        const userAddressCategory = document.getElementById("category").value;
         $.ajax({
             url: '${pageContext.request.contextPath}/user/address/create',
             type: 'POST',
@@ -171,7 +184,7 @@
             success:function (response){
                 alert(response + " 주소추가 성공");
             },error:function (response){
-                alert(response);
+                alert(response.responseJSON.message);
             }
         })
     }
@@ -271,6 +284,16 @@
                     alert(response.responseJSON.data.password);
                 }
             }
+        })
+    }
+    function onClickDefault(addressId){
+        $.ajax({
+            url:'/user/address/default',
+            type:'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                addressId: addressId
+            })
         })
     }
 </script>

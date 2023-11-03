@@ -11,7 +11,7 @@ import java.util.Map;
 @Repository
 @RequiredArgsConstructor
 public class PartnerFoodDAOImpl implements PartnerFoodDAO {
-    private final String NS = "com.smalleats.repository.partner.PartnerFoodDAOImpl.";
+    private final String NS = "PartnerFoodDAOImpl.";
     private final SqlSessionTemplate sqlSession;
 
 

@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class FoodProductDAOImpl implements FoodProductDAO {
-    private final String NS = "com.smalleats.repository.FoodProductDAOImpl.";
+    private final String NS = "FoodProductDAOImpl.";
     private final SqlSessionTemplate sqlSession;
     @Override
     public List<FoodProduct> getFoodProducts() {

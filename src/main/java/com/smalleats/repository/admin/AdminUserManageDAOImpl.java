@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class AdminUserManageDAOImpl implements AdminUserManageDAO{
-    private final String NS = "com.smalleats.repository.admin.AdminUserManageDAOImpl.";
+    private final String NS = "AdminUserManageDAOImpl.";
     private final SqlSessionTemplate sqlSession;
 
     @Override

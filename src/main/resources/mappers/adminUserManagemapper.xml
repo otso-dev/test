@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.smalleats.repository.admin.AdminUserManageDAOImpl">
+<mapper namespace="AdminUserManageDAOImpl">
 
-    <resultMap id="userMap" type="com.smalleats.entity.User">
+    <resultMap id="userMap" type="User">
         <id property="userId" column="user_id"/>
         <result property="userName" column="username"/>
         <result property="email" column="email"/>
@@ -13,7 +13,7 @@
         <collection property="authorities" javaType="list" resultMap="authorityMap"/>
     </resultMap>
 
-    <resultMap id="partnerUserMap" type="com.smalleats.entity.PartnerUser">
+    <resultMap id="partnerUserMap" type="PartnerUser">
         <id property="partnerId" column="partner_id"/>
         <result property="partnerUserName" column="partner_username"/>
         <result property="partnerPassword" column="partner_user_password"/>
@@ -25,7 +25,7 @@
         <association property="role" resultMap="roleMap"/>
     </resultMap>
 
-    <resultMap type="com.smalleats.entity.Authority" id="authorityMap">
+    <resultMap type="Authority" id="authorityMap">
         <id property="authorityId" column="authority_id"/>
         <result property="userId" column="user_id"/>
         <result property="roleId" column="role_id"/>
@@ -34,12 +34,12 @@
         <association property="partnerUser" resultMap="partnerUserMap"/>
     </resultMap>
 
-    <resultMap type="com.smalleats.entity.Role" id="roleMap">
+    <resultMap type="Role" id="roleMap">
         <id property="roleId" column="role_id"/>
         <result property="roleName" column="role_name"/>
     </resultMap>
 
-    <resultMap id="pendingFoodMap" type="com.smalleats.entity.PendingFood">
+    <resultMap id="pendingFoodMap" type="PendingFood">
         <id property="pendingFoodId" column="pending_food_id"/>
         <result property="foodId" column="food_id"/>
         <result property="categoryId" column="category_id"/>
@@ -47,7 +47,7 @@
         <result property="pendingStatus" column="pending_status"/>
     </resultMap>
 
-    <resultMap id="userAddressMap" type="com.smalleats.entity.UserAddress">
+    <resultMap id="userAddressMap" type="UserAddress">
         <id property="userAddressId" column="user_address_id"/>
         <result property="userId" column="user_id"/>
         <result property="userRoadAddress" column="user_road_address"/>
@@ -85,7 +85,7 @@
                 left join smalleatsDB.role_tb rt on aut.role_id = rt.role_id;
     </select>
 
-    <select id="getUserDetail" resultType="com.smalleats.entity.User">
+    <select id="getUserDetail" resultType="User">
         select
             username,
             email,
@@ -96,7 +96,7 @@
             user_id = #{userId}
     </select>
 
-    <select id="getUserAddressList" resultType="com.smalleats.entity.UserAddress">
+    <select id="getUserAddressList" resultType="UserAddress">
         select
             user_road_address,
             user_detail_address,

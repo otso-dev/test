@@ -17,9 +17,10 @@ public class Order {
     private int userId;
     private String orderReqTime;
     private String orderDeliveryDay;
+    private String orderRoadAddress;
+    private String orderDetailAddress;
+    private int orderZoneCode;
 
-    private FoodProduct food;
     private User user;
-    private Payment payment;
-    private UserAddress userAddress;
+    private FoodProduct foodProduct;
 }

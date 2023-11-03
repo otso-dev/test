@@ -14,7 +14,6 @@ public class PaidReqDto {
     public Payment toEntity(){
         return Payment.builder()
                 .orderId(orderId)
-                .foodId(foodId)
                 .paymentPrice(paymentPrice)
                 .build();
     }

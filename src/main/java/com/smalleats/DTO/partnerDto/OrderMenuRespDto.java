@@ -19,7 +19,6 @@ public class OrderMenuRespDto {
         return OrderMenuRespDto.builder()
                 .userId(orderMenu.getUser().getUserId())
                 .orderId(orderMenu.getOrderId())
-                .menuNumbers(orderMenu.getMenuNumbers())
                 .foodMenuName(orderMenu.getFoodMenu().getFoodMenuName())
                 .foodMenuPrice(orderMenu.getFoodMenu().getFoodMenuPrice())
                 .build();

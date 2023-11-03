@@ -11,6 +11,7 @@
 <head>
     <jsp:include page="../include/main.jsp"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/product/productDetail.css">
+    <title>Smallets</title>
 </head>
 <body>
 <main class="main-style">
@@ -29,6 +30,24 @@
                 <div id="selected-menu-list">
                 </div>
                 <p id="total-price"></p>
+                <div>
+                    <label>
+                        <select id="userAddressSelectList">
+                            <c:forEach var="userAddressList" items="${userAddressList}">
+                                <option value="${userAddressList.userAddressId}">${userAddressList.userAddressCategory}</option>
+                            </c:forEach>
+                        </select>
+                    </label>
+                    <label>
+                        <input id="road-name" type="text" placeholder="도로명 주소" readonly>
+                    </label>
+                    <label>
+                        <input id="detail-address" placeholder="상세주소 입력" type="text">
+                    </label>
+                    <label>
+                        <input id="zone-code" placeholder="우편번호" type="text" readonly>
+                    </label>
+                </div>
                  <button type="button" onclick="order()">결제하러가기</button>
             </div>
     </div>
@@ -67,12 +86,37 @@
 </body>
 <script>
     let selectedMenus = {};
+    let userRoadAddress = document.getElementById("road-name")
+    let userDetailAddress = document.getElementById("detail-address");
+    let userZoneCode = document.getElementById("zone-code");
 
+    let userAddressList = [
+        <c:forEach var="address" items="${userAddressList}" varStatus="loop">
+        {
+            "userAddressId": "${address.userAddressId}",
+            "roadName": "${address.userRoadAddress}",
+            "detailAddress": "${address.userDetailAddress}",
+            "zoneCode": "${address.userZoneCode}"
+        }<c:if test="${!loop.last}">,</c:if>
+        </c:forEach>
+    ];
+    document.getElementById('userAddressSelectList').addEventListener('change', function() {
+        let selectedAddressId = this.value;
+        let selectedAddress = userAddressList.find(function(address) {
+            return address.userAddressId === selectedAddressId;
+        });
+
+        if (selectedAddress) {
+            userRoadAddress.value = selectedAddress.roadName;
+            userDetailAddress.value = selectedAddress.detailAddress;
+            userZoneCode.value = selectedAddress.zoneCode;
+        }
+    });
     function menuChoice(id, price, name) {
         if (selectedMenus[id]) {
             selectedMenus[id].count += 1;
         } else {
-            selectedMenus[id] = { menuId: id, name: name, price: price, count: 1 };
+            selectedMenus[id] = { menuId: id, menuName: name, price: price, count: 1 };
         }
         updateSelectedMenus();
     }
@@ -84,7 +128,7 @@
         for (const id in selectedMenus) {
             if (selectedMenus[id].count > 0) {
                 const menuItemElement = document.createElement('p');
-                menuItemElement.textContent = selectedMenus[id].name + "가격: "+ selectedMenus[id].price + selectedMenus[id].count;
+                menuItemElement.textContent = selectedMenus[id].menuName + "가격: "+ selectedMenus[id].price + selectedMenus[id].count;
 
 
                 const plusButton = document.createElement('button');
@@ -160,6 +204,9 @@
                 foodId: foodId,
                 orderReqTime: orderReqTime,
                 orderReqDeliveryDay: orderReqDeliveryDay,
+                orderRoadAddress: userRoadAddress.value,
+                orderDetailAddress: userDetailAddress.value,
+                orderZoneCode: userZoneCode.value,
                 orderMenu: selectedMenus
             }),
             success:function (response) {
@@ -170,5 +217,6 @@
             }
         })
     }
+
 </script>
 </html>

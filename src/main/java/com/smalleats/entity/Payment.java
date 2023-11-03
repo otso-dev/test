@@ -11,10 +11,9 @@ import lombok.*;
 public class Payment {
     private int paymentId;
     private int orderId;
-    private int foodId;
     private int paymentPrice;
+    private String paymentDay;
     private String paymentOrderState;
 
     private Order order;
-    private FoodProduct foodProduct;
 }

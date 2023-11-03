@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class AdminFoodManageDAOImpl implements AdminFoodManageDAO{
-    private final String NS = "com.smalleats.repository.admin.AdminFoodManageDAOImpl.";
+    private final String NS = "AdminFoodManageDAOImpl.";
     private final SqlSessionTemplate sqlSession;
     @Override
     public List<PendingFood> PendingFoods(String pendingStatus) {
