@@ -44,7 +44,6 @@ public class HomeController {
         model.addAttribute("foodMenuList", foodProductService.getFoodMenu(foodId));
         model.addAttribute("foodDeliveryList", foodProductService.getFoodDeliverArea(foodId));
         model.addAttribute("productDetail", foodProductService.getProductDetail(foodId));
-        model.addAttribute("userAddressList",userAddressService.getUserAddressList());
         return "/product/productdetail";
     }
     @RequestMapping(value = "/payment/paymentpage/{orderId}", method = RequestMethod.GET)

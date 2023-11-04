@@ -14,6 +14,4 @@ public class OrderMenu {
     private String menuInfo;
 
     private Order order;
-    private FoodMenu foodMenu;
-    private User user;
 }

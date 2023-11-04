@@ -9,14 +9,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentMenuRespDto {
-    private int MenuNumbers;
-    private int foodMenuPrice;
-    private String foodMenuName;
+    private String menuInfo;
 
     public PaymentMenuRespDto toDto(OrderMenu orderMenu){
         return PaymentMenuRespDto.builder()
-                .foodMenuPrice(orderMenu.getFoodMenu().getFoodMenuPrice())
-                .foodMenuName(orderMenu.getFoodMenu().getFoodMenuName())
+                .menuInfo(orderMenu.getMenuInfo())
                 .build();
     }
 }

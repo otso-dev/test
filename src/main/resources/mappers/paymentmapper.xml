@@ -6,7 +6,7 @@
         <result property="foodId" column="food_id"/>
         <result property="orderReqTime" column="order_req_time"/>
         <result property="orderDeliveryDay" column="order_delivery_day"/>
-        <association property="food" resultMap="foodMap"/>
+        <association property="foodProduct" resultMap="foodMap"/>
     </resultMap>
     <resultMap id="foodMap" type="FoodProduct">
         <id property="foodId" column="food_id"/>
@@ -19,11 +19,9 @@
     </resultMap>
 
     <resultMap id="orderMenuMap" type="OrderMenu">
-        <id property="orderMenuId" column="order_menu_id"/>
         <result property="orderId" column="order_id"/>
-        <result property="foodMenuId" column="menu_id"/>
-        <result property="menuNumbers" column="order_menu_numbers"/>
-        <association property="foodMenu" resultMap="foodMenuMap"/>
+        <result property="menuInfo" column="order_menu_info"/>
+        <association property="order" resultMap="orderMap"/>
     </resultMap>
 
     <resultMap id="foodMenuMap" type="FoodMenu">
@@ -49,14 +47,12 @@
 
     <select id="getOrderMenuList" resultMap="orderMenuMap">
         select
-            omb.order_menu_numbers,
-            fmb.food_menu_name,
-            fmb.food_menu_price
+            order_menu_info
         from
-            order_menu_tb omb
-                left outer join food_menu_tb fmb on(fmb.food_menu_id = omb.menu_id)
+            order_tb ot
+                left join smalleatsDB.order_menu_tb omt on ot.order_id = omt.order_id
         where
-            omb.order_id = #{orderId}
+            ot.order_id = #{order_Id};
     </select>
 
     <insert id="paid" parameterType="Payment">

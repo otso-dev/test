@@ -23,14 +23,11 @@ public class PaymentService {
         Order order = paymentDAO.getOrder(orderId);
         return paymentOrderRespDto.toDto(order);
     }
-    public List<PaymentMenuRespDto> getOrderMenuList(int orderId){
+    public PaymentMenuRespDto getOrderMenuList(int orderId){
         PaymentMenuRespDto paymentMenuRespDto = new PaymentMenuRespDto();
-        List<PaymentMenuRespDto> menuRespDtoList = new ArrayList<>();
-        List<OrderMenu> orderMenuList = paymentDAO.getOrderMenuList(orderId);
-        orderMenuList.forEach(orderMenu -> {
-            menuRespDtoList.add(paymentMenuRespDto.toDto(orderMenu));
-        });
-        return menuRespDtoList;
+        OrderMenu orderMenu = paymentDAO.getOrderMenuList(orderId);
+        paymentMenuRespDto.toDto(orderMenu);
+        return null;
     }
 
     public int paid(PaidReqDto paidReqDto){

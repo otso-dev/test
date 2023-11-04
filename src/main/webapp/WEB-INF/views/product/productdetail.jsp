@@ -210,6 +210,7 @@
                 orderMenu: selectedMenus
             }),
             success:function (response) {
+                console.log(response + 주문성공);
                 window.location.href="/payment/paymentpage/" + response;
             },error:function (response) {
                 console.log(response)

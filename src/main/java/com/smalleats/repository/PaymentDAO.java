@@ -13,7 +13,7 @@ import java.util.List;
 public interface PaymentDAO {
 
     Order getOrder(int orderId);
-    List<OrderMenu> getOrderMenuList(int orderId);
+    OrderMenu getOrderMenuList(int orderId);
     int paid(Payment payment);
 
     List<FoodDeliveryArea> getDeliveryArea(int orderId);

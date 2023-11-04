@@ -17,10 +17,7 @@ public class OrderMenuRespDto {
 
     public OrderMenuRespDto toDto(OrderMenu orderMenu){
         return OrderMenuRespDto.builder()
-                .userId(orderMenu.getUser().getUserId())
-                .orderId(orderMenu.getOrderId())
-                .foodMenuName(orderMenu.getFoodMenu().getFoodMenuName())
-                .foodMenuPrice(orderMenu.getFoodMenu().getFoodMenuPrice())
+                .userId(userId)
                 .build();
     }
 }

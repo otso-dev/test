@@ -22,8 +22,8 @@ public class PaymentDAOImpl implements PaymentDAO {
     }
 
     @Override
-    public List<OrderMenu> getOrderMenuList(int orderId) {
-        return sqlSession.selectList(NS+"getOrderMenuList", orderId);
+    public OrderMenu getOrderMenuList(int orderId) {
+        return sqlSession.selectOne(NS+"getOrderMenuList", orderId);
     }
 
     @Override
