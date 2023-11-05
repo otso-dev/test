@@ -9,6 +9,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentMenuRespDto {
+    private int count;
+    private int price;
+    private int menuId;
+    private String menuName;
     private String menuInfo;
 
     public PaymentMenuRespDto toDto(OrderMenu orderMenu){
