@@ -14,10 +14,5 @@ public class PaymentMenuRespDto {
     private int menuId;
     private String menuName;
     private String menuInfo;
-
-    public PaymentMenuRespDto toDto(OrderMenu orderMenu){
-        return PaymentMenuRespDto.builder()
-                .menuInfo(orderMenu.getMenuInfo())
-                .build();
-    }
+    
 }

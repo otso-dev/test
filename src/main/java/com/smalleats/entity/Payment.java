@@ -17,4 +17,5 @@ public class Payment {
     private String paymentOrderState;
 
     private Order order;
+    private FoodProduct foodProduct;
 }

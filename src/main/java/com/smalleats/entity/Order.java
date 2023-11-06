@@ -23,4 +23,5 @@ public class Order {
 
     private User user;
     private FoodProduct foodProduct;
+    private OrderMenu orderMenu;
 }

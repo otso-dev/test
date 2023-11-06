@@ -1,11 +1,16 @@
 package com.smalleats.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smalleats.DTO.partnerDto.OrderMenuRespDto;
 import com.smalleats.DTO.user.PasswordReqDto;
 import com.smalleats.DTO.user.UserInfoRespDto;
 import com.smalleats.DTO.user.UserOrderListRespDto;
 import com.smalleats.entity.Order;
 import com.smalleats.entity.OrderMenu;
+import com.smalleats.entity.Payment;
 import com.smalleats.entity.User;
 import com.smalleats.repository.UserDAO;
 import com.smalleats.security.PrincipalUser;
@@ -66,47 +71,18 @@ public class UserService {
         PrincipalUser principalUser = getPrincipal();
 
         UserOrderListRespDto userOrderListRespDto = new UserOrderListRespDto();
-        OrderMenuRespDto orderMenuRespDto = new OrderMenuRespDto();
-        List<Order> orderList = userDAO.getUserOrderList(principalUser.getUserId());
-        List<OrderMenu> orderMenuList = userDAO.getUserOrderMenuList(principalUser.getUserId());
-        List<UserOrderListRespDto> userOrderList = new ArrayList<>();
-        List<OrderMenuRespDto> orderMenuRespDtoList = new ArrayList<>();
-        orderList.forEach(order -> {
-            userOrderList.add(userOrderListRespDto.toDto(order));
-        });
-        orderMenuList.forEach(orderMenu -> {
-            orderMenuRespDtoList.add(orderMenuRespDto.toDto(orderMenu));
-        });
-        userOrderList.forEach(userOrder->{
-            orderMenuRespDtoList.forEach(userOrderMenu->{
-                if(userOrder.getOrderId() == userOrderMenu.getOrderId()){
-                    userOrder.getUserOrderMenuList().add(userOrderMenu);
-                }
-            });
-        });
-        return userOrderList;
-    }
 
-    public List<UserOrderListRespDto> getUserOrderList(int userId){
-        UserOrderListRespDto userOrderListRespDto = new UserOrderListRespDto();
-        OrderMenuRespDto orderMenuRespDto = new OrderMenuRespDto();
-        List<Order> orderList = userDAO.getUserOrderList(userId);
-        List<OrderMenu> orderMenuList = userDAO.getUserOrderMenuList(userId);
+        List<Payment> orderList = userDAO.getUserOrderList(principalUser.getUserId());
         List<UserOrderListRespDto> userOrderList = new ArrayList<>();
-        List<OrderMenuRespDto> orderMenuRespDtoList = new ArrayList<>();
+
         orderList.forEach(order -> {
-            userOrderList.add(userOrderListRespDto.toDto(order));
+            try {
+                userOrderList.add(userOrderListRespDto.toDto(order));
+            } catch (Exception e) {
+                throw new CustomException("JSON 파싱 실패");
+            }
         });
-        orderMenuList.forEach(orderMenu -> {
-            orderMenuRespDtoList.add(orderMenuRespDto.toDto(orderMenu));
-        });
-        userOrderList.forEach(userOrder->{
-            orderMenuRespDtoList.forEach(userOrderMenu->{
-                if(userOrder.getOrderId() == userOrderMenu.getOrderId()){
-                    userOrder.getUserOrderMenuList().add(userOrderMenu);
-                }
-            });
-        });
+
         return userOrderList;
     }
     private PrincipalUser getPrincipal(){

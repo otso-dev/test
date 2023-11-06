@@ -49,7 +49,6 @@ public class AdminHomeController {
     public String adminUserDetail(Model model,@PathVariable int userId){
         model.addAttribute("userInfo",adminUserManageService.getUserDetail(userId));
         model.addAttribute("userAddressList",adminUserManageService.getUserAddressList(userId));
-        model.addAttribute("userOrderList",userService.getUserOrderList(userId));
         return "/admin/user";
     }
 

@@ -43,9 +43,9 @@
                 <p>배달요청날짜: ${orderList.orderDeliveryDay}</p>
                 <c:forEach var="orderMenuList" items="${orderList.orderMenuList}">
                     <div>
-                        메뉴: ${orderMenuList.foodMenuName}
-                        가격: ${orderMenuList.foodMenuPrice}
-                        개수: ${orderMenuList.menuNumbers}
+                        메뉴: ${orderMenuList.menuName}
+                        가격: ${orderMenuList.price}
+                        개수: ${orderMenuList.count}
                     </div>
                 </c:forEach>
                 <p>총 가격: ${orderList.paymentPrice}</p>

@@ -36,8 +36,6 @@ public class PaymentService {
             throw new CustomException("JSON 파싱 실패");
         }
     }
-
-
     public int paid(PaidReqDto paidReqDto){
         return paymentDAO.paid(paidReqDto.toEntity());
     }

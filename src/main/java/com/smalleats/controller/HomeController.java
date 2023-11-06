@@ -36,7 +36,7 @@ public class HomeController {
     @RequestMapping(value = "/user/mypage", method = RequestMethod.GET)
     public String mypage(Model model){
         model.addAttribute("userAddressList",userAddressService.getUserAddressList());
-//        model.addAttribute("userOrderList",userService.getUserOrderList());
+        model.addAttribute("userOrderList",userService.getUserOrderList());
         return "/user/mypage";
     }
     @RequestMapping(value = "/product/productdetail/{foodId}", method = RequestMethod.GET)

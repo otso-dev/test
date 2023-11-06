@@ -45,7 +45,7 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
-    public List<Order> getUserOrderList(int userId) {
+    public List<Payment> getUserOrderList(int userId) {
         return sqlSession.selectList(NS+"getUserOrderList",userId);
     }
 

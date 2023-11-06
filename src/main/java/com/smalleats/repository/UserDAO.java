@@ -17,7 +17,7 @@ public interface UserDAO {
     PartnerUser findPartnerUserByEmail(String email);
     int savePartnerUser(PartnerUser partnerUser);
 
-    List<Order> getUserOrderList(int userId);
+    List<Payment> getUserOrderList(int userId);
 
     List<OrderMenu> getUserOrderMenuList(int userId);
 
