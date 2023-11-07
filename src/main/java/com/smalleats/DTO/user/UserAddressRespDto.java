@@ -12,6 +12,7 @@ public class UserAddressRespDto {
     private String userRoadAddress;
     private String userDetailAddress;
     private String userAddressCategory;
+    private String userAddressSiGunGu;
     private int userZoneCode;
     private int userAddressFlag;
 
@@ -23,6 +24,7 @@ public class UserAddressRespDto {
                 .userZoneCode(userAddress.getUserZoneCode())
                 .userAddressCategory(userAddress.getUserAddressCategory())
                 .userAddressFlag(userAddress.getUserAddressFlag())
+                .userAddressSiGunGu(userAddress.getUserAddressSigungu())
                 .build();
     }
 }

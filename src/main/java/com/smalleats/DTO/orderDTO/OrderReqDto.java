@@ -16,6 +16,7 @@ public class OrderReqDto {
     private String orderReqDeliveryDay;
     private String orderRoadAddress;
     private String orderDetailAddress;
+    private String orderSiGunGu;
     private int orderZoneCode;
     private Map<String,OrderMenuReqDto> orderMenu;
 

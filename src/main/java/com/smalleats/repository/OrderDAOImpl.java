@@ -1,5 +1,6 @@
 package com.smalleats.repository;
 
+import com.smalleats.entity.FoodDeliveryArea;
 import com.smalleats.entity.Order;
 import com.smalleats.entity.OrderMenu;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
@@ -21,5 +23,10 @@ public class OrderDAOImpl implements OrderDAO{
     @Override
     public int orderMenuInsert(OrderMenu orderMenuList) {
         return sqlSession.insert(NS + "orderMenuInsert",orderMenuList);
+    }
+
+    @Override
+    public FoodDeliveryArea findByDeliveryArea(Map<String,String> requestMap) {
+        return sqlSession.selectOne(NS+"findByDeliveryArea", requestMap);
     }
 }

@@ -15,4 +15,13 @@
         (order_id, order_menu_info)
         values (#{orderId},#{menuInfo})
     </insert>
+
+    <select id="findByDeliveryArea" resultType="FoodDeliveryArea">
+        select
+            food_id,
+            food_delivery_area
+        from food_delivery_tb
+        where
+            food_id = #{foodId} and food_delivery_area = #{SiGunGu};
+    </select>
 </mapper>

@@ -45,6 +45,9 @@
                         <input id="detail-address" placeholder="상세주소 입력" type="text">
                     </label>
                     <label>
+                        <input id="SiGunGu" placeholder="시/군/구" readonly>
+                    </label>
+                    <label>
                         <input id="zone-code" placeholder="우편번호" type="text" readonly>
                     </label>
                 </div>
@@ -88,6 +91,7 @@
     let selectedMenus = {};
     let userRoadAddress = document.getElementById("road-name")
     let userDetailAddress = document.getElementById("detail-address");
+    let userAddressSiGunGu = document.getElementById("SiGunGu");
     let userZoneCode = document.getElementById("zone-code");
 
     let userAddressList = [
@@ -96,7 +100,8 @@
             "userAddressId": "${address.userAddressId}",
             "roadName": "${address.userRoadAddress}",
             "detailAddress": "${address.userDetailAddress}",
-            "zoneCode": "${address.userZoneCode}"
+            "zoneCode": "${address.userZoneCode}",
+            "userAddressSiGunGu":"${address.userAddressSiGunGu}"
         }<c:if test="${!loop.last}">,</c:if>
         </c:forEach>
     ];
@@ -110,6 +115,7 @@
             userRoadAddress.value = selectedAddress.roadName;
             userDetailAddress.value = selectedAddress.detailAddress;
             userZoneCode.value = selectedAddress.zoneCode;
+            userAddressSiGunGu.value = selectedAddress.userAddressSiGunGu;
         }
     });
     function menuChoice(id, price, name) {
@@ -207,14 +213,14 @@
                 orderRoadAddress: userRoadAddress.value,
                 orderDetailAddress: userDetailAddress.value,
                 orderZoneCode: userZoneCode.value,
+                orderSiGunGu: userAddressSiGunGu.value,
                 orderMenu: selectedMenus
             }),
             success:function (response) {
                 console.log(response + "주문성공");
                 window.location.href="/payment/paymentpage/" + response;
             },error:function (response) {
-                console.log(response)
-                alert(response)
+                alert(response.responseJSON.message);
             }
         })
     }
