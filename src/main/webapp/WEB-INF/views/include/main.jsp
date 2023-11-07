@@ -8,13 +8,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+    <title>smalleats</title>
+    <%--CSS--%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/main/main.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/reset/reset.css">
-    <title>smalleats</title>
+    <%--카카오 주소 API 및 JQuery--%>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <%--JS--%>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/JS/app.js">
     </script>
     <script src="${pageContext.request.contextPath}/resources/JS/main.js?testNm=1"></script>

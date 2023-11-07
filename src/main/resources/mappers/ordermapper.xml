@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 <mapper namespace="OrderDAOImpl">
 
+    <resultMap id="foodDeliveryMap" type="FoodDeliveryArea">
+        <id property="foodDeliveryId" column="food_delivery_id"/>
+        <result property="foodDeliveryArea" column="food_delivery_area"/>
+    </resultMap>
+
     <insert id="orderInsert" parameterType="Order"
             useGeneratedKeys="true"
             keyProperty="orderId">
@@ -16,7 +21,7 @@
         values (#{orderId},#{menuInfo})
     </insert>
 
-    <select id="findByDeliveryArea" resultType="FoodDeliveryArea">
+    <select id="findByDeliveryArea" resultMap="foodDeliveryMap">
         select
             food_id,
             food_delivery_area

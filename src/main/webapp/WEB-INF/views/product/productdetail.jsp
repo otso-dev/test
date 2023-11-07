@@ -30,11 +30,22 @@
                 <div id="selected-menu-list">
                 </div>
                 <p id="total-price"></p>
-                <div>
+                <div id="selected-box">
                     <label>
                         <select id="userAddressSelectList">
+                                <option value="null">------</option>
+                                <option value="addressSelect">직접입력</option>
                             <c:forEach var="userAddressList" items="${userAddressList}">
-                                <option value="${userAddressList.userAddressId}">${userAddressList.userAddressCategory}</option>
+                                <option value="${userAddressList.userAddressId}">
+                                        <c:choose>
+                                            <c:when test="${userAddressList.userAddressFlag eq 1}">
+                                                기본 주소
+                                            </c:when>
+                                            <c:otherwise>
+                                                ${userAddressList.userAddressCategory}
+                                            </c:otherwise>
+                                        </c:choose>
+                                </option>
                             </c:forEach>
                         </select>
                     </label>
@@ -93,6 +104,7 @@
     let userDetailAddress = document.getElementById("detail-address");
     let userAddressSiGunGu = document.getElementById("SiGunGu");
     let userZoneCode = document.getElementById("zone-code");
+    const addressSelected = document.getElementById('selected-box');
 
     let userAddressList = [
         <c:forEach var="address" items="${userAddressList}" varStatus="loop">
@@ -105,6 +117,7 @@
         }<c:if test="${!loop.last}">,</c:if>
         </c:forEach>
     ];
+
     document.getElementById('userAddressSelectList').addEventListener('change', function() {
         let selectedAddressId = this.value;
         let selectedAddress = userAddressList.find(function(address) {
@@ -112,12 +125,60 @@
         });
 
         if (selectedAddress) {
-            userRoadAddress.value = selectedAddress.roadName;
-            userDetailAddress.value = selectedAddress.detailAddress;
-            userZoneCode.value = selectedAddress.zoneCode;
-            userAddressSiGunGu.value = selectedAddress.userAddressSiGunGu;
+            if(selectedAddressId !== 'null'){
+                userRoadAddress.value = selectedAddress.roadName;
+                userDetailAddress.value = selectedAddress.detailAddress;
+                userZoneCode.value = selectedAddress.zoneCode;
+                userAddressSiGunGu.value = selectedAddress.userAddressSiGunGu;
+            }
+            const addressBtn = document.querySelector('.addressBtn');
+            if(addressBtn != null){
+                addressSelected.removeChild(addressBtn);
+            }
+        }else if(selectedAddressId === 'addressSelect'){
+            addressSelect();
         }
+
     });
+
+    function addressSelect(){
+        userRoadAddress.value = null;
+        userDetailAddress.value = null;
+        userZoneCode.value = null;
+        userAddressSiGunGu.value = null;
+        console.log(addressSelected);
+        const addressBtn = document.createElement('button');
+        const addressBtnText = document.createTextNode('주소찾기');
+        addressBtn.className += 'addressBtn';
+        addressBtn.appendChild(addressBtnText);
+        addressSelected.appendChild(addressBtn);
+        addressBtn.onclick = () =>{
+            const city = ["서울","인천","대전","광주","대구","울산","부산"];
+            let count = 0;
+            new daum.Postcode({
+                onComplete:function (data){
+                    city.forEach((city)=>{
+                        if(city === data.sido){
+                            count++;
+                        }
+                    })
+                    if(data.userSelectedType === "R" && count >= 1){
+                        userRoadAddress.value = data.roadAddress;
+                        userZoneCode.value = data.zonecode;
+                        userAddressSiGunGu.value = data.sigungu;
+                        // console.log(data);
+                    }else if(data.userSelectedType === "J"){
+                        alert("지번주소는 더 이상 지원하지 않습니다.");
+                        close();
+                    }else{
+                        alert("광역시와 특별시만 지원합니다.");
+                        close();
+                    }
+                }
+            }).open();
+        }
+    }
+
     function menuChoice(id, price, name) {
         if (selectedMenus[id]) {
             selectedMenus[id].count += 1;

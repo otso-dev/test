@@ -12,6 +12,4 @@ public class FoodDeliveryArea {
     private int foodId;
     private String foodDeliveryArea;
 
-    private FoodProduct foodProduct;
-
 }
