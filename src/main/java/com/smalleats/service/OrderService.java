@@ -3,11 +3,13 @@ package com.smalleats.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.gson.JsonObject;
+import com.smalleats.DTO.foodProductDTO.FoodDeliveryDayCountRespDto;
 import com.smalleats.DTO.orderDTO.OrderMenuReqDto;
 import com.smalleats.DTO.orderDTO.OrderReqDto;
 import com.smalleats.entity.FoodDeliveryArea;
 import com.smalleats.entity.Order;
 import com.smalleats.entity.OrderMenu;
+import com.smalleats.entity.Payment;
 import com.smalleats.repository.OrderDAO;
 import com.smalleats.security.PrincipalUser;
 import com.smalleats.service.exception.CustomException;
@@ -52,6 +54,19 @@ public class OrderService {
         }
 
         return order.getOrderId();
+    }
+
+    public List<FoodDeliveryDayCountRespDto> findByDeliveryDate(int foodId){
+        FoodDeliveryDayCountRespDto foodDeliveryDayCountRespDto = new FoodDeliveryDayCountRespDto();
+
+        List<Payment> deliveryDayList = orderDAO.findByDeliveryDate(foodId);
+        List<FoodDeliveryDayCountRespDto> dayCountRespDtoList = new ArrayList<>();
+
+        deliveryDayList.forEach(day->{
+            dayCountRespDtoList.add(foodDeliveryDayCountRespDto.toDto(day));
+        });
+
+        return dayCountRespDtoList;
     }
 
     private String getString(OrderReqDto orderReqDto, int orderResult) {

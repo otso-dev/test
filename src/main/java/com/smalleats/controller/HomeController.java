@@ -1,10 +1,7 @@
 package com.smalleats.controller;
 
 
-import com.smalleats.service.FoodProductService;
-import com.smalleats.service.PaymentService;
-import com.smalleats.service.UserAddressService;
-import com.smalleats.service.UserService;
+import com.smalleats.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +16,7 @@ public class HomeController {
     private final UserService userService;
     private final FoodProductService foodProductService;
     private final PaymentService paymentService;
+    private final OrderService orderService;
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Model model) {
         model.addAttribute("productList",foodProductService.getFoodProducts());
@@ -45,6 +43,7 @@ public class HomeController {
         model.addAttribute("foodDeliveryList", foodProductService.getFoodDeliverArea(foodId));
         model.addAttribute("productDetail", foodProductService.getProductDetail(foodId));
         model.addAttribute("userAddressList",userAddressService.getUserAddressList());
+        model.addAttribute("deliveryDateList", orderService.findByDeliveryDate(foodId));
         return "/product/productdetail";
     }
     @RequestMapping(value = "/payment/paymentpage/{orderId}", method = RequestMethod.GET)

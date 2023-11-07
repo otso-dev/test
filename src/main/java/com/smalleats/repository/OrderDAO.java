@@ -3,6 +3,7 @@ package com.smalleats.repository;
 import com.smalleats.entity.FoodDeliveryArea;
 import com.smalleats.entity.Order;
 import com.smalleats.entity.OrderMenu;
+import com.smalleats.entity.Payment;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface OrderDAO {
     int orderMenuInsert(OrderMenu orderMenuList);
 
     FoodDeliveryArea findByDeliveryArea(Map<String,String> requestMap);
+
+    List<Payment> findByDeliveryDate(int foodId);
 }
