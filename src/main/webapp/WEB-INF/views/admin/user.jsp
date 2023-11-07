@@ -71,6 +71,7 @@
                                 <th>배달 주소</th>
                                 <th>메뉴</th>
                                 <th>총 가격</th>
+                                <th>구매날짜</th>
                                 <th>상태</th>
                             </tr>
                             </thead>
@@ -91,14 +92,17 @@
                                     </td>
                                     <td>
                                         <c:forEach var="orderMenuList" items="${userOrderList.userOrderMenuList}">
-                                            <p>${orderMenuList.foodMenuName}</p>
-                                            <p>${orderMenuList.menuNumbers}</p>
-                                            <p>${orderMenuList.foodMenuPrice}</p>
+                                            <p>${orderMenuList.menuName}</p>
+                                            <p>${orderMenuList.count}</p>
+                                            <p>${orderMenuList.price}</p>
                                         </c:forEach>
                                     </td>
                                     <td>
                                             ${userOrderList.paymentPrice}
                                     </td>
+                                    <td>
+                                            ${userOrderList.paymentDay}
+                            </td>
                                     <td>
                                             ${userOrderList.paymentOrderState}
                                     </td>

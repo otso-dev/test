@@ -25,7 +25,7 @@
                 </c:when>
                 <c:otherwise>
                     <c:forEach var="pendingFoodList" items="${pendingFoodList}">
-                        <div class="food-box">
+                        <div class="food-box" onclick="location='/admin/detailpendingfood/${pendingFoodList.foodId}'">
                             <div class="food-img-box">
 
                             </div>

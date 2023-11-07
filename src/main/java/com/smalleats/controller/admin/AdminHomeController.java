@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AdminHomeController {
     private final AdminFoodManageService adminFoodManageService;
     private final AdminUserManageService adminUserManageService;
-    private final UserService userService;
     @RequestMapping(value = "/admin/adminpage",method = RequestMethod.GET)
     public String adminPage(){
         return "/admin/adminpage";
@@ -49,6 +48,7 @@ public class AdminHomeController {
     public String adminUserDetail(Model model,@PathVariable int userId){
         model.addAttribute("userInfo",adminUserManageService.getUserDetail(userId));
         model.addAttribute("userAddressList",adminUserManageService.getUserAddressList(userId));
+        model.addAttribute("userOrderList", adminUserManageService.getUserOrderList(userId));
         return "/admin/user";
     }
 
@@ -63,5 +63,14 @@ public class AdminHomeController {
         model.addAttribute("partnerInfo",adminUserManageService.getPartnerUser(partnerId));
         model.addAttribute("pendingFoodInfo",adminUserManageService.getPendingFood(partnerId));
         return "/admin/partner";
+    }
+
+    @RequestMapping(value = "/admin/detailpendingfood/{foodId}", method = RequestMethod.GET)
+    public String adminDetailPendingFood(Model model, @PathVariable int foodId){
+        model.addAttribute("pendingFood",adminFoodManageService.getPendingFoodDetail(foodId));
+        model.addAttribute("foodMenuList",adminFoodManageService.getFoodMenuList(foodId));
+        model.addAttribute("foodDeliveryAreaList",adminFoodManageService.getDeliveryAreaList(foodId));
+        model.addAttribute("orderList",adminFoodManageService.getFoodOrderList(foodId));
+        return"/admin/detailpendingfood";
     }
 }

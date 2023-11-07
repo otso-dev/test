@@ -1,6 +1,8 @@
 package com.smalleats.repository.admin;
 
 import com.smalleats.entity.Category;
+import com.smalleats.entity.FoodDeliveryArea;
+import com.smalleats.entity.FoodMenu;
 import com.smalleats.entity.PendingFood;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,6 +15,12 @@ public interface AdminFoodManageDAO {
 
     int adminFoodInsert(int foodId);
 
-    int adminCategory(Category category);
+    int adminCategory(String category);
+
+    Category findByCategoryName(String categoryName);
+
+    PendingFood getPendingFoodDetail(int foodId);
+    List<FoodMenu> getFoodMenuList(int foodId);
+    List<FoodDeliveryArea> getDeliveryAreaList(int foodId);
 
 }

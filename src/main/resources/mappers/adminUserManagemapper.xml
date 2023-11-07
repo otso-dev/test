@@ -96,7 +96,7 @@
             user_id = #{userId}
     </select>
 
-    <select id="getUserAddressList" resultType="UserAddress">
+    <select id="getUserAddressList" resultMap="userAddressMap">
         select
             user_road_address,
             user_detail_address,

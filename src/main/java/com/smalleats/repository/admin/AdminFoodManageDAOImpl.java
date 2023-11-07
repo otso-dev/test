@@ -1,6 +1,8 @@
 package com.smalleats.repository.admin;
 
 import com.smalleats.entity.Category;
+import com.smalleats.entity.FoodDeliveryArea;
+import com.smalleats.entity.FoodMenu;
 import com.smalleats.entity.PendingFood;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -24,8 +26,28 @@ public class AdminFoodManageDAOImpl implements AdminFoodManageDAO{
     }
 
     @Override
-    public int adminCategory(Category category) {
+    public int adminCategory(String category) {
         return sqlSession.insert(NS+"categoryInsert",category);
+    }
+
+    @Override
+    public Category findByCategoryName(String categoryName) {
+        return sqlSession.selectOne(NS+"findByCategoryName", categoryName);
+    }
+
+    @Override
+    public PendingFood getPendingFoodDetail(int foodId) {
+        return sqlSession.selectOne(NS + "getPendingFoodDetail",foodId);
+    }
+
+    @Override
+    public List<FoodMenu> getFoodMenuList(int foodId) {
+        return sqlSession.selectList(NS + "getPendingFoodMenuList", foodId);
+    }
+
+    @Override
+    public List<FoodDeliveryArea> getDeliveryAreaList(int foodId) {
+        return sqlSession.selectList(NS + "getFoodDeliveryAreaList", foodId);
     }
 
 }

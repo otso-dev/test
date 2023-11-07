@@ -17,12 +17,34 @@
         <result property="foodZoneCode" column="food_zonecode"/>
         <result property="pendingStatus" column="pending_status"/>
         <association property="category" resultMap="categoryMap"/>
+        <association property="partnerUser" resultMap="partnerUserMap"/>
     </resultMap>
 
     <resultMap id="categoryMap" type="Category">
-        <id property="categoryId" column="coategory_id"/>
+        <id property="categoryId" column="category_id"/>
         <result property="categoryName" column="category_name"/>
     </resultMap>
+
+    <resultMap id="partnerUserMap" type="PartnerUser">
+        <id property="partnerId" column="partner_id"/>
+        <result property="partnerUserName" column="partner_username"/>
+        <result property="partnerPhoneNumber" column="partner_phone_number"/>
+    </resultMap>
+
+    <resultMap id="foodMenuMap" type="FoodMenu">
+        <id property="foodMenuId" column="food_menu_id"/>
+        <result property="foodId" column="food_id"/>
+        <result property="foodMenuName" column="food_menu_name"/>
+        <result property="foodMenuImg" column="food_menu_img"/>
+        <result property="foodMenuPrice" column="food_menu_price"/>
+    </resultMap>
+
+    <resultMap id="foodDeliveryAreaMap" type="FoodDeliveryArea">
+        <id property="foodDeliveryId" column="food_delivery_id"/>
+        <result property="foodId" column="food_id"/>
+        <result property="foodDeliveryArea" column="food_delivery_area"/>
+    </resultMap>
+
 
     <select id="PendingFoods" resultMap="pendingFoodMap">
         select
@@ -41,6 +63,56 @@
             pending_status = #{pendingStatus};
     </select>
 
+    <select id="findByCategoryName">
+        select
+            category_name
+        from category_tb
+        where
+            category_name = #{categoryName};
+    </select>
+
+    <select id="getPendingFoodDetail" resultMap="pendingFoodMap">
+        select
+            pft.food_name,
+            pft.food_address_sido,
+            pft.food_road_address,
+            pft.food_detail_address,
+            pft.food_zonecode,
+            pft.food_open,
+            pft.food_close,
+            pft.food_min,
+            pft.food_delivery_price,
+            pft.pending_status,
+            ct.category_name,
+            put.partner_username,
+            put.partner_phone_number
+        from
+            pending_food_tb pft
+                left join smalleatsDB.partner_user_tb put on pft.partner_id = put.partner_id
+                left join smalleatsDB.category_tb ct on pft.category_id = ct.category_id
+        where
+            pft.food_id = #{foodId};
+    </select>
+
+    <select id="getPendingFoodMenuList" resultMap="foodMenuMap">
+        select
+            food_id,
+            food_menu_name,
+            food_menu_img,
+            food_menu_price
+        from food_menu_tb
+        where
+            food_id = #{foodId}
+    </select>
+
+    <select id="getFoodDeliveryAreaList" resultMap="foodDeliveryAreaMap">
+        select
+            food_id,
+            food_delivery_area
+        from food_delivery_tb
+        where
+            food_id = #{foodId};
+    </select>
 
     <insert id="adminFoodInsert">
         insert into food_tb
