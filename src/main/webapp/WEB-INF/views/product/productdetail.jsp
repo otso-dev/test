@@ -11,6 +11,8 @@
 <head>
     <jsp:include page="../include/main.jsp"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/product/productDetail.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <title>Smallets</title>
 </head>
 <body>
@@ -19,7 +21,7 @@
             <div class="order-box">
                 <h3>배달 날짜 선택</h3>
                 <label for="delivery-date">
-                    <input type="date" id="delivery-date" min="" max="">
+                    <input class="delivery-data-item" type="text" id="delivery-date" min="" max="" readonly>
                 </label>
                 <h3>배달 요청 시간</h3>
                     <label for="delivery-time">
@@ -207,14 +209,41 @@
     dd = String(nextWeek.getDate()).padStart(2, '0');
     mm = String(nextWeek.getMonth() + 1).padStart(2, '0');
 
-    console.log("Date" + dd);
-    console.log("Month" + mm);
-
     nextWeek = yyyy + '-' + mm + '-' + dd;
 
     document.getElementById("delivery-date").setAttribute("min", today);
     document.getElementById("delivery-date").setAttribute("max", nextWeek);
 
+    // 선택 가능한 날짜 제한
+    $(function() {
+        // 배달이 불가능한 날짜 리스트
+        let disabledDates = foodDeliveryDate
+            .filter(data => parseInt(data.countDay) >= deliveryDayCountMax)
+            .map(data => data.orderDeliveryDay);
+
+        // Datepicker 설정
+        $('#delivery-date').datepicker({
+            minDate: new Date(today),
+            maxDate: new Date(nextWeek),
+            beforeShowDay: function(date) {
+                let dateString = $.datepicker.formatDate('yy-mm-dd', date);
+                return [ !disabledDates.includes(dateString) ];
+            },
+            // 한글 설정
+            closeText: '닫기',
+            prevText: '이전달',
+            nextText: '다음달',
+            currentText: '오늘',
+            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+            weekHeader: 'Wk',
+            dateFormat: 'yy-mm-dd',  // 날짜 형식
+            firstDay: 0,  // 주의 시작 요일
+            isRTL: false,  // 오른쪽에서 왼쪽 (RTL) 모드 사용 여부
+            showMonthAfterYear: true,  // 년도 뒤에 월 표시
+            yearSuffix: '년'  // 년도 접미사
+        });
+    });
 
     function menuChoice(id, price, name) {
         if (selectedMenus[id]) {
