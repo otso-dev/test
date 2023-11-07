@@ -1,3 +1,5 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: hhgg0
@@ -36,12 +38,17 @@
         <label>
             <input class="foodName" type="text" placeholder="음식점 이름">
         </label>
-<%--      category  <label>--%>
-<%--            <input type="text" placeholder="음식점 이름">--%>
-<%--        </label>--%>
-        <%--      img  <label>--%>
-        <%--            <input type="text" placeholder="음식점 이름">--%>
-        <%--        </label>--%>
+        <label>
+            <select id="categorySelect" onchange="getSelectedCategoryId(this.value)">
+                <option value='0'>음식점 카테고리 선택</option>
+                <c:forEach var="categoryList" items="${categoryList}">
+                    <option value="${categoryList.categoryId}">${categoryList.categoryName}</option>
+                </c:forEach>
+            </select>
+        </label>
+<%--              img  <label>--%>
+<%--                    <input type="text" placeholder="음식점 이름">--%>
+<%--                </label>--%>
         <label>
             <input class="foodOpen" type="text" placeholder="오픈시간">
         </label>
@@ -72,6 +79,14 @@
 </main>
 </body>
 <script>
+    let selectedCategoryId = 0;
+    // 선택된 카테고리 ID를 가져오는 함수
+    function getSelectedCategoryId(value) {
+        selectedCategoryId = value;
+        return selectedCategoryId;
+    }
+    // select 요소에 이벤트 리스너 추가
+
     function PostCard(){
         const city = ["서울","인천","대전","광주","대구","울산","부산"];
         let count = 0;
@@ -97,7 +112,12 @@
             }
         }).open();
     }
+
     function pendingSubmit(){
+        if(selectedCategoryId === 0){
+            alert("음식점 카테고리를 선택해주세요");
+            return;
+        }
         const foodName = $(".foodName").val();
         const foodOpen = $(".foodOpen").val();
         const foodClose = $(".foodClose").val();
@@ -113,6 +133,7 @@
             contentType: "application/json",
             data: JSON.stringify({
                 foodName: foodName,
+                categoryId: selectedCategoryId,
                 foodOpen: foodOpen,
                 foodClose: foodClose,
                 foodMin: foodMin,
@@ -122,7 +143,7 @@
                 foodDetailAddress: foodDetailAddress,
                 foodZoneCode: foodZoneCode
             }),success:function (response){
-                console.log(response);
+                alert(response);
             },error:function (response){
                 console.log(response);
                 alert(response.responseJSON.message);

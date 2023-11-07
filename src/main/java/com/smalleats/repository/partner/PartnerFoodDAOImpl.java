@@ -4,6 +4,7 @@ import com.smalleats.entity.*;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -59,5 +60,10 @@ public class PartnerFoodDAOImpl implements PartnerFoodDAO {
     public int paymentOrderStateChange(Payment payment) {
         System.out.println(payment);
         return sqlSession.update(NS+"paymentOrderStateChange", payment);
+    }
+
+    @Override
+    public List<Category> getCategoryList() {
+        return sqlSession.selectList(NS+"getCategoryList");
     }
 }
