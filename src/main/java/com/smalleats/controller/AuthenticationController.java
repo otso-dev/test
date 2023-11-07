@@ -51,8 +51,8 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/partner/login", method = RequestMethod.POST)
-    public ResponseEntity<?> partnerLogin(@RequestBody PartnerLoginReqDto partnerLoginReqDto, HttpServletResponse response){
-        return ResponseEntity.ok(authenticationService.partnerLogin(partnerLoginReqDto,response));
+    public ResponseEntity<?> partnerLogin(@RequestBody LoginReqDto partnerLoginReqDto, HttpServletResponse response){
+        return ResponseEntity.ok(authenticationService.login(partnerLoginReqDto,response));
     }
     @RequestMapping(value = "/admin/register", method = RequestMethod.POST)
     public ResponseEntity<?> adminRegister(@RequestBody AdminRegisterReqDto adminRegisterReqDto){
@@ -62,7 +62,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(true);
     }
     @RequestMapping(value = "/admin/login",method = RequestMethod.POST)
-    public ResponseEntity<?> adminLogin(@RequestBody AdminLoginReqDto adminLoginReqDto,HttpServletResponse response){
+    public ResponseEntity<?> adminLogin(@RequestBody LoginReqDto adminLoginReqDto,HttpServletResponse response){
         return ResponseEntity.ok(authenticationService.login(adminLoginReqDto,response));
     }
 

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
-<mapper namespace="com.smalleats.repository.FoodProductDAOImpl">
-    <resultMap id="foodProductMap" type="com.smalleats.entity.FoodProduct">
+<mapper namespace="FoodProductDAOImpl">
+
+    <resultMap id="foodProductMap" type="FoodProduct">
         <id property="foodId" column="food_id"/>
         <result property="foodName" column="food_name"/>
         <result property="foodImg" column="food_img"/>
@@ -11,7 +12,7 @@
         <result property="foodDeliveryPrice" column="food_delivery_price"/>
     </resultMap>
 
-    <resultMap id="foodMenuMap" type="com.smalleats.entity.FoodMenu">
+    <resultMap id="foodMenuMap" type="FoodMenu">
         <id property="foodMenuId" column="food_menu_id"/>
         <result property="foodMenuName" column="food_menu_name"/>
         <result property="foodId" column="food_id"/>
@@ -20,7 +21,7 @@
         <association property="foodProduct" resultMap="foodProductMap"/>
     </resultMap>
 
-    <resultMap id="DeliveryAreaMap" type="com.smalleats.entity.FoodDeliveryArea">
+    <resultMap id="DeliveryAreaMap" type="FoodDeliveryArea">
         <id property="foodDeliveryId" column="food_delivery_id"/>
         <result property="foodId" column="food_id"/>
         <result property="foodDeliveryArea" column="food_delivery_area"/>

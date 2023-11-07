@@ -11,7 +11,9 @@ public class UserAddressRespDto {
     private int userAddressId;
     private String userRoadAddress;
     private String userDetailAddress;
+    private String userAddressCategory;
     private int userZoneCode;
+    private int userAddressFlag;
 
     public UserAddressRespDto toDto(UserAddress userAddress){
         return UserAddressRespDto.builder()
@@ -19,6 +21,8 @@ public class UserAddressRespDto {
                 .userRoadAddress(userAddress.getUserRoadAddress())
                 .userDetailAddress(userAddress.getUserDetailAddress())
                 .userZoneCode(userAddress.getUserZoneCode())
+                .userAddressCategory(userAddress.getUserAddressCategory())
+                .userAddressFlag(userAddress.getUserAddressFlag())
                 .build();
     }
 }

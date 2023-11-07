@@ -12,7 +12,7 @@ import java.util.Map;
 @Repository
 @RequiredArgsConstructor
 public class PartnerFoodDAOImpl implements PartnerFoodDAO {
-    private final String NS = "com.smalleats.repository.partner.PartnerFoodDAOImpl.";
+    private final String NS = "PartnerFoodDAOImpl.";
     private final SqlSessionTemplate sqlSession;
 
 
@@ -47,13 +47,8 @@ public class PartnerFoodDAOImpl implements PartnerFoodDAO {
     }
 
     @Override
-    public List<Order> partnerOrderList(int foodId) {
+    public List<Payment> partnerOrderList(int foodId) {
         return sqlSession.selectList(NS + "partnerOrderList",foodId);
-    }
-
-    @Override
-    public List<OrderMenu> partnerOrderMenuList(int foodId) {
-        return sqlSession.selectList(NS + "partnerOrderMenuList",foodId);
     }
 
     @Override

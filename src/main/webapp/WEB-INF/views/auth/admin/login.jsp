@@ -39,6 +39,7 @@
             data: JSON.stringify({
                 email: email,
                 password: password,
+                role: "ADMIN"
             }),
             success:function (response){
                 alert(response.data);

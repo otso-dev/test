@@ -33,8 +33,9 @@
             contentType: "application/json",
             type: "POST",
             data: JSON.stringify({
-                partnerUserEmail : email,
-                partnerUserPassword : password
+                email: email,
+                password: password,
+                role: "PARTNER"
             }),success:function (response){
                 console.log(response);
                 window.location.href="/partner/partnerpage";

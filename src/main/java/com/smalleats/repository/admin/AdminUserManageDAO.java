@@ -12,6 +12,8 @@ import java.util.List;
 public interface AdminUserManageDAO {
     List<Authority> adminUserSelect();
     List<PartnerUser> adminPartnerUserSelect();
-    User getUserDetail(int userId);
     List<UserAddress> getUserAddressList(int userId);
+    User getUserDetail(int userId);
+    PartnerUser getPartnerUser(int partnerId);
+
 }

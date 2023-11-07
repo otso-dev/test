@@ -12,7 +12,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserDAOImpl implements UserDAO{
 
-    private final String NS = "com.smalleats.repository.UserDAOImpl.";
+    private final String NS = "UserDAOImpl.";
     private final SqlSessionTemplate sqlSession;
     public User findUserByEmail(String email) {
         return sqlSession.selectOne(NS + "findUserByEmail", email);
@@ -45,7 +45,7 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
-    public List<Order> getUserOrderList(int userId) {
+    public List<Payment> getUserOrderList(int userId) {
         return sqlSession.selectList(NS+"getUserOrderList",userId);
     }
 

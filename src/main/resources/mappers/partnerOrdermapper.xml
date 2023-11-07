@@ -1,98 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
-<mapper namespace="com.smalleats.repository.partner.PartnerFoodDAOImpl">
-    <resultMap id="orderMap" type="com.smalleats.entity.Order">
+<mapper namespace="PartnerFoodDAOImpl">
+
+    <resultMap id="paymentMap" type="Payment">
+        <id property="paymentId" column="payment_id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="foodId" column="food_id"/>
+        <result property="paymentDay" column="payment_day"/>
+        <result property="paymentPrice" column="payment_price"/>
+        <result property="paymentOrderState" column="payment_order_state"/>
+
+        <association property="order" resultMap="orderMap"/>
+        <association property="foodProduct" resultMap="foodMap"/>
+    </resultMap>
+
+    <resultMap id="orderMap" type="Order">
         <id property="orderId" column="order_id"/>
         <result property="userId" column="user_id"/>
         <result property="orderReqTime" column="order_req_time"/>
         <result property="orderDeliveryDay" column="order_delivery_day"/>
-        <association property="food" resultMap="foodMap"/>
+        <result property="orderRoadAddress" column="user_road_address"/>
+        <result property="orderDetailAddress" column="user_detail_address"/>
+        <result property="orderZoneCode" column="user_zonecode"/>
         <association property="user" resultMap="userMap"/>
-        <association property="payment" resultMap="paymentMap"/>
-        <association property="userAddress" resultMap="userAddressMap"/>
+        <association property="orderMenu" resultMap="orderMenuMap"/>
     </resultMap>
 
-    <resultMap id="orderMenuMap" type="com.smalleats.entity.OrderMenu">
-        <id property="orderMenuId" column="order_menu_id"/>
+    <resultMap id="orderMenuMap" type="OrderMenu">
         <result property="orderId" column="order_id"/>
-        <result property="menuId" column="menuId"/>
-        <result property="menuNumbers" column="order_menu_numbers"/>
+        <result property="menuInfo" column="order_menu_info"/>
         <association property="order" resultMap="orderMap"/>
-        <association property="foodMenu" resultMap="foodMenumap"/>
-        <association property="user" resultMap="userMap"/>
     </resultMap>
 
-    <resultMap id="foodMenumap" type="com.smalleats.entity.FoodMenu">
-        <id property="foodMenuId" column="food_menu_id"/>
-        <result property="foodId" column="food_id"/>
-        <result property="foodMenuName" column="food_menu_name"/>
-        <result property="foodMenuImg" column="food_menu_img"/>
-        <result property="foodMenuPrice" column="food_menu_price"/>
-    </resultMap>
-
-    <resultMap id="foodMap" type="com.smalleats.entity.FoodProduct">
+    <resultMap id="foodMap" type="FoodProduct">
         <id property="foodId" column="food_id"/>
         <result property="foodName" column="food_name"/>
     </resultMap>
-    <resultMap id="userMap" type="com.smalleats.entity.User">
+
+    <resultMap id="userMap" type="User">
         <id property="userId" column="user_id"/>
         <result property="userName" column="username"/>
         <result property="phoneNumber" column="phone_number"/>
     </resultMap>
-    <resultMap id="paymentMap" type="com.smalleats.entity.Payment">
-        <id property="paymentId" column="payment_id"/>
-        <result property="orderId" column="order_id"/>
-        <result property="paymentPrice" column="payment_price"/>
-        <result property="paymentOrderState" column="payment_order_state"/>
-    </resultMap>
-    <resultMap id="userAddressMap" type="com.smalleats.entity.UserAddress">
-        <id property="userAddressId" column="user_address_id"/>
-        <result property="userRoadAddress" column="user_road_address"/>
-        <result property="userDetailAddress" column="user_detail_address"/>
-        <result property="userZoneCode" column="user_zonecode"/>
-    </resultMap>
 
-    <select id="partnerOrderList" resultMap="orderMap">
+    <select id="partnerOrderList" resultMap="paymentMap">
         select
-            ot.order_id,
+            pb.order_id,
+            pb.food_id,
+            pb.payment_order_state,
+            pb.payment_price,
+            pb.payment_day,
             ot.user_id,
-            ut.username,
-            ut.phone_number,
-            uat.user_road_address,
-            uat.user_detail_address,
-            uat.user_zonecode,
             ot.order_req_time,
             ot.order_delivery_day,
-            ft.food_name,
-            pt.payment_price,
-            pt.payment_order_state
+            ot.user_road_address,
+            ot.user_detail_address,
+            ot.user_zonecode,
+            ut.username,
+            ut.phone_number,
+            omt.order_menu_info
         from
-            order_tb ot
-                left join smalleatsDB.food_tb ft on ot.food_id = ft.food_id
-                left join smalleatsDB.payment_tb pt on ot.order_id = pt.order_id
-                left join smalleatsDB.user_tb ut on ot.user_id = ut.user_id
-                left join smalleatsDB.user_address_tb uat on ot.user_id = uat.user_id
+            payment_tb pb
+                left outer join smalleatsDB.order_tb ot on pb.order_id = ot.order_id
+                left outer join smalleatsDB.order_menu_tb omt on ot.order_id = omt.order_id
+                left outer join smalleatsDB.user_tb ut on ot.user_id = ut.user_id
         where
-            ot.food_id = #{foodId};
+            pb.food_id = #{foodId};
     </select>
 
-    <select id="partnerOrderMenuList" resultMap="orderMenuMap">
-        select
-            ut.user_id,
-            ot.order_id,
-            omt.order_menu_numbers,
-            fmt.food_menu_name,
-            fmt.food_menu_price
-        from
-            order_menu_tb omt
-                left join smalleatsDB.order_tb ot on omt.order_id = ot.order_id
-                left join food_menu_tb fmt on fmt.food_menu_id = omt.menu_id
-                left join smalleatsDB.user_tb ut on ot.user_id = ut.user_id
-        where
-            ot.food_id = #{foodId};
-    </select>
-
-    <update id="paymentOrderStateChange" parameterType="com.smalleats.entity.Payment">
+    <update id="paymentOrderStateChange" parameterType="Payment">
         update payment_tb
         <trim prefix="set" suffixOverrides=",">
             <if test="paymentOrderState == '주문접수대기중'">

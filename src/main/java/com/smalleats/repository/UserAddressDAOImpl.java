@@ -6,11 +6,12 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
 public class UserAddressDAOImpl implements UserAddressDAO {
-    private final String NS = "com.smalleats.repository.UserAddressDAOImpl.";
+    private final String NS = "UserAddressDAOImpl.";
     private final SqlSessionTemplate sqlSession;
 
     @Override
@@ -31,5 +32,15 @@ public class UserAddressDAOImpl implements UserAddressDAO {
     @Override
     public int userAddressDelete(int userAddressId) {
         return sqlSession.delete(NS + "userAddressDelete",userAddressId);
+    }
+
+    @Override
+    public int userAddressMax(int userId) {
+        return sqlSession.selectOne(NS+"userAddressMax",userId);
+    }
+
+    @Override
+    public int userAddressDefault(Map<String, Integer> requestMap) {
+        return sqlSession.update(NS+"userAddressDefault",requestMap);
     }
 }

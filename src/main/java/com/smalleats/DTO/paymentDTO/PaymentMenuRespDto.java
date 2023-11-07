@@ -9,15 +9,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentMenuRespDto {
-    private int MenuNumbers;
-    private int foodMenuPrice;
-    private String foodMenuName;
-
-    public PaymentMenuRespDto toDto(OrderMenu orderMenu){
-        return PaymentMenuRespDto.builder()
-                .MenuNumbers(orderMenu.getMenuNumbers())
-                .foodMenuPrice(orderMenu.getFoodMenu().getFoodMenuPrice())
-                .foodMenuName(orderMenu.getFoodMenu().getFoodMenuName())
-                .build();
-    }
+    private int count;
+    private int price;
+    private int menuId;
+    private String menuName;
+    private String menuInfo;
+    
 }

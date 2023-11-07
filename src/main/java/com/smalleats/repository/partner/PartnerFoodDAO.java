@@ -17,8 +17,7 @@ public interface PartnerFoodDAO {
     PendingFood getPendingFood(int partnerId);
     FoodDeliveryArea getDeliveryArea(Map<String,String> deliveryMap);
 
-    List<Order> partnerOrderList(int foodId);
-    List<OrderMenu> partnerOrderMenuList(int foodId);
+    List<Payment> partnerOrderList(int foodId);
     FoodMenu getFoodMenu(Map<String,String> foodMenuMap);
     int paymentOrderStateChange(Payment payment);
     List<Category> getCategoryList();

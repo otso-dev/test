@@ -1,4 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <typeAliases>
+        <!--Entity-->
+        <typeAlias type="com.smalleats.entity.Authority" alias="Authority"/>
+        <typeAlias type="com.smalleats.entity.Category" alias="Category"/>
+        <typeAlias type="com.smalleats.entity.FoodDeliveryArea" alias="FoodDeliveryArea"/>
+        <typeAlias type="com.smalleats.entity.FoodMenu" alias="FoodMenu"/>
+        <typeAlias type="com.smalleats.entity.FoodProduct" alias="FoodProduct"/>
+        <typeAlias type="com.smalleats.entity.Order" alias="Order"/>
+        <typeAlias type="com.smalleats.entity.OrderMenu" alias="OrderMenu"/>
+        <typeAlias type="com.smalleats.entity.PartnerUser" alias="PartnerUser"/>
+        <typeAlias type="com.smalleats.entity.Payment" alias="Payment"/>
+        <typeAlias type="com.smalleats.entity.PendingFood" alias="PendingFood"/>
+        <typeAlias type="com.smalleats.entity.Role" alias="Role"/>
+        <typeAlias type="com.smalleats.entity.UserAddress" alias="UserAddress"/>
+        <typeAlias type="com.smalleats.entity.User" alias="User"/>
+        <!--DAO-->
+        <typeAlias type="com.smalleats.repository.admin.AdminFoodManageDAOImpl" alias="AdminFoodManageDAOImpl"/>
+        <typeAlias type="com.smalleats.repository.admin.AdminUserManageDAOImpl" alias="AdminUserManageDAOImpl"/>
+        <typeAlias type="com.smalleats.repository.partner.PartnerFoodDAOImpl" alias="PartnerFoodDAOImpl"/>
+        <typeAlias type="com.smalleats.repository.FoodProductDAOImpl" alias="FoodProductDAOImpl"/>
+        <typeAlias type="com.smalleats.repository.OrderDAOImpl" alias="OrderDAOImpl"/>
+        <typeAlias type="com.smalleats.repository.PaymentDAOImpl" alias="PaymentDAOImpl"/>
+        <typeAlias type="com.smalleats.repository.UserAddressDAOImpl" alias="UserAddressDAOImpl"/>
+        <typeAlias type="com.smalleats.repository.UserDAOImpl" alias="UserDAOImpl"/>
+    </typeAliases>
 </configuration>

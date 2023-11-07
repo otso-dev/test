@@ -15,6 +15,7 @@ public class UserAddress {
     private String userAddressSigungu;
     private String userAddressCategory;
     private int userZoneCode;
+    private int userAddressFlag;
 
     private User user;
 

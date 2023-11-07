@@ -1,5 +1,6 @@
 package com.smalleats.service.partner;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.smalleats.DTO.partnerDto.*;
 import com.smalleats.entity.*;
 import com.smalleats.repository.partner.PartnerFoodDAO;
@@ -44,7 +45,7 @@ public class PartnerFoodService {
         foodMenuMap.put("foodId",String.valueOf(menuRegisterReqDto.getFoodId()));
         foodMenuMap.put("foodMenuName", menuRegisterReqDto.getFoodMenuName());
         FoodMenu foodMenu = partnerFoodDAO.getFoodMenu(foodMenuMap);
-        if(foodMenu == null){
+        if(foodMenu != null){
             throw new CustomException("이미 등록된 메뉴입니다");
         }
         return partnerFoodDAO.foodMenuInsert(menuRegisterReqDto.toEntity());
@@ -77,30 +78,18 @@ public class PartnerFoodService {
         PrincipalUser principalUser = getPrincipalUser();
 
         PendingFood pendingFood = partnerFoodDAO.getPendingFood(principalUser.getPartnerId());
+
         OrderListRespDto orderListRespDto = new OrderListRespDto();
 
         List<OrderListRespDto> orderListRespDtos = new ArrayList<>();
-        List<Order> orderList = partnerFoodDAO.partnerOrderList(pendingFood.getFoodId());
+        List<Payment> orderList = partnerFoodDAO.partnerOrderList(pendingFood.getFoodId());
 
         orderList.forEach(order->{
-            orderListRespDtos.add(orderListRespDto.toDto(order));
-        });
-
-        OrderMenuRespDto orderMenuRespDto = new OrderMenuRespDto();
-
-        List<OrderMenuRespDto> orderMenuRespDtos = new ArrayList<>();
-        List<OrderMenu> orderMenuList = partnerFoodDAO.partnerOrderMenuList(pendingFood.getFoodId());
-
-        orderMenuList.forEach(orderMenu->{
-            orderMenuRespDtos.add(orderMenuRespDto.toDto(orderMenu));
-        });
-
-        orderListRespDtos.forEach(order->{
-            orderMenuRespDtos.forEach(orderMenu->{
-                if(order.getOrderId() == orderMenu.getOrderId()){
-                   order.getOrderMenuList().add(orderMenu);
-                }
-            });
+            try {
+                orderListRespDtos.add(orderListRespDto.toDto(order));
+            } catch (Exception e) {
+                throw new CustomException("JSON 파싱 실패");
+            }
         });
 
         return orderListRespDtos;

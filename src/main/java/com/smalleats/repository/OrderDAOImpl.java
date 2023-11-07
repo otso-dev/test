@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class OrderDAOImpl implements OrderDAO{
-    private final String NS = "com.smalleats.repository.OrderDAOImpl.";
+    private final String NS = "OrderDAOImpl.";
     private final SqlSessionTemplate sqlSession;
 
     @Override
@@ -19,7 +19,7 @@ public class OrderDAOImpl implements OrderDAO{
         return sqlSession.insert(NS+"orderInsert",order);
     }
     @Override
-    public int orderMenuInsert(List<OrderMenu> orderMenuList) {
+    public int orderMenuInsert(OrderMenu orderMenuList) {
         return sqlSession.insert(NS + "orderMenuInsert",orderMenuList);
     }
 }

@@ -1,8 +1,7 @@
 package com.smalleats.entity;
 
-
-
 import lombok.*;
+import org.json.simple.JSONObject;
 
 
 @Getter
@@ -11,12 +10,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderMenu {
-    private int orderMenuId;
     private int orderId;
-    private int foodMenuId;
-    private int menuNumbers;
+    private String menuInfo;
 
     private Order order;
-    private FoodMenu foodMenu;
-    private User user;
 }

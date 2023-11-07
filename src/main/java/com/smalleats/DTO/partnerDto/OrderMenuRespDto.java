@@ -1,7 +1,12 @@
 package com.smalleats.DTO.partnerDto;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smalleats.entity.OrderMenu;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Builder
@@ -9,19 +14,8 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class OrderMenuRespDto {
-    private int userId;
-    private int orderId;
-    private int menuNumbers;
-    private String foodMenuName;
-    private int foodMenuPrice;
-
-    public OrderMenuRespDto toDto(OrderMenu orderMenu){
-        return OrderMenuRespDto.builder()
-                .userId(orderMenu.getUser().getUserId())
-                .orderId(orderMenu.getOrderId())
-                .menuNumbers(orderMenu.getMenuNumbers())
-                .foodMenuName(orderMenu.getFoodMenu().getFoodMenuName())
-                .foodMenuPrice(orderMenu.getFoodMenu().getFoodMenuPrice())
-                .build();
-    }
+    private int menuId;
+    private int count;
+    private int price;
+    private String menuName;
 }

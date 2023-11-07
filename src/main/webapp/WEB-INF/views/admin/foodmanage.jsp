@@ -19,25 +19,34 @@
 
         </div>
         <div class="food-content">
-            <c:forEach var="pendingFoodList" items="${pendingFoodList}">
-                <div class="food-box">
-                    <div class="food-img-box">
+            <c:choose>
+                <c:when test="${empty pendingFoodList}">
+                    <p>입점을 신청한 음식점이 없습니다.</p>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach var="pendingFoodList" items="${pendingFoodList}">
+                        <div class="food-box" onclick="location='/admin/detailpendingfood/${pendingFoodList.foodId}'">
+                            <div class="food-img-box">
 
-                    </div>
-                    <footer class="food-footer">
-                        <div class="food-name-box">
-                            <p>음식점 이름: ${pendingFoodList.foodName}</p>
-                            <p>지역: ${pendingFoodList.foodAddressSido}</p>
-                            <p>주소: ${pendingFoodList.foodRoadAddress}</p>
+                            </div>
+                            <footer class="food-footer">
+                                <div class="food-name-box">
+                                    <p>음식점 이름: ${pendingFoodList.foodName}</p>
+                                    <p>지역: ${pendingFoodList.foodAddressSido}</p>
+                                    <p>주소: ${pendingFoodList.foodRoadAddress}</p>
+                                </div>
+                                <div class="food-delivery-box">
+                                    <p>오픈시간: ${pendingFoodList.foodOpen}</p>
+                                    <p>마감시간: ${pendingFoodList.foodClose}</p>
+                                </div>
+                            </footer>
+                            <c:if test="${pendingFoodList.pendingStatus eq 'PENDING'}">
+                                <button type="button" onclick="adminFoodSubject(${pendingFoodList.pendingFoodId})">음식점 등록</button>
+                            </c:if>
                         </div>
-                        <div class="food-delivery-box">
-                            <p>오픈시간: ${pendingFoodList.foodOpen}</p>
-                            <p>마감시간: ${pendingFoodList.foodClose}</p>
-                        </div>
-                    </footer>
-                    <button type="button" onclick="adminFoodSubject(${pendingFoodList.pendingFoodId})">음식점 등록</button>
-                </div>
-            </c:forEach>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
         </div>
     </main>
 </body>

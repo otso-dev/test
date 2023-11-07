@@ -14,8 +14,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/main/main.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/reset/reset.css">
     <title>smalleats</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
-    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/JS/app.js">
     </script>
     <script src="${pageContext.request.contextPath}/resources/JS/main.js?testNm=1"></script>
@@ -30,8 +29,8 @@
             </div>
             <div class="page-btn-content">
                 <button class="smalleats-mypage-btn hidden-main" type="button" onclick="location='/user/mypage'">마이페이지</button>
-                <button class="smalleats-partners-btn" type="button" onclick="location='/auth/partner'">입점문의</button>
-                <button class="smalleats-admin-btn hidden-main"  type="button" onclick="location='/user/mypage'">관리자 페이지</button>
+                <button class="smalleats-partners-btn" type="button">입점문의</button>
+                <button class="smalleats-admin-btn hidden-main" type="button">관리자 페이지</button>
             </div>
             <div class="join-content">
                 <button class="smalleats-register-btn" type="button" onclick="location='/auth/register'">회원가입</button>

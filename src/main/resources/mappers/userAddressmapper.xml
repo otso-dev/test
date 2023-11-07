@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
-<mapper namespace="com.smalleats.repository.UserAddressDAOImpl">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserAddressDAOImpl">
 
-    <resultMap id="userAddressMap" type="com.smalleats.entity.UserAddress">
+    <resultMap id="userAddressMap" type="UserAddress">
         <id property="userAddressId" column="user_address_id"/>
         <result property="userId" column="user_id"/>
         <result property="userRoadAddress" column="user_road_address"/>
@@ -11,10 +12,11 @@
         <result property="userAddressSido" column="user_address_sido"/>
         <result property="userAddressSigungu" column="user_address_sigungu"/>
         <result property="userAddressCategory" column="user_address_category"/>
+        <result property="userAddressFlag" column="user_address_flag"/>
         <association property="user" resultMap="userMap"/>
     </resultMap>
 
-    <resultMap id="userMap" type="com.smalleats.entity.User">
+    <resultMap id="userMap" type="User">
         <id property="userId" column="user_id"/>
         <result property="userName" column="username"/>
         <result property="email" column="email"/>
@@ -22,24 +24,24 @@
         <result property="phoneNumber" column="phone_number"/>
         <collection property="authorities" javaType="list" resultMap="authorityMap"/>
     </resultMap>
-    <resultMap type="com.smalleats.entity.Authority" id="authorityMap">
+    <resultMap type="Authority" id="authorityMap">
         <id property="authorityId" column="authority_id"/>
         <result property="userId" column="user_id"/>
         <result property="roleId" column="role_id"/>
         <association property="role" resultMap="roleMap" />
     </resultMap>
 
-    <resultMap type="com.smalleats.entity.Role" id="roleMap">
+    <resultMap type="Role" id="roleMap">
         <id property="roleId" column="role_id"/>
         <result property="roleName" column="role_name"/>
     </resultMap>
 
-    <insert id="userAddressInsert" parameterType="com.smalleats.entity.UserAddress">
+    <insert id="userAddressInsert" parameterType="UserAddress">
         insert into user_address_tb
         (user_address_id, user_id, user_road_address, user_detail_address, user_zonecode
-        , user_address_sido, user_address_sigungu, user_address_category)
+        , user_address_sido, user_address_sigungu, user_address_category,user_address_flag)
         values (0,#{userId},#{userRoadAddress},#{userDetailAddress},#{userZoneCode}
-               ,#{userAddressSido},#{userAddressSigungu},#{userAddressCategory})
+               ,#{userAddressSido},#{userAddressSigungu},#{userAddressCategory},0)
     </insert>
 
     <select id="getUserAddressList" resultMap="userAddressMap">
@@ -49,13 +51,18 @@
             user_detail_address,
             user_address_sido,
             user_address_sigungu,
-            user_zonecode
+            user_zonecode,
+            user_address_category,
+            user_address_flag
         from
             user_address_tb
         where
             user_id = #{userId}
+        order by
+            user_address_flag desc;
+
     </select>
-    <update id="userAddressUpdate" parameterType="com.smalleats.entity.UserAddress">
+    <update id="userAddressUpdate" parameterType="UserAddress">
         update user_address_tb
         set
             user_road_address = #{userRoadAddress},
@@ -64,6 +71,13 @@
         where
             user_id = #{userId} and user_address_id = #{userAddressId}
     </update>
+
+    <update id="userAddressDefault" parameterType="Map">
+        update user_address_tb
+        set
+            user_address_flag = if(user_address_id = #{addressId}, 1, 0)
+        where user_id = #{userId}
+    </update>
     <delete id="userAddressDelete">
         delete
         from
@@ -71,4 +85,16 @@
         where
             user_address_id = #{userAddressId}
     </delete>
+
+    <select id="userAddressMax" resultType="Integer">
+        select
+            count(user_id) as count
+        from user_address_tb
+        where
+            user_id = #{userId}
+    </select>
+
+    <select id="getUserAddressDefault" resultType="UserAddress">
+
+    </select>
 </mapper>

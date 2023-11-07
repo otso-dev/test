@@ -14,4 +14,9 @@ public class FoodProduct {
     private String foodClose;
     private String foodMin;
     private String foodDeliveryPrice;
+    private String foodRoadAddress;
+    private String foodDetailAddress;
+    private int foodZoneCode;
+
+    private Category category;
 }

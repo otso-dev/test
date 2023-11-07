@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class AdminUserManageDAOImpl implements AdminUserManageDAO{
-    private final String NS = "com.smalleats.repository.admin.AdminUserManageDAOImpl.";
+    private final String NS = "AdminUserManageDAOImpl.";
     private final SqlSessionTemplate sqlSession;
 
     @Override
@@ -31,6 +31,10 @@ public class AdminUserManageDAOImpl implements AdminUserManageDAO{
         return sqlSession.selectOne(NS+"getUserDetail",userId);
     }
 
+    @Override
+    public PartnerUser getPartnerUser(int partnerId) {
+        return sqlSession.selectOne(NS +"getPartnerUser", partnerId);
+    }
     @Override
     public List<UserAddress> getUserAddressList(int userId) {
         return sqlSession.selectList(NS+"getUserAddressList",userId);

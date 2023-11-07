@@ -10,13 +10,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
 public class AdminHomeController {
     private final AdminFoodManageService adminFoodManageService;
     private final AdminUserManageService adminUserManageService;
-    private final UserService userService;
     @RequestMapping(value = "/admin/adminpage",method = RequestMethod.GET)
     public String adminPage(){
         return "/admin/adminpage";
@@ -34,8 +34,8 @@ public class AdminHomeController {
         return "/admin/category";
     }
     @RequestMapping(value = "/admin/foodmanage",method = RequestMethod.GET)
-    public String adminFoodManage(Model model){
-        model.addAttribute("pendingFoodList",adminFoodManageService.getPendingFoods());
+    public String adminFoodManage(Model model, @RequestParam(value ="pendingStatus", required = false) String pendingStatus){
+        model.addAttribute("pendingFoodList",adminFoodManageService.getPendingFoods(pendingStatus));
         return "/admin/foodmanage";
     }
 
@@ -48,7 +48,29 @@ public class AdminHomeController {
     public String adminUserDetail(Model model,@PathVariable int userId){
         model.addAttribute("userInfo",adminUserManageService.getUserDetail(userId));
         model.addAttribute("userAddressList",adminUserManageService.getUserAddressList(userId));
-        model.addAttribute("userOrderList",userService.getUserOrderList(userId));
+        model.addAttribute("userOrderList", adminUserManageService.getUserOrderList(userId));
         return "/admin/user";
+    }
+
+    @RequestMapping(value = "/admin/partnermanage", method = RequestMethod.GET)
+    public String adminPartnerUserManager(Model model){
+        model.addAttribute("partnerUserList",adminUserManageService.adminPartnerUserSelectList());
+        return "/admin/partnermanage";
+    }
+
+    @RequestMapping(value = "/admin/partnermanage/partner/{partnerId}", method = RequestMethod.GET)
+    public String adminPartnerUserManager(Model model, @PathVariable int partnerId){
+        model.addAttribute("partnerInfo",adminUserManageService.getPartnerUser(partnerId));
+        model.addAttribute("pendingFoodInfo",adminUserManageService.getPendingFood(partnerId));
+        return "/admin/partner";
+    }
+
+    @RequestMapping(value = "/admin/detailpendingfood/{foodId}", method = RequestMethod.GET)
+    public String adminDetailPendingFood(Model model, @PathVariable int foodId){
+        model.addAttribute("pendingFood",adminFoodManageService.getPendingFoodDetail(foodId));
+        model.addAttribute("foodMenuList",adminFoodManageService.getFoodMenuList(foodId));
+        model.addAttribute("foodDeliveryAreaList",adminFoodManageService.getDeliveryAreaList(foodId));
+        model.addAttribute("orderList",adminFoodManageService.getFoodOrderList(foodId));
+        return"/admin/detailpendingfood";
     }
 }
