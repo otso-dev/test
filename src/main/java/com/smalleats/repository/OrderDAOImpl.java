@@ -33,6 +33,6 @@ public class OrderDAOImpl implements OrderDAO{
 
     @Override
     public List<Payment> findByDeliveryDate(int foodId) {
-        return sqlSession.selectList(NS+"findByDeliveryData",foodId);
+        return sqlSession.selectList(NS+"findByDeliveryDate",foodId);
     }
 }

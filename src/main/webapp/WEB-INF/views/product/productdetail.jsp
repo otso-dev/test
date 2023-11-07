@@ -106,6 +106,8 @@
     let userZoneCode = document.getElementById("zone-code");
     const addressSelected = document.getElementById('selected-box');
 
+
+    //유저 주소 목록
     let userAddressList = [
         <c:forEach var="address" items="${userAddressList}" varStatus="loop">
         {
@@ -179,6 +181,41 @@
         }
     }
 
+
+    //음식점 배달 날짜 현황
+    let foodDeliveryDate = [
+        <c:forEach var="deliveryDateList" items="${deliveryDateList}" varStatus="loop">
+        {
+            "foodName": "${deliveryDateList.foodName}",
+            "orderDeliveryDay":"${deliveryDateList.orderDeliveryDay}",
+            "countDay": "${deliveryDateList.countDay}"
+        }<c:if test="${!loop.last}">,</c:if>
+        </c:forEach>
+    ]
+
+    // 배달 날짜 선택
+    let today = new Date();
+    let nextWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
+    let deliveryDayCountMax = 3;
+
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+
+    today = yyyy + '-' + mm + '-' + dd;
+
+    dd = String(nextWeek.getDate()).padStart(2, '0');
+    mm = String(nextWeek.getMonth() + 1).padStart(2, '0');
+
+    console.log("Date" + dd);
+    console.log("Month" + mm);
+
+    nextWeek = yyyy + '-' + mm + '-' + dd;
+
+    document.getElementById("delivery-date").setAttribute("min", today);
+    document.getElementById("delivery-date").setAttribute("max", nextWeek);
+
+
     function menuChoice(id, price, name) {
         if (selectedMenus[id]) {
             selectedMenus[id].count += 1;
@@ -220,26 +257,8 @@
             }
         }
     }
-
-    let today = new Date();
-    let nextWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
-
-    let dd = String(today.getDate()).padStart(2, '0');
-    let mm = String(today.getMonth() + 1).padStart(2, '0');
-    const yyyy = today.getFullYear();
-
-    today = yyyy + '-' + mm + '-' + dd;
-
-    dd = String(nextWeek.getDate()).padStart(2, '0');
-    mm = String(nextWeek.getMonth() + 1).padStart(2, '0');
-
-    nextWeek = yyyy + '-' + mm + '-' + dd;
-
-    document.getElementById("delivery-date").setAttribute("min", today);
-    document.getElementById("delivery-date").setAttribute("max", nextWeek);
-
+    // 배달 요청 시간 선택
     const selectTimeElement = document.getElementById('delivery-time');
-
     let foodOpen = ${productDetail.foodOpen};
     let foodClose = ${productDetail.foodClose} + 12;
 
@@ -249,6 +268,7 @@
         optionElement.value=i;
         selectTimeElement.add(optionElement);
     }
+
     function order(){
         const orderReqTime = document.getElementById('delivery-time').value;
         const orderReqDeliveryDay = document.getElementById('delivery-date').value;
