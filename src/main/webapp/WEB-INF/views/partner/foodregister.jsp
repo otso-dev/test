@@ -66,6 +66,9 @@
             <input class="foodAddressSido" type="text" placeholder="시/도" readonly>
         </label>
         <label>
+            <input class="foodAddressSiGunGu" type="text" placeholder="시/군/구" readonly>
+        </label>
+        <label>
             <input class="foodRoadAddress" type="text" placeholder="도로명 주소" readonly>
         </label>
         <label>
@@ -101,6 +104,7 @@
                     document.querySelector(".foodAddressSido").value = data.sido;
                     document.querySelector(".foodRoadAddress").value = data.roadAddress;
                     document.querySelector(".foodZoneCode").value = data.zonecode;
+                    document.querySelector(".foodAddressSiGunGu").value = data.sigungu;
                     // console.log(data);
                 }else if(data.userSelectedType === "J"){
                     alert("지번주소는 더 이상 지원하지 않습니다.");
@@ -124,6 +128,7 @@
         const foodMin = $(".foodMin").val();
         const foodDeliveryPrice = $(".foodDeliveryPrice").val();
         const foodAddressSido = $(".foodAddressSido").val();
+        const foodAddressSiGunGu = $(".foodAddressSiGunGu").val();
         const foodRoadAddress = $(".foodRoadAddress").val();
         const foodDetailAddress = $(".foodDetailAddress").val();
         const foodZoneCode = $(".foodZoneCode").val();
@@ -139,6 +144,7 @@
                 foodMin: foodMin,
                 foodDeliveryPrice: foodDeliveryPrice,
                 foodAddressSido: foodAddressSido,
+                foodAddressSiGunGu: foodAddressSiGunGu,
                 foodRoadAddress: foodRoadAddress,
                 foodDetailAddress: foodDetailAddress,
                 foodZoneCode: foodZoneCode

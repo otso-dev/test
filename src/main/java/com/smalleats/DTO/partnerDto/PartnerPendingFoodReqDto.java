@@ -23,6 +23,7 @@ public class PartnerPendingFoodReqDto {
     private int foodMin;
     private int foodDeliveryPrice;
     private String foodAddressSido;
+    private String foodAddressSiGunGu;
     private String foodRoadAddress;
     private String foodDetailAddress;
     private int foodZoneCode;
@@ -42,6 +43,7 @@ public class PartnerPendingFoodReqDto {
                 .foodRoadAddress(foodRoadAddress)
                 .foodDetailAddress(foodDetailAddress)
                 .foodZoneCode(foodZoneCode)
+                .foodAddressSiGunGu(foodAddressSiGunGu)
                 .build();
     }
 }

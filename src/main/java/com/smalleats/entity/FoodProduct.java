@@ -17,6 +17,8 @@ public class FoodProduct {
     private String foodRoadAddress;
     private String foodDetailAddress;
     private int foodZoneCode;
+    private String foodAddressSiGunGu;
+    private String foodAddressSido;
 
     private Category category;
 }

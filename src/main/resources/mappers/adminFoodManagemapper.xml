@@ -128,7 +128,8 @@
             food_address_sido,
             food_road_address,
             food_detail_address,
-            food_zonecode
+            food_zonecode,
+            food_address_sigungu
         from pending_food_tb
         where pending_food_id = #{foodId}
     </insert>
