@@ -94,7 +94,4 @@
             user_id = #{userId}
     </select>
 
-    <select id="getUserAddressDefault" resultType="UserAddress">
-
-    </select>
 </mapper>

@@ -25,7 +25,6 @@
         <id property="foodDeliveryId" column="food_delivery_id"/>
         <result property="foodId" column="food_id"/>
         <result property="foodDeliveryArea" column="food_delivery_area"/>
-        <association property="foodProduct" resultMap="foodProductMap"/>
     </resultMap>
     <select id="getFoodProducts" resultMap="foodProductMap">
         select

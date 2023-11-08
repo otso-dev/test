@@ -2,6 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 <mapper namespace="OrderDAOImpl">
 
+    <resultMap id="paymentMap" type="Payment">
+        <id property="paymentId" column="payment_id"/>
+        <result property="countDay" column="count_day"/>
+        <association property="order" resultMap="orderMap"/>
+        <association property="foodProduct" resultMap="foodMap"/>
+    </resultMap>
+
+    <resultMap id="orderMap" type="Order">
+        <id property="orderId" column="order_id"/>
+        <result property="orderDeliveryDay" column="order_delivery_day"/>
+    </resultMap>
+    <resultMap id="foodMap" type="FoodProduct">
+        <id property="foodId" column="food_id"/>
+        <result property="foodName" column="food_name"/>
+    </resultMap>
+
+
+    <resultMap id="foodDeliveryMap" type="FoodDeliveryArea">
+        <id property="foodDeliveryId" column="food_delivery_id"/>
+        <result property="foodDeliveryArea" column="food_delivery_area"/>
+    </resultMap>
+
     <insert id="orderInsert" parameterType="Order"
             useGeneratedKeys="true"
             keyProperty="orderId">
@@ -15,4 +37,27 @@
         (order_id, order_menu_info)
         values (#{orderId},#{menuInfo})
     </insert>
+
+    <select id="findByDeliveryArea" resultMap="foodDeliveryMap">
+        select
+            food_id,
+            food_delivery_area
+        from food_delivery_tb
+        where
+            food_id = #{foodId} and food_delivery_area = #{SiGunGu};
+    </select>
+
+    <select id="findByDeliveryDate" resultMap="paymentMap">
+        select
+            ft.food_name,
+            ot.order_delivery_day,
+            count(ot.order_delivery_day) as count_day
+        from payment_tb pt
+                 left outer join smalleatsDB.order_tb ot on pt.order_id = ot.order_id
+                 left outer join smalleatsDB.food_tb ft on pt.food_id = ft.food_id
+        where
+            pt.food_id = #{foodId}
+        group by
+            ot.order_delivery_day;
+    </select>
 </mapper>

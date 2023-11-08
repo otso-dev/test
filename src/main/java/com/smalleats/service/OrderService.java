@@ -3,10 +3,13 @@ package com.smalleats.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.gson.JsonObject;
+import com.smalleats.DTO.foodProductDTO.FoodDeliveryDayCountRespDto;
 import com.smalleats.DTO.orderDTO.OrderMenuReqDto;
 import com.smalleats.DTO.orderDTO.OrderReqDto;
+import com.smalleats.entity.FoodDeliveryArea;
 import com.smalleats.entity.Order;
 import com.smalleats.entity.OrderMenu;
+import com.smalleats.entity.Payment;
 import com.smalleats.repository.OrderDAO;
 import com.smalleats.security.PrincipalUser;
 import com.smalleats.service.exception.CustomException;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +34,42 @@ public class OrderService {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Order order = orderReqDto.toEntity(principalUser.getUserId());
 
+        if(!findByDeliveryArea(orderReqDto.getFoodId(), orderReqDto.getOrderSiGunGu())){
+            throw new CustomException("배달이 불가한 지역입니다.");
+        }
+
         int orderResult = orderDAO.orderInsert(order);
+        String orderMenuInfoAsJsonArray = getString(orderReqDto, orderResult);
+
+        // OrderMenu 객체 생성
+        OrderMenu orderMenu = OrderMenu.builder()
+                .orderId(order.getOrderId())
+                .menuInfo(orderMenuInfoAsJsonArray)
+                .build();
+
+        // DB에 저장
+        int orderMenuResult = orderDAO.orderMenuInsert(orderMenu);
+        if (orderMenuResult <= 0) {
+            throw new CustomException("주문실패");
+        }
+
+        return order.getOrderId();
+    }
+
+    public List<FoodDeliveryDayCountRespDto> findByDeliveryDate(int foodId){
+        FoodDeliveryDayCountRespDto foodDeliveryDayCountRespDto = new FoodDeliveryDayCountRespDto();
+
+        List<Payment> deliveryDayList = orderDAO.findByDeliveryDate(foodId);
+        List<FoodDeliveryDayCountRespDto> dayCountRespDtoList = new ArrayList<>();
+
+        deliveryDayList.forEach(day->{
+            dayCountRespDtoList.add(foodDeliveryDayCountRespDto.toDto(day));
+        });
+
+        return dayCountRespDtoList;
+    }
+
+    private String getString(OrderReqDto orderReqDto, int orderResult) {
         if (orderResult <= 0) {
             throw new CustomException("주문실패");
         }
@@ -54,20 +93,14 @@ public class OrderService {
         }
 
         // JSON 배열로 변환
-        String orderMenuInfoAsJsonArray = orderMenuInfoList.toString();
+        return orderMenuInfoList.toString();
+    }
 
-        // OrderMenu 객체 생성
-        OrderMenu orderMenu = OrderMenu.builder()
-                .orderId(order.getOrderId())
-                .menuInfo(orderMenuInfoAsJsonArray)
-                .build();
-
-        // DB에 저장
-        int orderMenuResult = orderDAO.orderMenuInsert(orderMenu);
-        if (orderMenuResult <= 0) {
-            throw new CustomException("주문실패");
-        }
-
-        return order.getOrderId();
+    private boolean findByDeliveryArea(int foodId, String SiGunGu){
+        Map<String,String> requestMap = new HashMap<>();
+        requestMap.put("foodId", String.valueOf(foodId));
+        requestMap.put("SiGunGu", SiGunGu);
+        FoodDeliveryArea foodDeliveryArea = orderDAO.findByDeliveryArea(requestMap);
+        return foodDeliveryArea != null;
     }
 }

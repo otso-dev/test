@@ -11,6 +11,8 @@
 <head>
     <jsp:include page="../include/main.jsp"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/product/productDetail.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <title>Smallets</title>
 </head>
 <body>
@@ -19,7 +21,7 @@
             <div class="order-box">
                 <h3>배달 날짜 선택</h3>
                 <label for="delivery-date">
-                    <input type="date" id="delivery-date" min="" max="">
+                    <input class="delivery-data-item" type="text" id="delivery-date" min="" max="" readonly>
                 </label>
                 <h3>배달 요청 시간</h3>
                     <label for="delivery-time">
@@ -30,11 +32,22 @@
                 <div id="selected-menu-list">
                 </div>
                 <p id="total-price"></p>
-                <div>
+                <div id="selected-box">
                     <label>
                         <select id="userAddressSelectList">
+                                <option value="null">------</option>
+                                <option value="addressSelect">직접입력</option>
                             <c:forEach var="userAddressList" items="${userAddressList}">
-                                <option value="${userAddressList.userAddressId}">${userAddressList.userAddressCategory}</option>
+                                <option value="${userAddressList.userAddressId}">
+                                        <c:choose>
+                                            <c:when test="${userAddressList.userAddressFlag eq 1}">
+                                                기본 주소
+                                            </c:when>
+                                            <c:otherwise>
+                                                ${userAddressList.userAddressCategory}
+                                            </c:otherwise>
+                                        </c:choose>
+                                </option>
                             </c:forEach>
                         </select>
                     </label>
@@ -43,6 +56,9 @@
                     </label>
                     <label>
                         <input id="detail-address" placeholder="상세주소 입력" type="text">
+                    </label>
+                    <label>
+                        <input id="SiGunGu" placeholder="시/군/구" readonly>
                     </label>
                     <label>
                         <input id="zone-code" placeholder="우편번호" type="text" readonly>
@@ -88,18 +104,24 @@
     let selectedMenus = {};
     let userRoadAddress = document.getElementById("road-name")
     let userDetailAddress = document.getElementById("detail-address");
+    let userAddressSiGunGu = document.getElementById("SiGunGu");
     let userZoneCode = document.getElementById("zone-code");
+    const addressSelected = document.getElementById('selected-box');
 
+
+    //유저 주소 목록
     let userAddressList = [
         <c:forEach var="address" items="${userAddressList}" varStatus="loop">
         {
             "userAddressId": "${address.userAddressId}",
             "roadName": "${address.userRoadAddress}",
             "detailAddress": "${address.userDetailAddress}",
-            "zoneCode": "${address.userZoneCode}"
+            "zoneCode": "${address.userZoneCode}",
+            "userAddressSiGunGu":"${address.userAddressSiGunGu}"
         }<c:if test="${!loop.last}">,</c:if>
         </c:forEach>
     ];
+
     document.getElementById('userAddressSelectList').addEventListener('change', function() {
         let selectedAddressId = this.value;
         let selectedAddress = userAddressList.find(function(address) {
@@ -107,11 +129,122 @@
         });
 
         if (selectedAddress) {
-            userRoadAddress.value = selectedAddress.roadName;
-            userDetailAddress.value = selectedAddress.detailAddress;
-            userZoneCode.value = selectedAddress.zoneCode;
+            if(selectedAddressId !== 'null'){
+                userRoadAddress.value = selectedAddress.roadName;
+                userDetailAddress.value = selectedAddress.detailAddress;
+                userZoneCode.value = selectedAddress.zoneCode;
+                userAddressSiGunGu.value = selectedAddress.userAddressSiGunGu;
+            }
+            const addressBtn = document.querySelector('.addressBtn');
+            if(addressBtn != null){
+                addressSelected.removeChild(addressBtn);
+            }
+        }else if(selectedAddressId === 'addressSelect'){
+            addressSelect();
         }
+
     });
+
+    function addressSelect(){
+        userRoadAddress.value = null;
+        userDetailAddress.value = null;
+        userZoneCode.value = null;
+        userAddressSiGunGu.value = null;
+        console.log(addressSelected);
+        const addressBtn = document.createElement('button');
+        const addressBtnText = document.createTextNode('주소찾기');
+        addressBtn.className += 'addressBtn';
+        addressBtn.appendChild(addressBtnText);
+        addressSelected.appendChild(addressBtn);
+        addressBtn.onclick = () =>{
+            const city = ["서울","인천","대전","광주","대구","울산","부산"];
+            let count = 0;
+            new daum.Postcode({
+                onComplete:function (data){
+                    city.forEach((city)=>{
+                        if(city === data.sido){
+                            count++;
+                        }
+                    })
+                    if(data.userSelectedType === "R" && count >= 1){
+                        userRoadAddress.value = data.roadAddress;
+                        userZoneCode.value = data.zonecode;
+                        userAddressSiGunGu.value = data.sigungu;
+                        // console.log(data);
+                    }else if(data.userSelectedType === "J"){
+                        alert("지번주소는 더 이상 지원하지 않습니다.");
+                        close();
+                    }else{
+                        alert("광역시와 특별시만 지원합니다.");
+                        close();
+                    }
+                }
+            }).open();
+        }
+    }
+
+
+    //음식점 배달 날짜 현황
+    let foodDeliveryDate = [
+        <c:forEach var="deliveryDateList" items="${deliveryDateList}" varStatus="loop">
+        {
+            "foodName": "${deliveryDateList.foodName}",
+            "orderDeliveryDay":"${deliveryDateList.orderDeliveryDay}",
+            "countDay": "${deliveryDateList.countDay}"
+        }<c:if test="${!loop.last}">,</c:if>
+        </c:forEach>
+    ]
+
+    // 배달 날짜 선택
+    let today = new Date();
+    let nextWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
+    let deliveryDayCountMax = 3;
+
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+
+    today = yyyy + '-' + mm + '-' + dd;
+
+    dd = String(nextWeek.getDate()).padStart(2, '0');
+    mm = String(nextWeek.getMonth() + 1).padStart(2, '0');
+
+    nextWeek = yyyy + '-' + mm + '-' + dd;
+
+    document.getElementById("delivery-date").setAttribute("min", today);
+    document.getElementById("delivery-date").setAttribute("max", nextWeek);
+
+    // 선택 가능한 날짜 제한
+    $(function() {
+        // 배달이 불가능한 날짜 리스트
+        let disabledDates = foodDeliveryDate
+            .filter(data => parseInt(data.countDay) >= deliveryDayCountMax)
+            .map(data => data.orderDeliveryDay);
+
+        // Datepicker 설정
+        $('#delivery-date').datepicker({
+            minDate: new Date(today),
+            maxDate: new Date(nextWeek),
+            beforeShowDay: function(date) {
+                let dateString = $.datepicker.formatDate('yy-mm-dd', date);
+                return [ !disabledDates.includes(dateString) ];
+            },
+            // 한글 설정
+            closeText: '닫기',
+            prevText: '이전달',
+            nextText: '다음달',
+            currentText: '오늘',
+            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+            weekHeader: 'Wk',
+            dateFormat: 'yy-mm-dd',  // 날짜 형식
+            firstDay: 0,  // 주의 시작 요일
+            isRTL: false,  // 오른쪽에서 왼쪽 (RTL) 모드 사용 여부
+            showMonthAfterYear: true,  // 년도 뒤에 월 표시
+            yearSuffix: '년'  // 년도 접미사
+        });
+    });
+
     function menuChoice(id, price, name) {
         if (selectedMenus[id]) {
             selectedMenus[id].count += 1;
@@ -153,26 +286,8 @@
             }
         }
     }
-
-    let today = new Date();
-    let nextWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
-
-    let dd = String(today.getDate()).padStart(2, '0');
-    let mm = String(today.getMonth() + 1).padStart(2, '0');
-    const yyyy = today.getFullYear();
-
-    today = yyyy + '-' + mm + '-' + dd;
-
-    dd = String(nextWeek.getDate()).padStart(2, '0');
-    mm = String(nextWeek.getMonth() + 1).padStart(2, '0');
-
-    nextWeek = yyyy + '-' + mm + '-' + dd;
-
-    document.getElementById("delivery-date").setAttribute("min", today);
-    document.getElementById("delivery-date").setAttribute("max", nextWeek);
-
+    // 배달 요청 시간 선택
     const selectTimeElement = document.getElementById('delivery-time');
-
     let foodOpen = ${productDetail.foodOpen};
     let foodClose = ${productDetail.foodClose} + 12;
 
@@ -182,6 +297,7 @@
         optionElement.value=i;
         selectTimeElement.add(optionElement);
     }
+
     function order(){
         const orderReqTime = document.getElementById('delivery-time').value;
         const orderReqDeliveryDay = document.getElementById('delivery-date').value;
@@ -207,14 +323,14 @@
                 orderRoadAddress: userRoadAddress.value,
                 orderDetailAddress: userDetailAddress.value,
                 orderZoneCode: userZoneCode.value,
+                orderSiGunGu: userAddressSiGunGu.value,
                 orderMenu: selectedMenus
             }),
             success:function (response) {
                 console.log(response + "주문성공");
                 window.location.href="/payment/paymentpage/" + response;
             },error:function (response) {
-                console.log(response)
-                alert(response)
+                alert(response.responseJSON.message);
             }
         })
     }

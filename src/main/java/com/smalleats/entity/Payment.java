@@ -15,6 +15,7 @@ public class Payment {
     private int paymentPrice;
     private String paymentDay;
     private String paymentOrderState;
+    private int countDay;
 
     private Order order;
     private FoodProduct foodProduct;
