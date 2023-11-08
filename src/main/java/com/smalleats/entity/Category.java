@@ -11,4 +11,8 @@ import lombok.*;
 public class Category {
     private int categoryId;
     private String categoryName;
+
+    public String setCategoryName(String categoryName){
+        return categoryName;
+    }
 }

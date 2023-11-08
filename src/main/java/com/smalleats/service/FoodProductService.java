@@ -1,9 +1,7 @@
 package com.smalleats.service;
 
-import com.smalleats.DTO.foodProductDTO.FoodDeliveryRespDto;
-import com.smalleats.DTO.foodProductDTO.FoodMenuRespDto;
-import com.smalleats.DTO.foodProductDTO.FoodProductsRespDto;
-import com.smalleats.DTO.foodProductDTO.ProductDetailRespDto;
+import com.smalleats.DTO.foodProductDTO.*;
+import com.smalleats.entity.Category;
 import com.smalleats.entity.FoodDeliveryArea;
 import com.smalleats.entity.FoodMenu;
 import com.smalleats.entity.FoodProduct;
@@ -51,5 +49,18 @@ public class FoodProductService {
         ProductDetailRespDto productDetailRespDto = new ProductDetailRespDto();
         FoodProduct foodProduct = foodProductDAO.getProductDetail(foodId);
         return productDetailRespDto.toDto(foodProduct);
+    }
+
+    public List<FoodProductsRespDto> foodProductSearch(SearchReqDto searchReqDto){
+        FoodProductsRespDto productsRespDto = new FoodProductsRespDto();
+
+        List<FoodProduct> foodProductList = foodProductDAO.searchFoodProducts(searchReqDto.toEntity());
+        List<FoodProductsRespDto> foodProductsRespDtoList = new ArrayList<>();
+
+        foodProductList.forEach(foodProduct -> {
+            foodProductsRespDtoList.add(productsRespDto.toDto(foodProduct));
+        });
+
+        return foodProductsRespDtoList;
     }
 }

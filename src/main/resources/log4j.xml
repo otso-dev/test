@@ -56,11 +56,11 @@
     <!--        <appender-ref ref="console"/>-->
     <!--    </logger>-->
 
-    <!--    <logger name="jdbc.sqlonly" additivity="false">-->
-    <!--    &lt;!&ndash;SQL문만 로그를 남기며, PreparedStatement 경우 관련된 argument 값으로 대체된 SQL문을 남김&ndash;&gt;-->
-    <!--        <level value="info"/>-->
-    <!--        <appender-ref ref="console"/>-->
-    <!--    </logger>-->
+<!--        <logger name="jdbc.sqlonly" additivity="false">-->
+<!--        &lt;!&ndash;SQL문만 로그를 남기며, PreparedStatement 경우 관련된 argument 값으로 대체된 SQL문을 남김&ndash;&gt;-->
+<!--            <level value="info"/>-->
+<!--            <appender-ref ref="console"/>-->
+<!--        </logger>-->
 
     <!-- Root Logger -->
     <root>

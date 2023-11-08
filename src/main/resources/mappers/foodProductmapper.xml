@@ -10,6 +10,14 @@
         <result property="foodClose" column="food_close"/>
         <result property="foodMin" column="food_min"/>
         <result property="foodDeliveryPrice" column="food_delivery_price"/>
+        <result property="foodAddressSido" column="food_address_sido"/>
+        <result property="foodAddressSiGunGu" column="food_address_sigungu"/>
+        <association property="category" resultMap="categoryMap"/>
+    </resultMap>
+
+    <resultMap id="categoryMap" type="Category">
+        <id property="categoryId" column="category_id"/>
+        <result property="categoryName" column="category_name"/>
     </resultMap>
 
     <resultMap id="foodMenuMap" type="FoodMenu">
@@ -26,15 +34,47 @@
         <result property="foodId" column="food_id"/>
         <result property="foodDeliveryArea" column="food_delivery_area"/>
     </resultMap>
+
     <select id="getFoodProducts" resultMap="foodProductMap">
-        select
-            food_id,
-            food_name,
-            food_open,
-            food_close
-        from
-            food_tb
+    select
+        food_id,
+        food_name,
+        food_open,
+        food_close,
+        food_address_sido,
+        food_address_sigungu
+    from
+        food_tb
     </select>
+
+    <select id="searchFoodProducts" parameterType="FoodProduct" resultMap="foodProductMap">
+        select
+        ft.food_id,
+        ft.food_name,
+        ft.food_open,
+        ft.food_close,
+        ft.food_address_sido,
+        ft.food_address_sigungu,
+        ct.category_name
+        from
+        food_tb ft
+        left join smalleatsDB.category_tb ct on ft.category_id = ct.category_id
+        where
+        1=1
+            <if test="foodName != null and foodName != ''">
+                and ft.food_name like concat('%',#{foodName},'%')
+            </if>
+            <if test="foodAddressSido != null and foodAddressSido != ''">
+                and ft.food_address_sido = #{foodAddressSido}
+            </if>
+            <if test="foodAddressSiGunGu != null and foodAddressSiGunGu != ' '">
+               and ft.food_address_sigungu = #{foodAddressSiGunGu}
+            </if>
+            <if test="category != null and category.categoryName != null and category.categoryName != ' '">
+                and ct.category_name = #{category.categoryName}
+            </if>
+    </select>
+
     <select id="getFoodMenu" resultMap="foodMenuMap">
         select
             food_menu_name,
