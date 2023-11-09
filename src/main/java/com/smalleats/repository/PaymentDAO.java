@@ -16,5 +16,6 @@ public interface PaymentDAO {
     OrderMenu getOrderMenuList(int orderId);
     int paid(Payment payment);
 
+    int cancel(int orderId);
     List<FoodDeliveryArea> getDeliveryArea(int orderId);
 }

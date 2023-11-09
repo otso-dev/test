@@ -265,7 +265,6 @@
         })
     }
     function userAddressDelete(userAddressId){
-        console.log(userAddressId);
         $.ajax({
             url:"/user/address/delete/" + userAddressId,
             type:"DELETE",

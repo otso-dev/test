@@ -13,8 +13,8 @@ public class FoodProduct {
     private String foodImg;
     private String foodOpen;
     private String foodClose;
-    private String foodMin;
-    private String foodDeliveryPrice;
+    private int foodMin;
+    private int foodDeliveryPrice;
     private String foodRoadAddress;
     private String foodDetailAddress;
     private int foodZoneCode;

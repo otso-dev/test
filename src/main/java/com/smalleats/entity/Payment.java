@@ -12,7 +12,9 @@ public class Payment {
     private int paymentId;
     private int orderId;
     private int foodId;
-    private int paymentPrice;
+    private int paymentDeliveryPrice;
+    private int paymentMenuTotalPrice;
+    private int paymentTotalPrice;
     private String paymentDay;
     private String paymentOrderState;
     private int countDay;

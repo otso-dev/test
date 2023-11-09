@@ -40,7 +40,7 @@ public class OrderListRespDto {
                 .orderId(payment.getOrderId())
                 .userId(payment.getOrder().getUserId())
                 .paymentOrderState(payment.getPaymentOrderState())
-                .paymentPrice(payment.getPaymentPrice())
+                .paymentPrice(payment.getPaymentTotalPrice())
                 .paymentDay(payment.getPaymentDay())
                 .userName(payment.getOrder().getUser().getUserName())
                 .phoneNumber(payment.getOrder().getUser().getPhoneNumber())

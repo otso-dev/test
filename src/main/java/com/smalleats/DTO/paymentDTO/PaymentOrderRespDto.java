@@ -15,7 +15,7 @@ public class PaymentOrderRespDto {
     private String orderDeliveryDay;
 
     private String foodName;
-    private String foodDeliveryPrice;
+    private int foodDeliveryPrice;
 
     public PaymentOrderRespDto toDto(Order order){
         return PaymentOrderRespDto.builder()

@@ -4,6 +4,7 @@
     <resultMap id="orderMap" type="Order">
         <id property="orderId" column="order_id"/>
         <result property="foodId" column="food_id"/>
+        <result property="userId" column="user_id"/>
         <result property="orderReqTime" column="order_req_time"/>
         <result property="orderDeliveryDay" column="order_delivery_day"/>
         <association property="foodProduct" resultMap="foodMap"/>
@@ -34,6 +35,7 @@
         SELECT
             ob.order_id,
             ob.food_id,
+            ob.user_id,
             ob.order_req_time,
             ob.order_delivery_day,
             fb.food_name,
@@ -57,9 +59,14 @@
 
     <insert id="paid" parameterType="Payment">
         insert into payment_tb
-        (payment_id, order_id, food_id, payment_price, payment_order_state, payment_day)
-        values (0,#{orderId},#{foodId},#{paymentPrice},'주문접수대기중',date_format(now(), '%Y%m%d%H%i%s'));
+        (payment_id, order_id, food_id, payment_total_price,payment_delivery_price,payment_menu_total_price, payment_order_state, payment_day)
+        values (0,#{orderId},#{foodId},#{paymentTotalPrice},#{paymentDeliveryPrice},#{paymentMenuTotalPrice},'주문접수대기중',date_format(now(), '%Y%m%d%H%i%s'));
     </insert>
+
+    <delete id="cancel" >
+        delete from order_tb
+        where order_id = #{orderId};
+    </delete>
 
     <select id="getDeliveryArea" parameterType="FoodDeliveryArea">
         select

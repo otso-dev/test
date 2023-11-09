@@ -32,6 +32,11 @@ public class PaymentDAOImpl implements PaymentDAO {
     }
 
     @Override
+    public int cancel(int orderId) {
+        return sqlSession.delete(NS+"cancel", orderId);
+    }
+
+    @Override
     public List<FoodDeliveryArea> getDeliveryArea(int orderId) {
         return sqlSession.selectList(NS+"getDeliveryArea", orderId);
     }

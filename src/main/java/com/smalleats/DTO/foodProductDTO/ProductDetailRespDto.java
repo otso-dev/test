@@ -14,8 +14,8 @@ public class ProductDetailRespDto {
     private String foodImg;
     private String foodOpen;
     private String foodClose;
-    private String foodMin;
-    private String foodDeliveryPrice;
+    private int foodMin;
+    private int foodDeliveryPrice;
 
     public ProductDetailRespDto toDto(FoodProduct foodProduct){
         return ProductDetailRespDto.builder()

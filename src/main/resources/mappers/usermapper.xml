@@ -39,7 +39,7 @@
         <id property="paymentId" column="payment_id"/>
         <result property="orderId" column="order_id"/>
         <result property="foodId" column="food_id"/>
-        <result property="paymentPrice" column="payment_price"/>
+        <result property="paymentTotalPrice" column="payment_total_price"/>
         <result property="paymentOrderState" column="payment_order_state"/>
         <result property="paymentDay" column="payment_day"/>
         <association property="order" resultMap="orderMap"/>
@@ -149,7 +149,7 @@
             pb.order_id,
             pb.food_id,
             pb.payment_order_state,
-            pb.payment_price,
+            pb.payment_total_price,
             pb.payment_day,
             ot.user_id,
             ot.order_req_time,

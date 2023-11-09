@@ -35,4 +35,9 @@ public class OrderDAOImpl implements OrderDAO{
     public List<Payment> findByDeliveryDate(int foodId) {
         return sqlSession.selectList(NS+"findByDeliveryDate",foodId);
     }
+
+    @Override
+    public OrderMenu getOrderMent(int orderId) {
+        return sqlSession.selectOne(NS+"getOrderMenu",orderId);
+    }
 }
