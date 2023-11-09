@@ -93,6 +93,30 @@
         where
             ub.email = #{email}
     </select>
+
+    <select id="findUserById" resultMap="userMap">
+        select
+            ub.user_id,
+            ub.email,
+            ub.password,
+            ub.username,
+            ub.phone_number,
+
+            ab.authority_id,
+            ab.user_id,
+            ab.role_id,
+
+            rb.role_id,
+            rb.role_name
+
+        from
+            user_tb ub
+                left outer join authority_tb ab on(ab.user_id = ub.user_id)
+                left outer join role_tb rb on(rb.role_id = ab.role_id)
+        where
+            ub.user_id = #{userId}
+    </select>
+
     <insert id="saveUser" parameterType="User"
             useGeneratedKeys="true"
             keyProperty="userId">

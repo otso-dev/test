@@ -9,6 +9,8 @@ import java.util.Map;
 @Mapper
 public interface UserDAO {
     User findUserByEmail(String email);
+
+    User findUserById(int userId);
     int saveUser(User user);
     int addAuthority(Authority authority);
 

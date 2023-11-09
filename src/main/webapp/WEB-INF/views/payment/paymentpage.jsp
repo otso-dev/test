@@ -30,7 +30,7 @@
                     <p>${paymentMenuList.price}</p>
                     <!-- 각 메뉴의 개수와 가격을 곱해서 총 가격에 더함 -->
                     <c:set var="totalPrice" value="${totalPrice + (paymentMenuList.count * paymentMenuList.price)}"/>
-                    <c:set var="mentTotalPrice" value="${paymentMenuList.count * paymentMenuList.price}"/>
+                    <c:set var="mentTotalPrice" value="${mentTotalPrice + (paymentMenuList.count * paymentMenuList.price)}"/>
                 </c:forEach>
                 <!-- 배달비를 총 가격에 더함 -->
                 <c:set var="totalPrice" value="${totalPrice + currentOrder.foodDeliveryPrice}"/>

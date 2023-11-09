@@ -7,10 +7,7 @@ import com.smalleats.DTO.partnerDto.OrderMenuRespDto;
 import com.smalleats.DTO.paymentDTO.PaidReqDto;
 import com.smalleats.DTO.paymentDTO.PaymentMenuRespDto;
 import com.smalleats.DTO.paymentDTO.PaymentOrderRespDto;
-import com.smalleats.entity.FoodMenu;
-import com.smalleats.entity.FoodProduct;
-import com.smalleats.entity.Order;
-import com.smalleats.entity.OrderMenu;
+import com.smalleats.entity.*;
 import com.smalleats.repository.FoodProductDAO;
 import com.smalleats.repository.OrderDAO;
 import com.smalleats.repository.PaymentDAO;
@@ -53,7 +50,15 @@ public class PaymentService {
     public int paid(PaidReqDto paidReqDto) throws Exception {
         if(!priceInfoCheck(paidReqDto)){
             cancel(paidReqDto.getOrderId());
-            throw new CustomException("가격이 맞지않아 결제가 취소되었습니다.");
+            throw new CustomException("가격이 맞지않아 결제가 취소 되었습니다.");
+        }
+        if(!foodMenuInfoCheck(paidReqDto)){
+            cancel(paidReqDto.getOrderId());
+            throw new CustomException("주문한 메뉴의 정보가 달라서 결제가 취소 되었습니다.");
+        }
+        if(!userInfoCheck(paidReqDto)){
+            cancel(paidReqDto.getOrderId());
+            throw new CustomException("사용자의 정보가 달라 결제가 취소 되었습니다.");
         }
 //        return paymentDAO.paid(paidReqDto.toEntity());
         return 1;
@@ -76,7 +81,7 @@ public class PaymentService {
         //메뉴들의 총 합 가격을 구함
         int menuTotalPrice = 0;
         for (OrderMenuRespDto orderMenuRespDto : orderMenuList) {
-            menuTotalPrice = orderMenuRespDto.getCount() * orderMenuRespDto.getPrice();
+            menuTotalPrice += orderMenuRespDto.getCount() * orderMenuRespDto.getPrice();
         }
         //해당 음식점의 배달비와 메뉴들의 총 합 가격을 더 해 총 가격을 구한다.
         int totalPrice = foodProduct.getFoodDeliveryPrice() + menuTotalPrice;
@@ -96,9 +101,43 @@ public class PaymentService {
         OrderMenu orderMenu = orderDAO.getOrderMent(paidReqDto.getOrderId());
         //주문한 메뉴들이 해당 음식점에 존재하는지 비교하기 위해 음식점의 메뉴들을 가져온다.
         List<FoodMenu> foodMenuList = foodProductDAO.getFoodMenu(paidReqDto.getFoodId());
+
         List<OrderMenuRespDto> orderMenuRespDtoList = getOrderList(orderMenu);
+
+        for (OrderMenuRespDto orderMenuRespDto : orderMenuRespDtoList) {
+            boolean exists = false;
+            for (FoodMenu foodMenu : foodMenuList) {
+                if (foodMenu.getFoodMenuId() == orderMenuRespDto.getMenuId() &&
+                        foodMenu.getFoodMenuPrice() == orderMenuRespDto.getPrice()) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists) {
+                // 만약 주문한 메뉴가 음식점 메뉴에 존재하지 않거나 가격이 다르다면 false를 반환합니다.
+                return false;
+            }
+        }
+        // 모든 주문 메뉴가 음식점 메뉴에 존재하고 가격도 동일하므로 true를 반환합니다.
         return true;
     }
+
+    public boolean userInfoCheck(PaidReqDto paidReqDto){
+        //주문정보를 들고온다
+        Order order = paymentDAO.getOrder(paidReqDto.getOrderId());
+        //주문한 사용자의 정보를 들고온다.
+        User user = userDAO.findUserById(order.getUserId());
+        //주문한 유저가 등록되어있는지 확인
+        if(user == null){
+            return false;
+        }else if(!order.getUser().getUserName().equals(user.getUserName())){
+            return false;
+        }else if(!order.getUser().getEmail().equals(user.getEmail())){
+            return false;
+        }else return order.getUser().getPhoneNumber().equals(user.getPhoneNumber());
+    }
+
+
 
     private List<OrderMenuRespDto> getOrderList(OrderMenu orderMenu) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();

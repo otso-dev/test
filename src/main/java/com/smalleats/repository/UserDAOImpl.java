@@ -20,6 +20,11 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
+    public User findUserById(int userId) {
+        return sqlSession.selectOne(NS+"findUserById",userId);
+    }
+
+    @Override
     public int saveUser(User user) {
         return sqlSession.insert(NS + "saveUser" ,user);
     }

@@ -50,6 +50,7 @@ body{
     box-sizing: border-box;
 
 }
-th, td{
-    border: 1px solid;
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
 }

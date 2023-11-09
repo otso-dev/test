@@ -42,7 +42,7 @@
                     <p id="phone-number">전화번호: </p>
                 </div>
                 <div class="order-list hidden-mypage">
-                    <table>
+                    <table class="tableStyle">
                         <thead>
                             <tr>
                                 <th>음식점 이름</th>
