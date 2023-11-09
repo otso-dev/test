@@ -59,7 +59,7 @@ public class HomeController {
         return "/payment/paymentpage";
     }
 
-    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    @RequestMapping(value = "/auth/search", method = RequestMethod.POST)
     @ResponseBody
     public List<FoodProductsRespDto> search(@RequestBody SearchReqDto searchReqDto) {
         // gugun, sido, foodName, categoryName 값을 이용한 검색

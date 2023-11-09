@@ -62,7 +62,7 @@
     function searchFood(){
         let foodName = $('#foodName').val();
         $.ajax({
-            url: '/search',
+            url: '/auth/search',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
@@ -76,12 +76,29 @@
                 let searchResultsElement = $('.food-content');
                 searchResultsElement.empty();
                 data.forEach(function(foodProduct) {
-                    let foodProductElement = '<div>' + foodProduct.foodName + '</div>'; // 음식점 정보를 표시하는 요소
+                    let foodProductElement =
+                        "<div class='food-box' onclick=\"location='/product/productdetail/'+" + foodProduct.foodId + "\">" +
+                        "<div class='food-img-box'></div>" +
+                        "<footer class='food-footer'>" +
+                        "<div class='food-name-box'>" +
+                        "<p>음식점이름 : " + foodProduct.foodName + "</p>" +
+                        "</div>" +
+                        "<div class='food-delivery-box'>" +
+                        "<p>배달시간 : AM " + foodProduct.foodOpen + ":00 - PM " + foodProduct.foodClose + ":00</p>" +
+                        "</div>" +
+                        "</footer>" +
+                        "</div>";// 음식점 정보를 표시하는 요소
                     searchResultsElement.append(foodProductElement);
                 });
+                selectedGugun = null;
+                selectedSido = null;
+                selectedCategoryName = null;
             },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.error('Ajax 요청 실패:', textStatus);
+            error: function(response) {
+                console.error('Ajax 요청 실패:', response);
+                selectedGugun = null;
+                selectedSido = null;
+                selectedCategoryName = null;
             }
         });
     }

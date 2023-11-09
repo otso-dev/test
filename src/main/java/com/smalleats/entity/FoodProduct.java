@@ -6,6 +6,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class FoodProduct {
     private int foodId;
     private String foodName;
@@ -19,6 +20,7 @@ public class FoodProduct {
     private int foodZoneCode;
     private String foodAddressSiGunGu;
     private String foodAddressSido;
+    private String categoryName;
 
     private Category category;
 }

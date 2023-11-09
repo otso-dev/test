@@ -41,6 +41,7 @@
         food_name,
         food_open,
         food_close,
+        food_img,
         food_address_sido,
         food_address_sigungu
     from
@@ -52,6 +53,7 @@
         ft.food_id,
         ft.food_name,
         ft.food_open,
+        ft.food_img,
         ft.food_close,
         ft.food_address_sido,
         ft.food_address_sigungu,
@@ -67,10 +69,10 @@
             <if test="foodAddressSido != null and foodAddressSido != ''">
                 and ft.food_address_sido = #{foodAddressSido}
             </if>
-            <if test="foodAddressSiGunGu != null and foodAddressSiGunGu != ' '">
+            <if test="foodAddressSiGunGu != null and foodAddressSiGunGu != ''">
                and ft.food_address_sigungu = #{foodAddressSiGunGu}
             </if>
-            <if test="category != null and category.categoryName != null and category.categoryName != ' '">
+            <if test="category != null and category.categoryName != null and category.categoryName != ''">
                 and ct.category_name = #{category.categoryName}
             </if>
     </select>

@@ -21,7 +21,8 @@ public class FoodProductDAOImpl implements FoodProductDAO {
 
     @Override
     public List<FoodProduct> searchFoodProducts(FoodProduct foodProduct) {
-        return sqlSession.selectList(NS + "searchFoodProducts");
+        System.out.println(foodProduct);
+        return sqlSession.selectList(NS + "searchFoodProducts",foodProduct);
     }
 
     @Override
