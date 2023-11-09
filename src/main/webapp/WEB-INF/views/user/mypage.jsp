@@ -101,7 +101,7 @@
                     <button type="button" onclick="changePassword()">비밀번호 변경하기</button>
                 </div>
                 <div class="address-content hidden-mypage">
-                    <div class="address-info">
+                    <div class="address-info" id="addressList">
                         <c:forEach var="userAddressList" items="${userAddressList}">
                             <p>주소: ${userAddressList.userRoadAddress}</p>
                             <p>상세주소 : ${userAddressList.userDetailAddress}</p>
@@ -161,7 +161,7 @@
     })
     let userAddressSido = null;
     let userAddressSigungu = null;
-
+    const addressButton = document.querySelector('.address-button');
 
 
     function addressInsert(){
@@ -183,6 +183,7 @@
             }),
             success:function (response){
                 alert(response + " 주소추가 성공");
+                $("#addressList").load(location.href+' #addressList');
             },error:function (response){
                 alert(response.responseJSON.message);
             }
@@ -222,30 +223,42 @@
         document.querySelector('.address-info').className += " hidden-mypage";
 
         // 버튼 텍스트 변경
-        const addressButton = document.querySelector('.address-button');
         addressButton.textContent = '주소변경';
+
+
 
         // onclick 함수 변경
         addressButton.onclick = function() {
             userAddressUpdate(userAddressId);
+            document.querySelector('.address-info').classList.remove('hidden-mypage');
+            document.querySelector('.address-content').classList.remove('hidden-mypage');
+            addressButton.textContent = '주소추가';
         };
 
     }
     function userAddressUpdate(userAddressId){
-        const roadAddress = document.getElementById('road-name').value;
-        const detailAddress= document.getElementById('detail-address').value;
-        const zoneCode = document.getElementById('zone-code').value;
+        const roadAddress = document.getElementById("road-name").value;
+        const detailAddress= document.getElementById("detail-address").value;
+        const zoneCode = document.getElementById("zone-code").value;
+        const userAddressCategory = document.getElementById("category").value;
         $.ajax({
             url:"/user/address/update",
             type:"PUT",
             contentType: 'application/json',
             data:JSON.stringify({
                 userAddressId : userAddressId,
+                userAddressSido : userAddressSido,
+                userAddressSigungu: userAddressSigungu,
                 userRoadAddress : roadAddress,
                 userDetailAddress : detailAddress,
+                userAddressCategory: userAddressCategory,
                 userZoneCode : zoneCode
             }),success:function (response){
                 alert(response + "수정 성공");
+                $("#addressList").load(location.href+' #addressList');
+                addressButton.onclick = function (){
+                    addressInsert();
+                }
             },error:function (response){
                 alert(response + "수정 실패");
             }
@@ -258,6 +271,7 @@
             type:"DELETE",
             success:function (response){
                 alert(response + "삭제 성공");
+                $("#addressList").load(location.href+' #addressList');
             },error:function (response){
                 alert(response+"삭제 실패");
             }
@@ -293,7 +307,9 @@
             contentType: 'application/json',
             data: JSON.stringify({
                 addressId: addressId
-            })
+            }),success:function (){
+                $("#addressList").load(location.href+' #addressList');
+            }
         })
     }
 </script>

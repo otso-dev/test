@@ -67,7 +67,10 @@
         set
             user_road_address = #{userRoadAddress},
             user_detail_address = #{userDetailAddress},
-            user_zonecode = #{userZoneCode}
+            user_zonecode = #{userZoneCode},
+            user_address_category = #{userAddressCategory},
+            user_address_sigungu = #{userAddressSigungu},
+            user_address_sido = #{userAddressSido}
         where
             user_id = #{userId} and user_address_id = #{userAddressId}
     </update>
