@@ -50,10 +50,10 @@
 <%--                    <input type="text" placeholder="음식점 이름">--%>
 <%--                </label>--%>
         <label>
-            <input class="foodOpen" type="text" placeholder="오픈시간">
+            <input class="foodOpen" type="text" placeholder="오픈시간" min="0" max="12">
         </label>
         <label>
-            <input class="foodClose" type="text" placeholder="마감시간">
+            <input class="foodClose" type="text" placeholder="마감시간" min="1" max="12">
         </label>
         <label>
             <input class="foodMin" type="text" placeholder="최소 주문금액">
@@ -118,13 +118,9 @@
     }
 
     function pendingSubmit(){
-        if(selectedCategoryId === 0){
-            alert("음식점 카테고리를 선택해주세요");
-            return;
-        }
         const foodName = $(".foodName").val();
         const foodOpen = $(".foodOpen").val();
-        const foodClose = $(".foodClose").val();
+        const foodClose= $(".foodClose").val();
         const foodMin = $(".foodMin").val();
         const foodDeliveryPrice = $(".foodDeliveryPrice").val();
         const foodAddressSido = $(".foodAddressSido").val();
@@ -132,6 +128,18 @@
         const foodRoadAddress = $(".foodRoadAddress").val();
         const foodDetailAddress = $(".foodDetailAddress").val();
         const foodZoneCode = $(".foodZoneCode").val();
+
+        let foodNameFlag = foodNameValidation(foodName);
+
+        if(!foodNameFlag){
+            alert("음식점 이름 한글로 입력하세여");
+            return;
+        }
+
+        if(selectedCategoryId === 0){
+            alert("음식점 카테고리를 선택해주세요");
+            return;
+        }
         if(foodAddressSido === "" || foodDetailAddress === ""){
             alert("주소를 입력해주세요");
             return;
@@ -141,17 +149,17 @@
             type:"POST",
             contentType: "application/json",
             data: JSON.stringify({
-                foodName: foodName,
-                categoryId: selectedCategoryId,
-                foodOpen: foodOpen,
-                foodClose: foodClose,
-                foodMin: foodMin,
-                foodDeliveryPrice: foodDeliveryPrice,
-                foodAddressSido: foodAddressSido,
-                foodAddressSiGunGu: foodAddressSiGunGu,
-                foodRoadAddress: foodRoadAddress,
-                foodDetailAddress: foodDetailAddress,
-                foodZoneCode: foodZoneCode
+                foodName: foodName,//한글 영어?
+                categoryId: selectedCategoryId,//not null
+                foodOpen: foodOpen,//0 ~ 12
+                foodClose: foodClose,// 1 ~ 12
+                foodMin: foodMin,//숫자만
+                foodDeliveryPrice: foodDeliveryPrice,//숫자만
+                foodAddressSido: foodAddressSido,//not null
+                foodAddressSiGunGu: foodAddressSiGunGu,//not null
+                foodRoadAddress: foodRoadAddress,//not null
+                foodDetailAddress: foodDetailAddress,//not null + 공백 x
+                foodZoneCode: foodZoneCode//not null
             }),success:function (response){
                 alert(response);
             },error:function (response){
@@ -159,6 +167,36 @@
                 alert(response.responseJSON.message);
             }
         })
+
+
+    }
+</script>
+
+<script>
+    const foodNameValid = /^[가-힇]{1,15}$/;
+    const foodOpenValid = /^[0-9]{1}$|^[1-9]{1}[0-2]{1}$/;
+    const foodCloseValid = /^[1-9]{1}$|^[1-9]{1}[0-2]{1}$/;
+    const foodMinValid = /^[0-9]{1,5}$/;
+    const foodDeliveryPriceValid = /^[0-9]{1,4}$/;
+
+    function foodNameValidation(foodName){
+        return foodNameValid.test(foodName);
+    }
+
+    function foodOpenValidation(foodOpen){
+        return foodOpenValid.test(foodOpen);
+    }
+
+    function foodCloseValidation(foodClose){
+        return foodCloseValid.test(foodClose);
+    }
+
+    function foodMinValidation(foodMin){
+        return foodMinValid.test(foodMin);
+    }
+
+    function foodDeliveryPriceValidation(foodDeliveryPrice){
+        return foodDeliveryPriceValid.test(foodDeliveryPrice);
     }
 </script>
 </html>
