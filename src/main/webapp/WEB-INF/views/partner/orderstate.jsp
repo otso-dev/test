@@ -31,28 +31,43 @@
             </li>
         </ul>
     </div>
-    <div id="orderList-box">
         <h2>주문현황</h2>
-        <c:forEach var="orderList" items="${orderList}">
-            <div >
-                <p>이름: ${orderList.userName}</p>
-                <p>전화번호: ${orderList.phoneNumber}</p>
-                <p>주소: ${orderList.userRoadAddress} ${orderList.userDetailAddress}</p>
-                <p>우편번호: ${orderList.userZoneCode}</p>
-                <p>배달요청시간: ${orderList.orderReqTime}</p>
-                <p>배달요청날짜: ${orderList.orderDeliveryDay}</p>
-                <c:forEach var="orderMenuList" items="${orderList.orderMenuList}">
-                    <div>
-                        메뉴: ${orderMenuList.menuName}
-                        가격: ${orderMenuList.price}
-                        개수: ${orderMenuList.count}
-                    </div>
-                </c:forEach>
-                <p>총 가격: ${orderList.paymentPrice}</p>
-                <button class="order-state-btn" id="state" onclick="orderStateHandler(${orderList.orderId},'${orderList.paymentOrderState}')">${orderList.paymentOrderState}</button>
-            </div>
-        </c:forEach>
-    </div>
+        <table class="tableStyle">
+            <thead>
+                <tr>
+                    <th>이름</th>
+                    <th>전화번호</th>
+                    <th>주소</th>
+                    <th>배달 요청 시간</th>
+                    <th>배달 요청 날짜</th>
+                    <th>메뉴</th>
+                    <th>총 가격</th>
+                    <th>주문 상태</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <c:forEach var="orderList" items="${orderList}">
+                        <td>이름: ${orderList.userName}</td>
+                        <td>전화번호: ${orderList.phoneNumber}</td>
+                        <td>주소: ${orderList.userRoadAddress} ${orderList.userDetailAddress} ${orderList.userZoneCode}</td>
+                        <td>배달요청시간: ${orderList.orderReqTime}</td>
+                        <td>배달요청날짜: ${orderList.orderDeliveryDay}</td>
+                        <td>
+                            <c:forEach var="orderMenuList" items="${orderList.orderMenuList}">
+                                메뉴: ${orderMenuList.menuName}
+                                가격: ${orderMenuList.price}
+                                개수: ${orderMenuList.count}
+                            </c:forEach>
+                        </td>
+                        <td>총 가격: ${orderList.paymentPrice}</td>
+                        <td>
+                            <button class="order-state-btn" id="state" onclick="orderStateHandler(${orderList.orderId},'${orderList.paymentOrderState}')">${orderList.paymentOrderState}</button>
+                        </td>
+                    </c:forEach>
+                </tr>
+            </tbody>
+        </table>
 </main>
 </body>
 <script>

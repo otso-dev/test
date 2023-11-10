@@ -62,7 +62,7 @@
                         <p>결제 목록이 없습니다.</p>
                     </c:when>
                     <c:otherwise>
-                        <table>
+                        <table class="tableStyle">
                             <thead>
                             <tr>
                                 <th>음식점 이름</th>

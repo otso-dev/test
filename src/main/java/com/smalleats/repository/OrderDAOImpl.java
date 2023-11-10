@@ -32,12 +32,17 @@ public class OrderDAOImpl implements OrderDAO{
     }
 
     @Override
-    public List<Payment> findByDeliveryDate(int foodId) {
-        return sqlSession.selectList(NS+"findByDeliveryDate",foodId);
+    public List<Payment> findDeliveryDateCountById(int foodId) {
+        return sqlSession.selectList(NS+"findDeliveryDateCountById",foodId);
     }
 
     @Override
-    public OrderMenu getOrderMent(int orderId) {
+    public Payment findDeliveryDateCountByIdAndDate(Map<String, String> requestMap) {
+        return sqlSession.selectOne(NS+"findDeliveryDateCountByIdAndDate", requestMap);
+    }
+
+    @Override
+    public OrderMenu getOrderMenu(int orderId) {
         return sqlSession.selectOne(NS+"getOrderMenu",orderId);
     }
 }

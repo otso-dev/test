@@ -165,10 +165,14 @@
 
 
     function addressInsert(){
-        const roadAddress = document.getElementById("road-name").value;
-        const detailAddress= document.getElementById("detail-address").value;
-        const zoneCode = document.getElementById("zone-code").value;
-        const userAddressCategory = document.getElementById("category").value;
+        let roadAddress = document.getElementById("road-name").value;
+        let detailAddress= document.getElementById("detail-address").value;
+        let zoneCode = document.getElementById("zone-code").value;
+        let userAddressCategory = document.getElementById("category").value;
+        if(roadAddress === "" || detailAddress === ""){
+            alert("주소를 입력해주세요");
+            return;
+        }
         $.ajax({
             url: '${pageContext.request.contextPath}/user/address/create',
             type: 'POST',
@@ -184,6 +188,13 @@
             success:function (response){
                 alert(response + " 주소추가 성공");
                 $("#addressList").load(location.href+' #addressList');
+                roadAddress = null;
+                detailAddress = null;
+                zoneCode = null;
+                userAddressCategory = null;
+                userAddressSido = null;
+                userAddressSigungu = null;
+
             },error:function (response){
                 alert(response.responseJSON.message);
             }
@@ -237,10 +248,14 @@
 
     }
     function userAddressUpdate(userAddressId){
-        const roadAddress = document.getElementById("road-name").value;
-        const detailAddress= document.getElementById("detail-address").value;
-        const zoneCode = document.getElementById("zone-code").value;
-        const userAddressCategory = document.getElementById("category").value;
+        let roadAddress = document.getElementById("road-name").value;
+        let detailAddress= document.getElementById("detail-address").value;
+        let zoneCode = document.getElementById("zone-code").value;
+        let userAddressCategory = document.getElementById("category").value;
+        if(roadAddress === "" || detailAddress === ""){
+            alert("주소를 입력해주세요");
+            return;
+        }
         $.ajax({
             url:"/user/address/update",
             type:"PUT",
@@ -259,6 +274,12 @@
                 addressButton.onclick = function (){
                     addressInsert();
                 }
+                roadAddress = null;
+                detailAddress = null;
+                zoneCode = null;
+                userAddressCategory = null;
+                userAddressSido = null;
+                userAddressSigungu = null;
             },error:function (response){
                 alert(response + "수정 실패");
             }

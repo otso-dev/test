@@ -75,7 +75,7 @@
                         주문 없음
                     </c:when>
                     <c:otherwise>
-                        <table>
+                        <table class="tableStyle">
                             <thead>
                                 <tr>
                                     <th>이름</th>

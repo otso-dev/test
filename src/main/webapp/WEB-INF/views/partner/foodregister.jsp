@@ -132,6 +132,10 @@
         const foodRoadAddress = $(".foodRoadAddress").val();
         const foodDetailAddress = $(".foodDetailAddress").val();
         const foodZoneCode = $(".foodZoneCode").val();
+        if(foodAddressSido === "" || foodDetailAddress === ""){
+            alert("주소를 입력해주세요");
+            return;
+        }
         $.ajax({
             url:"/partner/foodregister",
             type:"POST",

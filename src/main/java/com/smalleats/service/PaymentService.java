@@ -3,6 +3,7 @@ package com.smalleats.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.smalleats.DTO.foodProductDTO.FoodDeliveryDayCountRespDto;
 import com.smalleats.DTO.partnerDto.OrderMenuRespDto;
 import com.smalleats.DTO.paymentDTO.PaidReqDto;
 import com.smalleats.DTO.paymentDTO.PaymentMenuRespDto;
@@ -17,7 +18,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
@@ -51,17 +54,17 @@ public class PaymentService {
         if(!priceInfoCheck(paidReqDto)){
             cancel(paidReqDto.getOrderId());
             throw new CustomException("가격이 맞지않아 결제가 취소 되었습니다.");
-        }
-        if(!foodMenuInfoCheck(paidReqDto)){
+        } else if(!foodMenuInfoCheck(paidReqDto)){
             cancel(paidReqDto.getOrderId());
             throw new CustomException("주문한 메뉴의 정보가 달라서 결제가 취소 되었습니다.");
-        }
-        if(!userInfoCheck(paidReqDto)){
+        } else if(!userInfoCheck(paidReqDto)){
             cancel(paidReqDto.getOrderId());
             throw new CustomException("사용자의 정보가 달라 결제가 취소 되었습니다.");
+        } else if(!orderTimeAndDateCheck(paidReqDto)){
+            cancel(paidReqDto.getOrderId());
+            throw new CustomException("주문날짜와 시간이 잘못되어 결제가 취소되었습니다.");
         }
-//        return paymentDAO.paid(paidReqDto.toEntity());
-        return 1;
+        return paymentDAO.paid(paidReqDto.toEntity());
     }
 
     public int cancel(int orderId) {
@@ -74,7 +77,7 @@ public class PaymentService {
         //orderId를 이용해 해당 음식점의 정보를 가져온다.
         FoodProduct foodProduct = foodProductDAO.getProductDetail(order.getFoodId());
         //orderId를 이용해 주문한 음식메뉴들의 정보를 가져온다.
-        OrderMenu orderMenu = orderDAO.getOrderMent(order.getOrderId());
+        OrderMenu orderMenu = orderDAO.getOrderMenu(order.getOrderId());
         //가져온 음식메뉴들을 List로 바꾼다.
         List<OrderMenuRespDto> orderMenuList = getOrderList(orderMenu);
 
@@ -98,7 +101,7 @@ public class PaymentService {
 
     public boolean foodMenuInfoCheck(PaidReqDto paidReqDto) throws Exception {
         //주문한 메뉴들의 정보를 가져온다.
-        OrderMenu orderMenu = orderDAO.getOrderMent(paidReqDto.getOrderId());
+        OrderMenu orderMenu = orderDAO.getOrderMenu(paidReqDto.getOrderId());
         //주문한 메뉴들이 해당 음식점에 존재하는지 비교하기 위해 음식점의 메뉴들을 가져온다.
         List<FoodMenu> foodMenuList = foodProductDAO.getFoodMenu(paidReqDto.getFoodId());
 
@@ -137,7 +140,43 @@ public class PaymentService {
         }else return order.getUser().getPhoneNumber().equals(user.getPhoneNumber());
     }
 
+    public boolean orderTimeAndDateCheck(PaidReqDto paidReqDto){
+        int deliveryDateMax = 3;
+        //주문 정보를 들고온다.
+        Order order = paymentDAO.getOrder(paidReqDto.getOrderId());
+        //주문한 날짜와 주문한 음식점에 현재 주문된 날짜에 예약 갯수를 구하기 위해 음식점Id, 주문 날짜를 map에 넣음.
+        Map<String, String> requestMap = new HashMap<>();
+        requestMap.put("foodId",String.valueOf(order.getFoodId()));
+        requestMap.put("orderDeliveryDay",order.getOrderDeliveryDay());
 
+        //결제된 테이블에서 주문날짜의 count를 가져온다.
+        Payment payment = orderDAO.findDeliveryDateCountByIdAndDate(requestMap);
+        //만약 해당 날짜의 결제된 게 없다면 payment가 null로 생성됨
+        if(payment == null){
+            //해당 날짜에 결제 된 게 없다면 count가 0이라는 말 그렇다면 생성해도 문제가 없다고 생각.
+            payment = new Payment();
+        }
+
+        //주문한 음식점의 정보를 들고온다.
+        FoodProduct foodProduct = foodProductDAO.getProductDetail(order.getFoodId());
+
+        //해당 음식점의 오픈시간
+        int open = Integer.parseInt(foodProduct.getFoodOpen());
+        //해당 음식점의 마감시간
+        int close = Integer.parseInt(foodProduct.getFoodClose());
+        //배달 요청 시간
+        int orderReqTime = Integer.parseInt(order.getOrderReqTime());
+        boolean flag = false;
+        //주문요청 시간이 해당 음식점에 오픈시간과 마감시간 범위 안에 시켰는지
+        for(int i = open; i<= close + 12; i++){
+            if(i == orderReqTime) {
+                flag = true;
+                break;
+            }
+        }
+        //해당 주문날짜가 최대 예약 갯수를 넘겼는지.
+        return flag && deliveryDateMax >= payment.getCountDay();
+    }
 
     private List<OrderMenuRespDto> getOrderList(OrderMenu orderMenu) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();

@@ -51,7 +51,7 @@
             food_id = #{foodId} and food_delivery_area = #{SiGunGu};
     </select>
 
-    <select id="findByDeliveryDate" resultMap="paymentMap">
+    <select id="findDeliveryDateCountById" resultMap="paymentMap">
         select
             ft.food_name,
             ot.order_delivery_day,
@@ -61,6 +61,20 @@
                  left outer join smalleatsDB.food_tb ft on pt.food_id = ft.food_id
         where
             pt.food_id = #{foodId}
+        group by
+            ot.order_delivery_day;
+    </select>
+
+    <select id="findDeliveryDateCountByIdAndDate" parameterType="map" resultMap="paymentMap">
+        select
+            ft.food_name,
+            ot.order_delivery_day,
+            count(ot.order_delivery_day) as count_day
+        from payment_tb pt
+                 left outer join smalleatsDB.order_tb ot on pt.order_id = ot.order_id
+                 left outer join smalleatsDB.food_tb ft on pt.food_id = ft.food_id
+        where
+            pt.food_id = #{foodId} and ot.order_delivery_day = #{orderDeliveryDay}
         group by
             ot.order_delivery_day;
     </select>

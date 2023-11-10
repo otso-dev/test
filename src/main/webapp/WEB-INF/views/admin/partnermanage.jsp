@@ -21,7 +21,7 @@
             <h2>
                 파트너 유저 목록
             </h2>
-            <table>
+            <table class="tableStyle">
                 <thead>
                     <tr>
                         <th>이름</th>

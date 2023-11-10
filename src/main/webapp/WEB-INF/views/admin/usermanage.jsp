@@ -18,7 +18,7 @@
 
     </div>
     <div>
-        <table>
+        <table class="tableStyle">
             <thead>
                 <tr>
                     <th>이름</th>
