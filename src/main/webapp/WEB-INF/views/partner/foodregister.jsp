@@ -131,11 +131,26 @@
 
         let foodNameFlag = foodNameValidation(foodName);
 
-        if(!foodNameFlag){
-            alert("음식점 이름 한글로 입력하세여");
+        if(!foodNameValidation(foodName)){
+            alert("음식점 이름은 한글로만 입력해주세요");
             return;
         }
-
+        if(!foodOpenValidation(foodOpen)){
+            alert("오픈시간은 0~12 사이의 숫자로 입력해주세요");
+            return;
+        }
+        if(!foodCloseValidation(foodClose)){
+            alert("마감시간은 0~12 사이의 숫자로 입력해주세요");
+            return;
+        }
+        if(!foodMinValidation(foodMin)){
+            alert("최소 주문금액은 숫자로만 입력해주세요");
+            return;
+        }
+        if(!foodDeliveryPriceValidation(foodDeliveryPrice)){
+            alert("배달비는 숫자로만 입력해주세요");
+            return;
+        }
         if(selectedCategoryId === 0){
             alert("음식점 카테고리를 선택해주세요");
             return;
@@ -151,8 +166,8 @@
             data: JSON.stringify({
                 foodName: foodName,//한글 영어?
                 categoryId: selectedCategoryId,//not null
-                foodOpen: foodOpen,//0 ~ 12
-                foodClose: foodClose,// 1 ~ 12
+                foodOpen: foodOpen,//0 ~ 12 숫자만
+                foodClose: foodClose,// 1 ~ 12 숫자만
                 foodMin: foodMin,//숫자만
                 foodDeliveryPrice: foodDeliveryPrice,//숫자만
                 foodAddressSido: foodAddressSido,//not null

@@ -3,7 +3,6 @@ package com.smalleats.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.smalleats.DTO.foodProductDTO.FoodDeliveryDayCountRespDto;
 import com.smalleats.DTO.partnerDto.OrderMenuRespDto;
 import com.smalleats.DTO.paymentDTO.PaidReqDto;
 import com.smalleats.DTO.paymentDTO.PaymentMenuRespDto;
