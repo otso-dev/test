@@ -1,5 +1,6 @@
 package com.smalleats.repository;
 
+import com.smalleats.entity.Category;
 import com.smalleats.entity.FoodDeliveryArea;
 import com.smalleats.entity.FoodMenu;
 import com.smalleats.entity.FoodProduct;
@@ -15,6 +16,8 @@ public interface FoodProductDAO {
 
     List<FoodMenu> getFoodMenu(int foodId);
     List<FoodDeliveryArea> getDeliveryArea(int foodId);
+
+    List<Category> getCatgoryList();
 
     FoodProduct getProductDetail(int foodId);
 }

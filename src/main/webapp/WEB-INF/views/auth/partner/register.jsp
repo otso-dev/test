@@ -15,40 +15,54 @@
 <body>
     <main class="main-style">
         <div>
-            <label>
-                이름
-                <input class="username-input" type="text" placeholder="이름"/>
-            </label>
+            <fieldset>
+                <label>
+                    이름
+                    <input class="username-input" type="text" placeholder="이름"/>
+                </label>
+            </fieldset>
+
             <div class="fail-username-message hide">2자이상 5자이하 한글만 가능합니다.(공백불가)</div>
 
-            <label>
-                비밀번호
-                <input class="password-input" type="password" placeholder="비밀번호"/>
-            </label>
+            <fieldset>
+                <label>
+                    비밀번호
+                    <input class="password-input" type="password" placeholder="비밀번호"/>
+                </label>
+            </fieldset>
+
             <div class="fail-password-message hide">비밀번호는 8자이상 특수문자와 숫자를 포함해야합니다.(공백불가)</div>
+            <fieldset>
+                <label>
+                    이메일
+                    <input class="email-input" type="text" placeholder="이메일"/>
+                </label>
+            </fieldset>
 
-            <label>
-                이메일
-                <input class="email-input" type="text" placeholder="이메일"/>
-            </label>
             <div class="fail-email-message hide">이메일 형식을 지켜주세요(공백불가)</div>
+            <fieldset>
+                <label>
+                    전화번호
+                    <input class="phone-number-input" type="text" placeholder="전화번호"/>
+                </label>
+            </fieldset>
 
-            <label>
-                전화번호
-                <input class="phone-number-input" type="text" placeholder="전화번호"/>
-            </label>
             <div class="fail-phone-number-message hide">전화번호는 000-0000-0000 형식입니다.(공백불가)</div>
+            <fieldset>
+                <label>
+                    상호명
+                    <input class="business-name-input" type="text" placeholder="상호명"/>
+                </label>
+            </fieldset>
 
-            <label>
-                상호명
-                <input class="business-name-input" type="text" placeholder="상호명"/>
-            </label>
             <div class="fail-business-name-message hide">한글만 입력가능합니다.(공백불가)</div>
+            <fieldset>
+                <label>
+                    사업장번호
+                    <input class="business-number-input" type="text" placeholder="사업장번호"/>
+                </label>
+            </fieldset>
 
-            <label>
-                사업장번호
-                <input class="business-number-input" type="text" placeholder="사업장번호"/>
-            </label>
             <div class="fail-business-number-message hide">숫자만 입력 가능합니다.(공백불가)</div>
 
             <button type="button" onclick="registerSubmit()">회원가입</button>
@@ -87,7 +101,6 @@
         }
     }
 </script>
-
 <script>
     <%--유효성 검사--%>
     const usernameValidation = /^([가-힣]){2,5}$/;

@@ -9,45 +9,49 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/main/main.css">
 </head>
 <body>
-    <main class="main-style">
-            <div class="sidebar">
-                <label for="foodName">음식점 이름:</label>
-                <input type="text" id="foodName" name="foodName">
-                <select id="categorySelect" onchange="getSelectedCategoryId(this.value)">
-                    <option value='0'>음식점 카테고리 선택</option>
-                    <c:forEach var="categoryList" items="${categoryList}">
-                        <option value="${categoryList.categoryName}">${categoryList.categoryName}</option>
-                    </c:forEach>
-                </select>
-                <select name="sido1" id="sido1"></select>
-                <select name="gugun1" id="gugun1"></select>
-                <button type="button" onclick="searchFood()">검색하기</button>
-            </div>
-        <div class="content">
-            <div class="food-category">
-                food-category
-            </div>
-            <div class="main-content">
-                <div class="food-content">
-                    <c:forEach var="productList" items="${productList}">
-                        <div class="food-box" onclick="location='/product/productdetail/'+${productList.foodId}">
-                            <div class="food-img-box">
-
-                            </div>
-                            <footer class="food-footer">
-                                <div class="food-name-box">
-                                    <p>음식점이름 : ${productList.foodName}</p>
-                                </div>
-                                <div class="food-delivery-box">
-                                    <p>배달시간 : AM ${productList.foodOpen}:00 - PM ${productList.foodClose}:00</p>
-                                </div>
-                            </footer>
-                        </div>
-                    </c:forEach>
+<main class="main-style">
+    <div class="sidebar">
+        <label for="foodName">음식점 이름:</label>
+        <input type="text" id="foodName" name="foodName">
+        <select id="categorySelect" onchange="getSelectedCategoryId(this.value)">
+            <option value='0'>음식점 카테고리 선택</option>
+            <c:forEach var="categoryList" items="${categoryList}">
+                <option value="${categoryList.categoryName}">${categoryList.categoryName}</option>
+            </c:forEach>
+        </select>
+        <select name="sido1" id="sido1"></select>
+        <select name="gugun1" id="gugun1"></select>
+        <button type="button" onclick="searchFood(false)">검색하기</button>
+    </div>
+    <div class="content">
+        <div class="food-category">
+            <c:forEach var="categoryList" items="${categoryList}">
+                <div class="category-box" onclick="categorySearch('${categoryList.categoryName}')">
+                        ${categoryList.categoryName}
                 </div>
+            </c:forEach>
+        </div>
+        <div class="main-content">
+            <div class="food-content">
+                <c:forEach var="productList" items="${productList}">
+                    <div class="food-box" onclick="location='/product/productdetail/'+${productList.foodId}">
+                        <div class="food-img-box">
+
+                        </div>
+                        <footer class="food-footer">
+                            <div class="food-name-box">
+                                <p>음식점이름 : ${productList.foodName}</p>
+                            </div>
+                            <div class="food-delivery-box">
+                                <p>배달시간 : AM ${productList.foodOpen}:00 - PM ${productList.foodClose}:00</p>
+                            </div>
+                        </footer>
+                    </div>
+                </c:forEach>
             </div>
         </div>
-    </main>
+    </div>
+</main>
 </body>
 
 <script>
@@ -57,6 +61,11 @@
     function getSelectedCategoryId(value) {
         selectedCategoryName = value;
         return selectedCategoryName;
+    }
+
+    function categorySearch(categoryName) {
+        selectedCategoryName = categoryName;
+        searchFood();
     }
 
     function searchFood(){

@@ -89,15 +89,24 @@
                 </div>
                 <div class="password-change hidden-mypage">
                     비밀번호 변경
-                    <label>
-                        <input class="current-password" type="password" placeholder="현재 비밀번호"/>
-                    </label>
-                    <label>
-                        <input class="change-password" type="password" placeholder="비밀번호 변경"/>
-                    </label>
-                    <label>
-                        <input class="check-password" type="password" placeholder="비밀번호 확인"/>
-                    </label>
+                    <fieldset>
+                        <label>
+
+                            <input class="current-password" type="password" placeholder="현재 비밀번호"/>
+                        </label>
+                    </fieldset>
+                    <fieldset>
+                        <label>
+                            <input class="change-password" type="password" placeholder="비밀번호 변경"/>
+                        </label>
+                    </fieldset>
+                    <div class="fail-password-message hidden-mypage">비밀번호는 8자이상 특수문자와 숫자를 포함해야합니다.(공백불가)</div>
+                   <fieldset>
+                       <label>
+                           <input class="check-password" type="password" placeholder="비밀번호 확인"/>
+                       </label>
+                   </fieldset>
+
                     <button type="button" onclick="changePassword()">비밀번호 변경하기</button>
                 </div>
                 <div class="address-content hidden-mypage">
@@ -301,24 +310,27 @@
         const currentPassword = document.querySelector(".current-password").value;
         const changePassword = document.querySelector(".change-password").value;
         const checkPassword = document.querySelector(".check-password").value;
-        $.ajax({
-            url: '/user/password/change',
-            type: "PUT",
-            contentType: 'application/json',
-            data:JSON.stringify({
-                currentPassword: currentPassword,
-                changePassword: changePassword,
-                checkPassword: checkPassword
-            }),success:function (response){
-                if(response.status === 200){
-                    alert("비밀번호 변경 성공");
+
+        if(changePasswordFlag){
+            $.ajax({
+                url: '/user/password/change',
+                type: "PUT",
+                contentType: 'application/json',
+                data:JSON.stringify({
+                    currentPassword: currentPassword,
+                    changePassword: changePassword,
+                    checkPassword: checkPassword
+                }),success:function (response){
+                    if(response.status === 200){
+                        alert("비밀번호 변경 성공");
+                    }
+                },error:function (response){
+                    if(response.status === 400){
+                        alert(response.responseJSON.data.password);
+                    }
                 }
-            },error:function (response){
-                if(response.status === 400){
-                    alert(response.responseJSON.data.password);
-                }
-            }
-        })
+            })
+        }
     }
     function onClickDefault(addressId){
         $.ajax({
@@ -331,5 +343,31 @@
                 $("#addressList").load(location.href+' #addressList');
             }
         })
+    }
+</script>
+<script>
+    const passwordChangeValidation = /^(?=.*?[0-9])(?=.*[#?!@$%^&-])(?=.*?[a-z])\S{8,}$/;
+
+    const changePassword = document.querySelector(".change-password");
+
+    const failPassWordMessage = document.querySelector(".fail-password-message");
+
+    let changePasswordFlag = false;
+    function passwordValid(password){
+        return passwordChangeValidation.test(password);
+    }
+
+    changePassword.onkeyup = () =>{
+        if(changePassword.value !== 0){
+            if(!passwordValid(passwordChangeValidation.value)){
+                failPassWordMessage.classList.remove("hidden-mypage");
+                changePasswordFlag = false;
+            }else{
+                failPassWordMessage.classList.add("hidden-mypage");
+                changePasswordFlag = true;
+            }
+        }else{
+            failPassWordMessage.classList.add("hidden-mypage");
+        }
     }
 </script>

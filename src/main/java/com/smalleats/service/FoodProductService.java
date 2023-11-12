@@ -1,6 +1,7 @@
 package com.smalleats.service;
 
 import com.smalleats.DTO.foodProductDTO.*;
+import com.smalleats.DTO.partnerDto.CategoryRespDto;
 import com.smalleats.entity.Category;
 import com.smalleats.entity.FoodDeliveryArea;
 import com.smalleats.entity.FoodMenu;

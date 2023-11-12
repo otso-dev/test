@@ -22,6 +22,8 @@
     box-sizing: border-box;
 }
 .food-category{
+    display: flex;
+    justify-content: space-between;
     margin: 20px;
     padding: 2px;
     width: 90%;
@@ -29,6 +31,22 @@
     border: 1px solid #dbdbdb;
     box-sizing: border-box;
 }
+.category-box {
+    flex: 1 0 auto;
+    margin: 10px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+.category-box:hover {
+    background-color: #87cefa; /* 연한 하늘색 */
+}
+
 .main-content{
     margin: 20px;
     padding: 2px;
@@ -238,7 +256,7 @@
             line-height: 16.5px;
         }
         &:nth-of-type(2n) {
-            color: #757575;
+            color: #000300;
         }
     }
     & th {

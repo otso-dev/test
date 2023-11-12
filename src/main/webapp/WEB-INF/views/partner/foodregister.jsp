@@ -129,8 +129,6 @@
         const foodDetailAddress = $(".foodDetailAddress").val();
         const foodZoneCode = $(".foodZoneCode").val();
 
-        let foodNameFlag = foodNameValidation(foodName);
-
         if(!foodNameValidation(foodName)){
             alert("음식점 이름은 한글로만 입력해주세요");
             return;

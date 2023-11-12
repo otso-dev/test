@@ -15,6 +15,8 @@ public interface AdminFoodManageDAO {
 
     int adminFoodInsert(int foodId);
 
+    int pendingStatusUpdate(int foodId);
+
     int adminCategory(String category);
 
     Category findByCategoryName(String categoryName);

@@ -85,7 +85,7 @@
                 left join smalleatsDB.role_tb rt on aut.role_id = rt.role_id;
     </select>
 
-    <select id="getUserDetail" resultType="User">
+    <select id="getUserDetail" resultMap="userMap">
         select
             username,
             email,

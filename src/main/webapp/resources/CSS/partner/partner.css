@@ -27,7 +27,12 @@
 .order-state{
     cursor: pointer;
 }
-
+.order-content{
+    margin:3px;
+    padding: 3px;
+    width: 90%;
+    height: 80%;
+}
 
 .food-register-box{
     display: flex;

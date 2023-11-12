@@ -13,6 +13,7 @@ import com.smalleats.repository.partner.PartnerFoodDAO;
 import com.smalleats.service.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +34,14 @@ public class AdminFoodManageService {
         });
         return adminPendingFoodRespDtos;
     }
+
+    @Transactional
     public int adminFoodRegister(Map<String,Integer> foodId){
-        return adminFoodManageDAO.adminFoodInsert(foodId.get("foodId"));
+        int result = adminFoodManageDAO.adminFoodInsert(foodId.get("foodId"));
+        if(result <= 0){
+            throw new CustomException("등록실패");
+        }
+        return adminFoodManageDAO.pendingStatusUpdate(foodId.get("foodId"));
     }
     public int adminCategoryInsert(String categoryName){
         Category category = adminFoodManageDAO.findByCategoryName(categoryName);
