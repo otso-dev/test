@@ -46,7 +46,7 @@
                 window.location.href="/";
             },
             error:function (response){
-                alert(response.responseJSON.data.login);
+                alert(response.responseJSON.message);
             }
         })
     }

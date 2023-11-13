@@ -1,5 +1,6 @@
 package com.smalleats.repository;
 
+import com.smalleats.entity.Category;
 import com.smalleats.entity.FoodDeliveryArea;
 import com.smalleats.entity.FoodMenu;
 import com.smalleats.entity.FoodProduct;
@@ -20,6 +21,12 @@ public class FoodProductDAOImpl implements FoodProductDAO {
     }
 
     @Override
+    public List<FoodProduct> searchFoodProducts(FoodProduct foodProduct) {
+        System.out.println(foodProduct);
+        return sqlSession.selectList(NS + "searchFoodProducts",foodProduct);
+    }
+
+    @Override
     public List<FoodMenu> getFoodMenu(int foodId) {
         return sqlSession.selectList(NS + "getFoodMenu", foodId);
     }
@@ -27,6 +34,11 @@ public class FoodProductDAOImpl implements FoodProductDAO {
     @Override
     public List<FoodDeliveryArea> getDeliveryArea(int foodId) {
         return sqlSession.selectList(NS + "getDeliveryArea", foodId);
+    }
+
+    @Override
+    public List<Category> getCatgoryList() {
+        return sqlSession.selectList(NS+"getCategoryList");
     }
 
     @Override

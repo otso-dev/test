@@ -102,6 +102,8 @@
 </body>
 <script>
     let selectedMenus = {};
+    let menuTotalPrice = 0;
+    let foodMin = ${productDetail.foodMin};
     let userRoadAddress = document.getElementById("road-name")
     let userDetailAddress = document.getElementById("detail-address");
     let userAddressSiGunGu = document.getElementById("SiGunGu");
@@ -284,6 +286,7 @@
 
                 menuContainer.insertBefore(menuItemElement, menuContainer.firstChild); // 새로 추가된 메뉴 아이템을 맨 위에 추가합니다.
             }
+            menuTotalPrice = selectedMenus[id].count * selectedMenus[id].price;
         }
     }
     // 배달 요청 시간 선택
@@ -306,8 +309,16 @@
             alert("배달 요청과 시간을 선택해주세요");
             return;
         }
+        if(userRoadAddress.value === "" || userDetailAddress.value === ""){
+            alert("주소를 입력해주세요");
+            return;
+        }
         if(Object.keys(selectedMenus).length === 0 && selectedMenus.constructor === Object){
             alert("메뉴를 선택해주세요");
+            return;
+        }
+        if(foodMin > menuTotalPrice){
+            alert("최소금액은 " +foodMin+"원 입니다.");
             return;
         }
         $.ajax({
@@ -327,7 +338,7 @@
                 orderMenu: selectedMenus
             }),
             success:function (response) {
-                console.log(response + "주문성공");
+                alert("주문성공");
                 window.location.href="/payment/paymentpage/" + response;
             },error:function (response) {
                 alert(response.responseJSON.message);

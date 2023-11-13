@@ -63,7 +63,7 @@
             pending_status = #{pendingStatus};
     </select>
 
-    <select id="findByCategoryName">
+    <select id="findByCategoryName" resultMap="categoryMap">
         select
             category_name
         from category_tb
@@ -128,10 +128,16 @@
             food_address_sido,
             food_road_address,
             food_detail_address,
-            food_zonecode
+            food_zonecode,
+            food_address_sigungu
         from pending_food_tb
         where pending_food_id = #{foodId}
     </insert>
+    <update id="pendingStatusUpdate">
+        update pending_food_tb
+        set pending_status = 'APPROVED'
+        where pending_food_id = #{foodId}
+    </update>
 
     <insert id="categoryInsert" parameterType="Category">
         insert into category_tb

@@ -88,10 +88,10 @@
     >
         insert into pending_food_tb
         (pending_food_id, food_id, category_id, food_name, food_img, food_open, food_close, food_min,
-         food_delivery_price, food_address_sido, food_road_address, food_detail_address, food_zonecode,partner_id, pending_status)
+         food_delivery_price, food_address_sido, food_road_address, food_detail_address, food_zonecode,partner_id, pending_status,food_address_sigungu)
         values (0,#{foodId},#{categoryId},#{foodName},#{foodImg},#{foodOpen},#{foodClose},#{foodMin}
                ,#{foodDeliveryPrice},#{foodAddressSido},#{foodRoadAddress}
-               ,#{foodDetailAddress},#{foodZoneCode},#{partnerId}, 'PENDING')
+               ,#{foodDetailAddress},#{foodZoneCode},#{partnerId}, 'PENDING',#{foodAddressSiGunGu})
     </insert>
 
     <insert id="foodMenuInsert" parameterType="FoodMenu">

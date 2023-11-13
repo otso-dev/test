@@ -40,7 +40,7 @@ public class UserOrderListRespDto {
         return UserOrderListRespDto.builder()
                 .orderId(payment.getOrderId())
                 .foodId(payment.getFoodId())
-                .paymentPrice(payment.getPaymentPrice())
+                .paymentPrice(payment.getPaymentTotalPrice())
                 .paymentOrderState(payment.getPaymentOrderState())
                 .paymentDay(payment.getPaymentDay())
                 .orderReqTime(payment.getOrder().getOrderReqTime())

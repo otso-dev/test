@@ -18,5 +18,9 @@ public interface OrderDAO {
 
     FoodDeliveryArea findByDeliveryArea(Map<String,String> requestMap);
 
-    List<Payment> findByDeliveryDate(int foodId);
+    List<Payment> findDeliveryDateCountById(int foodId);
+
+    Payment findDeliveryDateCountByIdAndDate(Map<String, String> requestMap);
+
+    OrderMenu getOrderMenu(int orderId);
 }

@@ -1,5 +1,5 @@
 html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+h1, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
@@ -50,6 +50,11 @@ body{
     box-sizing: border-box;
 
 }
-th, td{
-    border: 1px solid;
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+h2{
+    margin-top: 10px;
+    padding-bottom: 10px;
 }

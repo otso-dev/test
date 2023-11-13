@@ -9,13 +9,17 @@ import lombok.*;
 public class PaidReqDto {
     private int orderId;
     private int foodId;
-    private int paymentPrice;
+    private int paymentDeliveryPrice;
+    private int paymentMenuPrice;
+    private int paymentTotalPrice;
 
     public Payment toEntity(){
         return Payment.builder()
                 .orderId(orderId)
                 .foodId(foodId)
-                .paymentPrice(paymentPrice)
+                .paymentDeliveryPrice(paymentDeliveryPrice)
+                .paymentMenuTotalPrice(paymentMenuPrice)
+                .paymentTotalPrice(paymentTotalPrice)
                 .build();
     }
 }

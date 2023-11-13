@@ -7,6 +7,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Builder
 @AllArgsConstructor
@@ -23,6 +28,7 @@ public class PartnerPendingFoodReqDto {
     private int foodMin;
     private int foodDeliveryPrice;
     private String foodAddressSido;
+    private String foodAddressSiGunGu;
     private String foodRoadAddress;
     private String foodDetailAddress;
     private int foodZoneCode;
@@ -42,6 +48,7 @@ public class PartnerPendingFoodReqDto {
                 .foodRoadAddress(foodRoadAddress)
                 .foodDetailAddress(foodDetailAddress)
                 .foodZoneCode(foodZoneCode)
+                .foodAddressSiGunGu(foodAddressSiGunGu)
                 .build();
     }
 }

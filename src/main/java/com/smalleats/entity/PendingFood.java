@@ -25,6 +25,7 @@ public class PendingFood {
     private String foodDetailAddress;
     private int foodZoneCode;
     private String pendingStatus;
+    private String foodAddressSiGunGu;
 
     private Category category;
     private PartnerUser partnerUser;

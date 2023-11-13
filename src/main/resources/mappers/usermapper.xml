@@ -39,7 +39,7 @@
         <id property="paymentId" column="payment_id"/>
         <result property="orderId" column="order_id"/>
         <result property="foodId" column="food_id"/>
-        <result property="paymentPrice" column="payment_price"/>
+        <result property="paymentTotalPrice" column="payment_total_price"/>
         <result property="paymentOrderState" column="payment_order_state"/>
         <result property="paymentDay" column="payment_day"/>
         <association property="order" resultMap="orderMap"/>
@@ -93,6 +93,30 @@
         where
             ub.email = #{email}
     </select>
+
+    <select id="findUserById" resultMap="userMap">
+        select
+            ub.user_id,
+            ub.email,
+            ub.password,
+            ub.username,
+            ub.phone_number,
+
+            ab.authority_id,
+            ab.user_id,
+            ab.role_id,
+
+            rb.role_id,
+            rb.role_name
+
+        from
+            user_tb ub
+                left outer join authority_tb ab on(ab.user_id = ub.user_id)
+                left outer join role_tb rb on(rb.role_id = ab.role_id)
+        where
+            ub.user_id = #{userId}
+    </select>
+
     <insert id="saveUser" parameterType="User"
             useGeneratedKeys="true"
             keyProperty="userId">
@@ -149,7 +173,7 @@
             pb.order_id,
             pb.food_id,
             pb.payment_order_state,
-            pb.payment_price,
+            pb.payment_total_price,
             pb.payment_day,
             ot.user_id,
             ot.order_req_time,

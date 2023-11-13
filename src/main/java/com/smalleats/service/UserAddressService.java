@@ -8,6 +8,7 @@ import com.smalleats.repository.UserAddressDAO;
 import com.smalleats.repository.UserDAO;
 import com.smalleats.security.PrincipalUser;
 import com.smalleats.service.exception.CustomException;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class UserAddressService {
     private final UserAddressDAO userAddressDAO;
     private final UserDAO userDAO;
 
+
     public int UserAddressInsert(UserAddressReqDto userAddressReqDto){
         PrincipalUser principalUser = getPrincipal();
         User user = userDAO.findUserByEmail(principalUser.getEmail());
@@ -36,24 +38,32 @@ public class UserAddressService {
     public List<UserAddressRespDto> getUserAddressList(){
         UserAddressRespDto userAddressRespDto = new UserAddressRespDto();
         PrincipalUser principalUser = getPrincipal();
+
+        if(principalUser == null){
+            return null;
+        }
+
         List<UserAddressRespDto> userAddressRespList = new ArrayList<>();
         List<UserAddress> userAddressList = userAddressDAO.getUserAddressList(principalUser.getUserId());
+
         userAddressList.forEach(userAddress -> {
             userAddressRespList.add(userAddressRespDto.toDto(userAddress));
         });
+
         return userAddressRespList;
     }
 
     public int UserAddressUpdate(UserAddressReqDto userAddressReqDto){
         PrincipalUser principalUser = getPrincipal();
+
         return userAddressDAO.userAddressUpdate(userAddressReqDto.toEntity(principalUser.getUserId()));
     }
 
     public int userAddressDefault(Map<String,Integer> requestMap){
         PrincipalUser principalUser = getPrincipal();
+
         requestMap.put("userId", principalUser.getUserId());
-        System.out.println(requestMap.get("userId"));
-        System.out.println(requestMap.get("addressId"));
+
         return userAddressDAO.userAddressDefault(requestMap);
     }
 
@@ -62,14 +72,22 @@ public class UserAddressService {
     }
 
     private PrincipalUser getPrincipal(){
-        return (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        PrincipalUser principalUser;
+        try {
+            principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }catch (Exception e){
+            return null;
+        }
+        return principalUser;
     }
 
     private boolean userAddressMax(){
-        int userAddressMaxCount = 5;
         PrincipalUser principalUser = getPrincipal();
+        //유저가 등록할 수 있는 최대 주소 개수
+        int userAddressMaxCount = 5;
+
         int userAddressCount = userAddressDAO.userAddressMax(principalUser.getUserId());
-        System.out.println(userAddressCount);
+
         return userAddressMaxCount >= userAddressCount;
     }
 }

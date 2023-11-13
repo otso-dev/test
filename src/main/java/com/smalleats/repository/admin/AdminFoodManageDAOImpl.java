@@ -26,6 +26,11 @@ public class AdminFoodManageDAOImpl implements AdminFoodManageDAO{
     }
 
     @Override
+    public int pendingStatusUpdate(int foodId) {
+        return sqlSession.update(NS+"pendingStatusUpdate", foodId);
+    }
+
+    @Override
     public int adminCategory(String category) {
         return sqlSession.insert(NS+"categoryInsert",category);
     }

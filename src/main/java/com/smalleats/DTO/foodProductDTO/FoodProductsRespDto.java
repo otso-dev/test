@@ -13,6 +13,8 @@ public class FoodProductsRespDto {
     private String foodImg;
     private String foodOpen;
     private String foodClose;
+    private String foodAddressSido;
+    private String foodAddressSiGunGu;
 
     public FoodProductsRespDto toDto(FoodProduct foodProduct){
         return FoodProductsRespDto.builder()
@@ -21,6 +23,8 @@ public class FoodProductsRespDto {
                 .foodOpen(foodProduct.getFoodOpen())
                 .foodClose(foodProduct.getFoodClose())
                 .foodImg(foodProduct.getFoodImg())
+                .foodAddressSido(foodProduct.getFoodAddressSido())
+                .foodAddressSiGunGu(foodProduct.getFoodAddressSiGunGu())
                 .build();
     }
 }

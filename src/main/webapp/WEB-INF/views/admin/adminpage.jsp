@@ -28,10 +28,9 @@
         <li onclick="pendingFoods()">
             입점 신청 음식점
         </li>
-        <li>
+        <li onclick="location='/admin/category'">
             음식점 카테고리 등록
         </li>
-
     </ul>
 </div>
     <div>

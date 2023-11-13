@@ -4,10 +4,21 @@
     <resultMap id="orderMap" type="Order">
         <id property="orderId" column="order_id"/>
         <result property="foodId" column="food_id"/>
+        <result property="userId" column="user_id"/>
         <result property="orderReqTime" column="order_req_time"/>
         <result property="orderDeliveryDay" column="order_delivery_day"/>
         <association property="foodProduct" resultMap="foodMap"/>
+        <association property="user" resultMap="userMap"/>
     </resultMap>
+
+    <resultMap id="userMap" type="User">
+        <id property="userId" column="user_id"/>
+        <result property="userName" column="username"/>
+        <result property="email" column="email"/>
+        <result property="password" column="password"/>
+        <result property="phoneNumber" column="phone_number"/>
+    </resultMap>
+
     <resultMap id="foodMap" type="FoodProduct">
         <id property="foodId" column="food_id"/>
         <result property="foodName" column="food_name"/>
@@ -34,13 +45,18 @@
         SELECT
             ob.order_id,
             ob.food_id,
+            ob.user_id,
             ob.order_req_time,
             ob.order_delivery_day,
             fb.food_name,
-            fb.food_delivery_price
+            fb.food_delivery_price,
+            ub.username,
+            ub.email,
+            ub.phone_number
         from
             order_tb ob
                 left outer join food_tb fb on(fb.food_id = ob.food_id)
+                left outer join user_tb ub on(ub.user_id = ob.user_id)
         where
             ob.order_id = #{orderId}
     </select>
@@ -57,9 +73,14 @@
 
     <insert id="paid" parameterType="Payment">
         insert into payment_tb
-        (payment_id, order_id, food_id, payment_price, payment_order_state, payment_day)
-        values (0,#{orderId},#{foodId},#{paymentPrice},'주문접수대기중',date_format(now(), '%Y%m%d%H%i%s'));
+        (payment_id, order_id, food_id, payment_total_price,payment_delivery_price,payment_menu_total_price, payment_order_state, payment_day)
+        values (0,#{orderId},#{foodId},#{paymentTotalPrice},#{paymentDeliveryPrice},#{paymentMenuTotalPrice},'주문접수대기중',date_format(now(), '%Y%m%d%H%i%s'));
     </insert>
+
+    <delete id="cancel" >
+        delete from order_tb
+        where order_id = #{orderId};
+    </delete>
 
     <select id="getDeliveryArea" parameterType="FoodDeliveryArea">
         select

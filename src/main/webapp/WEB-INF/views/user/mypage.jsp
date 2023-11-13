@@ -42,7 +42,7 @@
                     <p id="phone-number">전화번호: </p>
                 </div>
                 <div class="order-list hidden-mypage">
-                    <table>
+                    <table class="tableStyle">
                         <thead>
                             <tr>
                                 <th>음식점 이름</th>
@@ -89,19 +89,28 @@
                 </div>
                 <div class="password-change hidden-mypage">
                     비밀번호 변경
-                    <label>
-                        <input class="current-password" type="password" placeholder="현재 비밀번호"/>
-                    </label>
-                    <label>
-                        <input class="change-password" type="password" placeholder="비밀번호 변경"/>
-                    </label>
-                    <label>
-                        <input class="check-password" type="password" placeholder="비밀번호 확인"/>
-                    </label>
+                    <fieldset>
+                        <label>
+
+                            <input class="current-password" type="password" placeholder="현재 비밀번호"/>
+                        </label>
+                    </fieldset>
+                    <fieldset>
+                        <label>
+                            <input class="change-password" type="password" placeholder="비밀번호 변경"/>
+                        </label>
+                    </fieldset>
+                    <div class="fail-password-message hidden-mypage">비밀번호는 8자이상 특수문자와 숫자를 포함해야합니다.(공백불가)</div>
+                   <fieldset>
+                       <label>
+                           <input class="check-password" type="password" placeholder="비밀번호 확인"/>
+                       </label>
+                   </fieldset>
+
                     <button type="button" onclick="changePassword()">비밀번호 변경하기</button>
                 </div>
                 <div class="address-content hidden-mypage">
-                    <div class="address-info">
+                    <div class="address-info" id="addressList">
                         <c:forEach var="userAddressList" items="${userAddressList}">
                             <p>주소: ${userAddressList.userRoadAddress}</p>
                             <p>상세주소 : ${userAddressList.userDetailAddress}</p>
@@ -161,14 +170,18 @@
     })
     let userAddressSido = null;
     let userAddressSigungu = null;
-
+    const addressButton = document.querySelector('.address-button');
 
 
     function addressInsert(){
-        const roadAddress = document.getElementById("road-name").value;
-        const detailAddress= document.getElementById("detail-address").value;
-        const zoneCode = document.getElementById("zone-code").value;
-        const userAddressCategory = document.getElementById("category").value;
+        let roadAddress = document.getElementById("road-name").value;
+        let detailAddress= document.getElementById("detail-address").value;
+        let zoneCode = document.getElementById("zone-code").value;
+        let userAddressCategory = document.getElementById("category").value;
+        if(roadAddress === "" || detailAddress === ""){
+            alert("주소를 입력해주세요");
+            return;
+        }
         $.ajax({
             url: '${pageContext.request.contextPath}/user/address/create',
             type: 'POST',
@@ -183,6 +196,14 @@
             }),
             success:function (response){
                 alert(response + " 주소추가 성공");
+                $("#addressList").load(location.href+' #addressList');
+                roadAddress = null;
+                detailAddress = null;
+                zoneCode = null;
+                userAddressCategory = null;
+                userAddressSido = null;
+                userAddressSigungu = null;
+
             },error:function (response){
                 alert(response.responseJSON.message);
             }
@@ -222,42 +243,64 @@
         document.querySelector('.address-info').className += " hidden-mypage";
 
         // 버튼 텍스트 변경
-        const addressButton = document.querySelector('.address-button');
         addressButton.textContent = '주소변경';
+
+
 
         // onclick 함수 변경
         addressButton.onclick = function() {
             userAddressUpdate(userAddressId);
+            document.querySelector('.address-info').classList.remove('hidden-mypage');
+            document.querySelector('.address-content').classList.remove('hidden-mypage');
+            addressButton.textContent = '주소추가';
         };
 
     }
     function userAddressUpdate(userAddressId){
-        const roadAddress = document.getElementById('road-name').value;
-        const detailAddress= document.getElementById('detail-address').value;
-        const zoneCode = document.getElementById('zone-code').value;
+        let roadAddress = document.getElementById("road-name").value;
+        let detailAddress= document.getElementById("detail-address").value;
+        let zoneCode = document.getElementById("zone-code").value;
+        let userAddressCategory = document.getElementById("category").value;
+        if(roadAddress === "" || detailAddress === ""){
+            alert("주소를 입력해주세요");
+            return;
+        }
         $.ajax({
             url:"/user/address/update",
             type:"PUT",
             contentType: 'application/json',
             data:JSON.stringify({
                 userAddressId : userAddressId,
+                userAddressSido : userAddressSido,
+                userAddressSigungu: userAddressSigungu,
                 userRoadAddress : roadAddress,
                 userDetailAddress : detailAddress,
+                userAddressCategory: userAddressCategory,
                 userZoneCode : zoneCode
             }),success:function (response){
                 alert(response + "수정 성공");
+                $("#addressList").load(location.href+' #addressList');
+                addressButton.onclick = function (){
+                    addressInsert();
+                }
+                roadAddress = null;
+                detailAddress = null;
+                zoneCode = null;
+                userAddressCategory = null;
+                userAddressSido = null;
+                userAddressSigungu = null;
             },error:function (response){
                 alert(response + "수정 실패");
             }
         })
     }
     function userAddressDelete(userAddressId){
-        console.log(userAddressId);
         $.ajax({
             url:"/user/address/delete/" + userAddressId,
             type:"DELETE",
             success:function (response){
                 alert(response + "삭제 성공");
+                $("#addressList").load(location.href+' #addressList');
             },error:function (response){
                 alert(response+"삭제 실패");
             }
@@ -267,24 +310,27 @@
         const currentPassword = document.querySelector(".current-password").value;
         const changePassword = document.querySelector(".change-password").value;
         const checkPassword = document.querySelector(".check-password").value;
-        $.ajax({
-            url: '/user/password/change',
-            type: "PUT",
-            contentType: 'application/json',
-            data:JSON.stringify({
-                currentPassword: currentPassword,
-                changePassword: changePassword,
-                checkPassword: checkPassword
-            }),success:function (response){
-                if(response.status === 200){
-                    alert("비밀번호 변경 성공");
+
+        if(changePasswordFlag){
+            $.ajax({
+                url: '/user/password/change',
+                type: "PUT",
+                contentType: 'application/json',
+                data:JSON.stringify({
+                    currentPassword: currentPassword,
+                    changePassword: changePassword,
+                    checkPassword: checkPassword
+                }),success:function (response){
+                    if(response.status === 200){
+                        alert("비밀번호 변경 성공");
+                    }
+                },error:function (response){
+                    if(response.status === 400){
+                        alert(response.responseJSON.data.password);
+                    }
                 }
-            },error:function (response){
-                if(response.status === 400){
-                    alert(response.responseJSON.data.password);
-                }
-            }
-        })
+            })
+        }
     }
     function onClickDefault(addressId){
         $.ajax({
@@ -293,7 +339,35 @@
             contentType: 'application/json',
             data: JSON.stringify({
                 addressId: addressId
-            })
+            }),success:function (){
+                $("#addressList").load(location.href+' #addressList');
+            }
         })
+    }
+</script>
+<script>
+    const passwordChangeValidation = /^(?=.*?[0-9])(?=.*[#?!@$%^&-])(?=.*?[a-z])\S{8,}$/;
+
+    const changePassword = document.querySelector(".change-password");
+
+    const failPassWordMessage = document.querySelector(".fail-password-message");
+
+    let changePasswordFlag = false;
+    function passwordValid(password){
+        return passwordChangeValidation.test(password);
+    }
+
+    changePassword.onkeyup = () =>{
+        if(changePassword.value !== 0){
+            if(!passwordValid(passwordChangeValidation.value)){
+                failPassWordMessage.classList.remove("hidden-mypage");
+                changePasswordFlag = false;
+            }else{
+                failPassWordMessage.classList.add("hidden-mypage");
+                changePasswordFlag = true;
+            }
+        }else{
+            failPassWordMessage.classList.add("hidden-mypage");
+        }
     }
 </script>

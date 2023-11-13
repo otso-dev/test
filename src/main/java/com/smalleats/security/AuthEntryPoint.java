@@ -20,7 +20,7 @@ public class AuthEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         httpServletResponse.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         httpServletResponse.setStatus(HttpStatus.FORBIDDEN.value());
-        ErrorRespDto<?> errorRespDto = new ErrorRespDto<AuthenticationException>("유효하지 않은 접속",e);
+        ErrorRespDto<?> errorRespDto = new ErrorRespDto<AuthenticationException>("로그인 후 이용 가능합니다.",e);
         ObjectMapper objectMapper = new ObjectMapper();
         String responseJson = objectMapper.writeValueAsString(errorRespDto);
         PrintWriter out = httpServletResponse.getWriter();

@@ -1,0 +1,21 @@
+.hide{
+    display: none;
+}
+.fail-username-message{
+    color: red;
+}
+.fail-password-message{
+    color: red;
+}
+.fail-phone-number-message{
+    color: red;
+}
+.fail-email-message{
+    color: red;
+}
+.fail-business-name-message{
+    color: red;
+}
+.fail-business-number-message{
+    color: red;
+}

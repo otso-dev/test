@@ -59,7 +59,7 @@ public class OrderService {
     public List<FoodDeliveryDayCountRespDto> findByDeliveryDate(int foodId){
         FoodDeliveryDayCountRespDto foodDeliveryDayCountRespDto = new FoodDeliveryDayCountRespDto();
 
-        List<Payment> deliveryDayList = orderDAO.findByDeliveryDate(foodId);
+        List<Payment> deliveryDayList = orderDAO.findDeliveryDateCountById(foodId);
         List<FoodDeliveryDayCountRespDto> dayCountRespDtoList = new ArrayList<>();
 
         deliveryDayList.forEach(day->{

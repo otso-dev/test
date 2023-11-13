@@ -11,8 +11,6 @@
     padding: 3px;
     width: 90%;
     height: 80%;
-    border: 1px solid #dbdbdb;
-    background: #dbdbdb;
 }
 .hidden-mypage{
     display: none;
@@ -23,24 +21,18 @@
     padding: 3px;
     width: 90%;
     height: 80%;
-    border: 1px solid #dbdbdb;
-    background: #dbdbdb;
 }
 .password-change{
     margin:3px;
     padding: 3px;
     width: 90%;
     height: 80%;
-    border: 1px solid #dbdbdb;
-    background: #dbdbdb;
 }
 .address-content{
     margin:3px;
     padding: 3px;
     width: 90%;
     height: 80%;
-    border: 1px solid #dbdbdb;
-    background: #dbdbdb;
 }
 
 .mypage-sidebar-list li{
@@ -67,4 +59,8 @@
 }
 .address-content-btn{
     cursor: pointer;
+}
+
+.fail-password-message{
+    color: red;
 }
